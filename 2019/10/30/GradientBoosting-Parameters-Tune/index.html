@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Lazy Machine Learning Learner</title>
-  <meta name="keywords" content="">
-  <meta name="description" content="Lazy Machine Learning Learner">
+  <title>GradientBoosting Parameters Tune | Lazy Machine Learning Learner</title>
+  <meta name="keywords" content=" sklearn , machine learning ">
+  <meta name="description" content="GradientBoosting Parameters Tune | Lazy Machine Learning Learner">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="how to tune GradientBoosting Parameters GradientBoostingClassifier(    loss=’deviance’,    learning_rate=0.1,    n_estimators=100,    subsample=1.0,    criterion=’friedman_mse’,    min_samples_split=2">
 <meta name="keywords" content="sklearn,machine learning">
@@ -51,7 +51,7 @@
 </div>
 
 <body>
-<aside class="nav mobile">
+<aside class="nav">
     <div class="nav-left">
         <a href="/" class="avatar_target">
     <img class="avatar" src="/img/avatar.jpg" />
@@ -240,12 +240,68 @@
         </div>
     </div>
 </aside>
-<div class="post index">
+<div class="post">
     <div class="pjax">
-        <article class="index">
-            <div class="toc-ref">
+        <article id="post-GradientBoosting-Parameters-Tune" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Head-1"><span class="toc-text">Head 1</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Head-2"><span class="toc-text">Head 2</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#head-22"><span class="toc-text">head 22</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#head-33"><span class="toc-text">head 33</span></a></li></ol></li></ol>
+        <h1 class="article-title">GradientBoosting Parameters Tune</h1>
+    
+    <div class="article-meta">
+        
+        
+        
+        <span class="book">
+            
+                <a href="javascript:" data-rel="sklearn">sklearn</a>
+            
+        </span>
+        
+        
+        <span class="tag">
+            
+            <a href="javascript:" class="color3">sklearn</a>
+            
+            <a href="javascript:" class="color2">machine learning</a>
+            
+        </span>
+        
+    </div>
+    <div class="article-meta">
+        
+        创建时间:<time class="date" title='更新时间: 2019-10-30 16:12:15'>2019-10-30 14:46</time>
+        
+    </div>
+    <div class="article-meta">
+        
+        
+        <span id="busuanzi_container_page_pv">
+            阅读:<span id="busuanzi_value_page_pv">
+                <span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </span>
+        </span>
+        
+        
+        <span class="top-comment" title="跳转至评论区">
+            <a href="#comments">
+                评论:<span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </a>
+        </span>
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#how-to-tune-GradientBoosting-Parameters"><span class="toc-text">how to tune GradientBoosting Parameters</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-Fix-learning-rate-and-number-of-estimators-for-tuning-tree-based-parameters"><span class="toc-text">1. Fix learning rate and number of estimators for tuning tree-based parameters</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#tips"><span class="toc-text">tips</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Tune-tree-related-parameters"><span class="toc-text">2. Tune tree related parameters</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-Tune-subsample-and-lower-the-learning-rates"><span class="toc-text">3. Tune subsample and lower the learning rates</span></a></li></ol></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -258,31 +314,52 @@
     }
 </style>
 </div>
-            <h1 id="Head-1"><a href="#Head-1" class="headerlink" title="Head 1"></a>Head 1</h1><h2 id="Head-2"><a href="#Head-2" class="headerlink" title="Head 2"></a>Head 2</h2><p>write some text</p>
-<blockquote>
-<p>text1</p>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="how-to-tune-GradientBoosting-Parameters"><a href="#how-to-tune-GradientBoosting-Parameters" class="headerlink" title="how to tune GradientBoosting Parameters"></a>how to tune GradientBoosting Parameters</h1><blockquote>
+<p>GradientBoostingClassifier(<br>    loss=’deviance’,<br>    learning_rate=0.1,<br>    n_estimators=100,<br>    subsample=1.0,<br>    criterion=’friedman_mse’,<br>    min_samples_split=2,<br>    min_samples_leaf=1,<br>    min_weight_fraction_leaf=0.0,<br>    max_depth=3,<br>    min_impurity_decrease=0.0,<br>    min_impurity_split=None,<br>    init=None,<br>    random_state=None,<br>    max_features=None,<br>    verbose=0,<br>    max_leaf_nodes=None,<br>    warm_start=False,<br>    presort=’auto’,<br>    validation_fraction=0.1,<br>    n_iter_no_change=None,<br>    tol=0.0001,<br>)</p>
 </blockquote>
-<blockquote>
-<p>tex2</p>
-</blockquote>
-<blockquote>
-<p>tex3</p>
-</blockquote>
-<p>conclusions</p>
-<h2 id="head-22"><a href="#head-22" class="headerlink" title="head 22"></a>head 22</h2><p>about myself</p>
-<p>article counts = <code class="article_number"></code> 共<code class="site_word_count"></code> word counts</p>
-<p>本站访问人数：<code class="site_uv"></code>人次 ， 访问量：<code class="site_pv"></code>次</p>
-<h2 id="head-33"><a href="#head-33" class="headerlink" title="head 33"></a>head 33</h2><p>Based on <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> , <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a>，theme <a href="https://github.com/yelog/hexo-theme-3-hexo" target="_blank" rel="noopener">3-hexo</a> open sourced</p>
-<p>functions</p>
+<h2 id="1-Fix-learning-rate-and-number-of-estimators-for-tuning-tree-based-parameters"><a href="#1-Fix-learning-rate-and-number-of-estimators-for-tuning-tree-based-parameters" class="headerlink" title="1. Fix learning rate and number of estimators for tuning tree-based parameters"></a>1. Fix learning rate and number of estimators for tuning tree-based parameters</h2><p>initial parameters, others use default</p>
 <ul>
-<li>搜索支持文章标题、标签(#标签)、作者(@作者)</li>
-<li>pad/手机等移动端适配</li>
-<li>页面全局快捷键 <a href='http://yelog.org/2017/03/24/3-hexo-shortcuts/' target="_blank" rel="noopener">3-hexo快捷键说明</a></li>
+<li>min_samples_split = 0.9 : This should be ~0.5-1% of total values. Since this is imbalanced class problem, we’ll take a small value from the range.</li>
+<li>min_samples_leaf = 20 : Can be selected based on intuition. This is just used for preventing overfitting and again a small value because of imbalanced classes.</li>
+<li>max_depth = 8 : Should be chosen (5-8) based on the number of observations and predictors. This has 87K rows and 49 columns so lets take 8 here.</li>
+<li>max_features = ‘sqrt’ : Its a general thumb-rule to start with square root.</li>
+<li>subsample = 0.9 : This is a commonly used used start value</li>
 </ul>
+<h3 id="tips"><a href="#tips" class="headerlink" title="tips"></a>tips</h3><ul>
+<li>If the value is around 20, you might want to try lowering the learning rate to 0.05 and re-run grid search</li>
+<li>If the values are too high ~100, tuning the other parameters will take long time and you can try a higher learning rate</li>
+</ul>
+<p>now we have n_estimators and learning_rate</p>
+<h2 id="2-Tune-tree-related-parameters"><a href="#2-Tune-tree-related-parameters" class="headerlink" title="2. Tune tree related parameters"></a>2. Tune tree related parameters</h2><ul>
+<li>Tune max_depth and num_samples_split</li>
+<li>Tune min_samples_leaf</li>
+<li>Tune max_features</li>
+</ul>
+<h2 id="3-Tune-subsample-and-lower-the-learning-rates"><a href="#3-Tune-subsample-and-lower-the-learning-rates" class="headerlink" title="3. Tune subsample and lower the learning rates"></a>3. Tune subsample and lower the learning rates</h2>
+      
+       <hr><span style="font-style: italic;color: gray;"> copyright@yaoyao </span>
+    </div>
+</article>
 
-        </article>
-        
-        
+
+
+<div class="article_copyright">
+    <p><span class="copy-title">文章标题:</span>GradientBoosting Parameters Tune</p>
+    
+    <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" title="Yao">Yao</a></p>
+    <p><span class="copy-title">发布时间:</span>2019-10-30, 14:46:36</p>
+    <p><span class="copy-title">最后更新:</span>2019-10-30, 16:12:15</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/10/30/GradientBoosting-Parameters-Tune/" title="GradientBoosting Parameters Tune">http://yoursite.com/2019/10/30/GradientBoosting-Parameters-Tune/</a>
+    <p>
+        <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+    </p>
+</div>
+
+
+
     <div id="comments"></div>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
 
@@ -302,6 +379,13 @@
         gitalk.render('comments')
     })
 </script>
+
+
+
+
+    
+
+
 
 
     </div>
