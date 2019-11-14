@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <link rel="alternate" href="/atom.xml" title="Yao's rabbit hole" type="application/atom+xml">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="Before anythingHow to convert a jupyter notebook to md file?1$ jupyter nbconvert --to markdown.md input.ipynbIntroductionSeeking for rentals in a limited time is always a painful experience. For me, b">
+<meta name="keywords" content="data cleaning,web scraping">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Melbourne Rental Project Part 1: Web Scraping">
+<meta property="og:url" content="https:&#x2F;&#x2F;yaoyaoustc.github.io&#x2F;2019&#x2F;11&#x2F;12&#x2F;MelRental&#x2F;index.html">
+<meta property="og:site_name" content="Yao&#39;s rabbit hole">
+<meta property="og:description" content="Before anythingHow to convert a jupyter notebook to md file?1$ jupyter nbconvert --to markdown.md input.ipynbIntroductionSeeking for rentals in a limited time is always a painful experience. For me, b">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-11-14T03:50:50.562Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://yaoyaoustc.github.io/2019/11/12/MelRental/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Melbourne Rental Project Part 1: Web Scraping | Yao's rabbit hole</title>
+  
+    <script>
+      function sendPageView() {
+        var host = window.location.hostname;
+        if (host == "localhost" && true) return;
+        var uid = localStorage.getItem('uid') || (Math.random() + '.' + Math.random());
+        localStorage.setItem('uid', uid);
+        navigator.sendBeacon('https://www.google-analytics.com/collect', new URLSearchParams({
+          v  : 1,
+          tid: 'UA-45686348-2',
+          cid: uid,
+          t  : 'pageview',
+          dp : encodeURIComponent(location.pathname)
+        }));
+      }
+      document.addEventListener('pjax:complete', sendPageView);
+      sendPageView();
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Yao's rabbit hole</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Long and winding adventure through the data science, chased by Python and Anaconda:p</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="https://yaoyaoustc.github.io/2019/11/12/MelRental/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Yao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yao's rabbit hole">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Melbourne Rental Project Part 1: Web Scraping
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-11-12 12:19:26" itemprop="dateCreated datePublished" datetime="2019-11-12T12:19:26+11:00">2019-11-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-11-14 14:50:50" itemprop="dateModified" datetime="2019-11-14T14:50:50+11:00">2019-11-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/" itemprop="url" rel="index">
+                    <span itemprop="name">python</span>
+                  </a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>7.6k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>7 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Before-anything"><a href="#Before-anything" class="headerlink" title="Before anything"></a>Before anything</h1><p>How to convert a jupyter notebook to md file?</p><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ini">$ jupyter nbconvert --to markdown.md input.ipynb<br></code></pre></td></tr></table></figure><h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><p>Seeking for rentals in a limited time is always a painful experience. For me, because this process is so painful, sometimes even I’m seriously not happy with the property I’m renting, I will choose to live with it.</p><a id="more"></a>
+
+
+
+<p>So here comes this project. I will use <a href="https://www.realestate.com.au" target="_blank" rel="noopener">www.realestate.com.au</a> as the data source. Several key steps are:</p>
+<ul>
+<li>Web scraping rental information of certain suburbs of Melbourne</li>
+<li>Data Analysis and Explore<ul>
+<li>Which suburb is the most expensive?</li>
+<li>Any Market Trend in the Project Period?</li>
+<li>What are the common features in the rental description?</li>
+<li>What is the biggest agency and who is the most popular agent?</li>
+<li>etc…</li>
+</ul>
+</li>
+<li>Machine learning<ul>
+<li>If I have a property I want to rent out (oh I wish), which price I should list?</li>
+<li>NLP: auto generate property description?</li>
+<li>Estimate the rental price for a given property?</li>
+<li>etc…</li>
+</ul>
+</li>
+</ul>
+<h1 id="Import-the-libs"><a href="#Import-the-libs" class="headerlink" title="Import the libs"></a>Import the libs</h1><p>There are multiple libs available for extract information from html, as a newbie, Requests and beautifulsoup should work for me.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests<br><span class="hljs-keyword">import</span> re<br><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd<br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup<br><span class="hljs-keyword">from</span> time <span class="hljs-keyword">import</span> sleep<br></code></pre></td></tr></table></figure>
+
+<h1 id="Install-and-use-Requests"><a href="#Install-and-use-Requests" class="headerlink" title="Install and use Requests"></a>Install and use Requests</h1><p>First, we need to install Requests to parse the html information. Then use</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">url = <span class="hljs-string">"https://www.realestate.com.au/rent/in-clayton/"</span><br>response = requests.get(url)<br></code></pre></td></tr></table></figure>
+<p>to get the html content.</p>
+<p>However, this will likely give you a “permission denied” because most of the websites don’t like web scraping. What we need to do is to pretend we’re a brower, not a code.</p>
+<p>We can achieve this by seting up a user-agent.</p>
+<p><a href="https://www.whatsmyua.info/" target="_blank" rel="noopener">What is my user-agent?</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">headers = &#123;<span class="hljs-string">"User-Agent"</span>: <span class="hljs-string">"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.70 Safari/537.36"</span>&#125;<br></code></pre></td></tr></table></figure>
+<p>Add the headers parameters to the code above, it should solve the permission denied problem.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">url = <span class="hljs-string">"https://www.realestate.com.au/rent/in-clayton/"</span><br>response = requests.get(url, headers = headers)<br></code></pre></td></tr></table></figure>
+
+<h1 id="Structure-the-web-scraping-code"><a href="#Structure-the-web-scraping-code" class="headerlink" title="Structure the web scraping code"></a>Structure the web scraping code</h1><p>The structure of the code should be:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs ini">for (each suburb):<br>  Parse the html of the suburb, get total number pages of that suburb<br>  for (each page):<br>    get information for each property<br>    save information to a dataframe<br></code></pre></td></tr></table></figure>
+
+<p>To achieve this, we need to use the Chrome’s “inspect” feature to inspect the webpage</p>
+<h1 id="Get-the-total-number-of-pages-for-iteration"><a href="#Get-the-total-number-of-pages-for-iteration" class="headerlink" title="Get the total number of pages for iteration"></a>Get the total number of pages for iteration</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_num_pages</span><span class="hljs-params">(suburb,headers)</span>:</span><br>    <span class="hljs-string">'''<br>    a sub function to get total number of pages of a suburb<br>    arguments:<br>    suburb: a string of suburb name<br>    headers: user agent headers<br><br>    return:<br>    page_num: total number of pages of a suburb, integer<br>    '''</span><br>    <span class="hljs-comment"># get num of pages availiable</span><br>    firstpage = <span class="hljs-string">"https://www.realestate.com.au/rent/in-"</span>+suburb+<span class="hljs-string">"/list-1"</span><br>    response = requests.get(firstpage, headers = headers)<br>    <span class="hljs-keyword">if</span> response.status_code != <span class="hljs-number">200</span>:<br>        print(<span class="hljs-string">'Link Error, try again'</span>)<br>    <span class="hljs-keyword">else</span>:<br>        soup = BeautifulSoup(response.content, <span class="hljs-string">'html.parser'</span>)<br>        pages = soup.find_all(class_=<span class="hljs-string">"pagination__link rui-button-basic"</span>)<br>    <span class="hljs-keyword">return</span> int(pages[<span class="hljs-number">-1</span>].get_text())<br></code></pre></td></tr></table></figure>
+
+<h1 id="Get-the-information-for-each-property"><a href="#Get-the-information-for-each-property" class="headerlink" title="Get the information for each property"></a>Get the information for each property</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_features</span><span class="hljs-params">(response,df)</span>:</span><br>    <span class="hljs-string">'''<br>    this function extract features from the html, and style it to a dataframe<br>    arguments:<br>    response: output of requests.get(url)<br>    df: a dataframe to store the features<br><br>    return:<br>    df: the data frame contain features.<br>    '''</span><br>    <span class="hljs-keyword">if</span> response.status_code != <span class="hljs-number">200</span>:<br>        print(<span class="hljs-string">'Link Error, try again'</span>)<br>    <span class="hljs-keyword">else</span>:<br>        exit = <span class="hljs-number">0</span><br>        soup = BeautifulSoup(response.content, <span class="hljs-string">'html.parser'</span>)<br>        html = list(soup.children)[<span class="hljs-number">2</span>]<br>        cards = html.find(class_=<span class="hljs-string">"tiered-results tiered-results--exact"</span>)<br>        articles = cards.select(<span class="hljs-string">"div article"</span>)<br>        <span class="hljs-keyword">if</span> len(articles) == <span class="hljs-number">0</span>:<br>            print(<span class="hljs-string">"no records on this page"</span>)<br>            <span class="hljs-comment">#todo: add an exit feature so no scanning for the rest of pages</span><br>            exit = <span class="hljs-number">1</span><br>            <span class="hljs-keyword">return</span> df, exit<br>        <span class="hljs-keyword">for</span> article <span class="hljs-keyword">in</span> articles:<br>            card = article.find(class_=<span class="hljs-string">"residential-card__content"</span>)<br>            price = card.find(class_=<span class="hljs-string">"property-price"</span>).get_text().split()[<span class="hljs-number">0</span>][<span class="hljs-number">1</span>:]<br>            address_card = card.find(class_=<span class="hljs-string">"residential-card__address-heading"</span>)<br>            address = address_card.select(<span class="hljs-string">"h2 a span"</span>)[<span class="hljs-number">0</span>].get_text()<br>            address_link = <span class="hljs-string">'https://www.realestate.com.au'</span> + address_card.find_all(<span class="hljs-string">"a"</span>)[<span class="hljs-number">0</span>].get(<span class="hljs-string">'href'</span>)<br>            <span class="hljs-keyword">try</span>:<br>                feature_bedroom = card.find(class_=<span class="hljs-string">"general-features__icon general-features__beds"</span>).get_text()<br>            <span class="hljs-keyword">except</span>:<br>                feature_bedroom = <span class="hljs-number">0</span><br>            <span class="hljs-keyword">try</span>:<br>                feature_bathroom = card.find(class_=<span class="hljs-string">"general-features__icon general-features__baths"</span>).get_text()<br>            <span class="hljs-keyword">except</span>:<br>                feature_bathroom = <span class="hljs-number">0</span><br>            <span class="hljs-keyword">try</span>:<br>                feature_parking = card.find(class_=<span class="hljs-string">"general-features__icon general-features__cars"</span>).get_text()<br>            <span class="hljs-keyword">except</span>:<br>                feature_parking = <span class="hljs-number">0</span><br>            property_type = card.find(class_=<span class="hljs-string">"residential-card__property-type"</span>).get_text()<br>            <span class="hljs-keyword">try</span>:<br>                agent_brand = article.find(class_=<span class="hljs-string">"branding__image"</span>).get(<span class="hljs-string">'alt'</span>)<br>            <span class="hljs-keyword">except</span>:<br>                agent_brand = np.nan<br>            <span class="hljs-keyword">try</span>:<br>                agent_name = article.find(class_=<span class="hljs-string">"agent__name"</span>).get_text()<br>            <span class="hljs-keyword">except</span>:<br>                agent_name = np.nan<br>            detail_response = requests.get(address_link, headers = headers)<br>            <span class="hljs-keyword">if</span> detail_response.status_code == <span class="hljs-number">200</span>:<br>                detail_soup = BeautifulSoup(detail_response.content, <span class="hljs-string">'html.parser'</span>)<br>                <span class="hljs-keyword">try</span>:<br>                    bond = detail_soup.select(<span class="hljs-string">"div.property-info__property-price-details p"</span>)[<span class="hljs-number">0</span>].get_text()<br>                <span class="hljs-keyword">except</span>:<br>                    bond = np.nan<br>                available_date = detail_soup.find(class_=<span class="hljs-string">"property-info__footer-content"</span>).get_text()<br>                property_details = detail_soup.find(class_=<span class="hljs-string">"property-description__content"</span>).get_text()<br>            <span class="hljs-keyword">else</span>:<br>                bond,available_date,property_details = np.nan, np.nan, np.nan<br>                print(<span class="hljs-string">'LINK_ERROR'</span>)<br>            df_temp = pd.DataFrame(&#123;<span class="hljs-string">'property_type'</span>:[property_type],<br>                                    <span class="hljs-string">'price'</span>:[price],<br>                                    <span class="hljs-string">'bond'</span>:[bond],<br>                                    <span class="hljs-string">'address'</span>:[address],<br>                                    <span class="hljs-string">'feature_bedroom'</span>:[feature_bedroom],<br>                                    <span class="hljs-string">'feature_bathroom'</span>:[feature_bathroom],<br>                                    <span class="hljs-string">'feature_parking'</span>:[feature_parking],<br>                                    <span class="hljs-string">'agent_brand'</span>:[agent_brand],<br>                                    <span class="hljs-string">'agent_name'</span>:[agent_name],<br>                                    <span class="hljs-string">'available_date'</span>:[available_date],<br>                                    <span class="hljs-string">'property_details'</span>:[property_details]&#125;)<br>            df = df.append(df_temp)<br>    <span class="hljs-keyword">return</span> df,exit<br></code></pre></td></tr></table></figure>
+
+<h1 id="Define-the-main-function-to-go-through-the-suburb-list"><a href="#Define-the-main-function-to-go-through-the-suburb-list" class="headerlink" title="Define the main function to go through the suburb list"></a>Define the main function to go through the suburb list</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">webspider</span><span class="hljs-params">(suburbs,headers,df)</span>:</span><br>    <span class="hljs-string">'''<br>    grab rental information of a centain suburb from a list of suburbs<br>    arguments:<br>    suburbs: a array of suburb names<br>    headers: headers of user browser agent<br>    df: an empty dataframe with column names<br><br>    return:<br>    df: a dataframe with rental data<br>    '''</span><br>    print(<span class="hljs-string">'we will process %i suburbs'</span> % len(suburbs))<br>    <span class="hljs-keyword">for</span> index,suburb <span class="hljs-keyword">in</span> enumerate(suburbs):<br>        page_num = get_num_pages(suburb,headers)<br>        print(<span class="hljs-string">'processing %i suburb: %s, total of %i pages'</span> % (index+<span class="hljs-number">1</span>,suburb,page_num))<br>        url_base = <span class="hljs-string">"https://www.realestate.com.au/rent/in-"</span>+suburb+<span class="hljs-string">"/list-"</span><br>        <span class="hljs-comment"># enumrat through all pages of a suburb</span><br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>,page_num):<br>            url = url_base + str(i)<br>            <span class="hljs-comment">#sleep(3)</span><br>            response = requests.get(url, headers = headers)<br>            print(<span class="hljs-string">'start processing page %s'</span> % i)<br>            df,exit = get_features(response,df)<br>            print(<span class="hljs-string">'end of this page, have a total of %i records'</span> % df.shape[<span class="hljs-number">0</span>])<br>            <span class="hljs-keyword">if</span> exit == <span class="hljs-number">1</span>:<br>                print(<span class="hljs-string">'no more records,exit'</span>)<br>                <span class="hljs-keyword">break</span><br><br>    <span class="hljs-keyword">return</span> df<br></code></pre></td></tr></table></figure>
+
+<h1 id="Go-through-all-pages-for-all-suburbs"><a href="#Go-through-all-pages-for-all-suburbs" class="headerlink" title="Go through all pages for all suburbs"></a>Go through all pages for all suburbs</h1><p>For all the suburbs, I will get around 2000 records. Sometimes the web server will detect it and refuse my connection because so many requests <em>I’m sorry..:(</em>. You can add <code>sleep(3)</code> to pulse your code for 3 seconds before next request. In my case this is not helpful. So I split the suburbs list into two list, run one list a time, and merge the dataframe later.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># define inputs for the spider function</span><br><span class="hljs-comment"># define the user header</span><br>headers = &#123;<span class="hljs-string">"User-Agent"</span>: <span class="hljs-string">"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.70 Safari/537.36"</span>&#125;<br><span class="hljs-comment"># define the suburb list</span><br>suburbs1 = [<span class="hljs-string">"clayton"</span>,<span class="hljs-string">"chadstone"</span>,<span class="hljs-string">"mount+waverley,+vic+3149"</span>,<br>           <span class="hljs-string">"hungtingdale"</span>,<span class="hljs-string">"glen+waverley,+vic+3150"</span>,<br>           <span class="hljs-string">"springvale,+vic+3171"</span>,<span class="hljs-string">"melbourne"</span>,<span class="hljs-string">"south+melbourne,+vic+3205"</span>]<br>suburbs2 = [<span class="hljs-string">"southbank,+vic+3006"</span>,<span class="hljs-string">"south+yarra,+vic+3141"</span>,<span class="hljs-string">"toorak,+vic+3142"</span>,<br>           <span class="hljs-string">"richmond,+vic+3121"</span>,]<br><span class="hljs-comment"># initial empty dataframe with column names</span><br>df1 = pd.DataFrame(columns=[<span class="hljs-string">'property_type'</span>,<span class="hljs-string">'price'</span>,<span class="hljs-string">'bond'</span>,<span class="hljs-string">'address'</span>,<span class="hljs-string">'feature_bedroom'</span>,<br>                           <span class="hljs-string">'feature_bathroom'</span>,<span class="hljs-string">'feature_parking'</span>,<span class="hljs-string">'agent_brand'</span>,<br>                           <span class="hljs-string">'agent_name'</span>,<span class="hljs-string">'available_date'</span>,<span class="hljs-string">'property_details'</span>])<br>df2 = pd.DataFrame(columns=[<span class="hljs-string">'property_type'</span>,<span class="hljs-string">'price'</span>,<span class="hljs-string">'bond'</span>,<span class="hljs-string">'address'</span>,<span class="hljs-string">'feature_bedroom'</span>,<br>                           <span class="hljs-string">'feature_bathroom'</span>,<span class="hljs-string">'feature_parking'</span>,<span class="hljs-string">'agent_brand'</span>,<br>                           <span class="hljs-string">'agent_name'</span>,<span class="hljs-string">'available_date'</span>,<span class="hljs-string">'property_details'</span>])<br><br>df1 = webspider(suburbs2,headers,df1)<br>df2 = webspider(suburbs2,headers,df2)<br></code></pre></td></tr></table></figure>
+
+<h1 id="Finally-merge-the-df-and-save-it-to-csv"><a href="#Finally-merge-the-df-and-save-it-to-csv" class="headerlink" title="Finally merge the df and save it to csv"></a>Finally merge the df and save it to csv</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">df_output</span><span class="hljs-params">(df1,df2)</span>:</span><br>    df = pd.concat([df1,df2])<br>    <span class="hljs-keyword">from</span> datetime <span class="hljs-keyword">import</span> date<br>    today = date.today()<br>    d1 = today.strftime(<span class="hljs-string">"%d_%m_%Y"</span>)<br>    csvtitle = d1 + <span class="hljs-string">"_rentals_raw.csv"</span><br>    print(<span class="hljs-string">"output to file: %s"</span> % csvtitle)<br>    df.to_csv(csvtitle,index=<span class="hljs-literal">False</span>)<br><br>df_output(df1,df2)<br></code></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/data-cleaning/" rel="tag"># data cleaning</a>
+              <a href="/tags/web-scraping/" rel="tag"># web scraping</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2019/10/31/Tree-class-comparisons/" rel="next" title="Tree class comparisons">
+                  <i class="fa fa-chevron-left"></i> Tree class comparisons
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Before-anything"><span class="nav-number">1.</span> <span class="nav-text">Before anything</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Introduction"><span class="nav-number">2.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Import-the-libs"><span class="nav-number">3.</span> <span class="nav-text">Import the libs</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Install-and-use-Requests"><span class="nav-number">4.</span> <span class="nav-text">Install and use Requests</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Structure-the-web-scraping-code"><span class="nav-number">5.</span> <span class="nav-text">Structure the web scraping code</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Get-the-total-number-of-pages-for-iteration"><span class="nav-number">6.</span> <span class="nav-text">Get the total number of pages for iteration</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Get-the-information-for-each-property"><span class="nav-number">7.</span> <span class="nav-text">Get the information for each property</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Define-the-main-function-to-go-through-the-suburb-list"><span class="nav-number">8.</span> <span class="nav-text">Define the main function to go through the suburb list</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Go-through-all-pages-for-all-suburbs"><span class="nav-number">9.</span> <span class="nav-text">Go through all pages for all suburbs</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Finally-merge-the-df-and-save-it-to-csv"><span class="nav-number">10.</span> <span class="nav-text">Finally merge the df and save it to csv</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Yao"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Yao</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/yaoyaoustc" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yaoyaoustc" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/yaoyaoustc" title="Linkedin → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;yaoyaoustc" rel="noopener" target="_blank"><i class="fa fa-fw fa-linkedin"></i>Linkedin</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yao</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="Symbols count total">10k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">9 mins.</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '23415d15c2c965e59702',
+      clientSecret: 'ac38c84c22c708974dc45804251e55141d3cda2d',
+      repo: 'yaoyaoustc.github.io',
+      owner: 'yaoyaoustc',
+      admin: ['yaoyaoustc'],
+      id: '90c6e1810e480592561536e21cc47ec4',
+        language: '',
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
+
+</body>
+</html>

@@ -51,18 +51,18 @@
   };
 </script>
 
-  <meta name="description" content="how to tune GradientBoosting Parameters GradientBoostingClassifier(     loss=’deviance’,     learning_rate=0.1,     n_estimators=100,     subsample=1.0,     criterion=’friedman_mse’,     min_samples_s">
-<meta name="keywords" content="sklearn,machine learning">
+  <meta name="description" content="python 3 iteration summary一个小小的总结，summarize一下python3里面的iteration.iteritems()用于 series, dataframe:1for index, data in a.iteritems():iterate a list用于不需要index的情况，只对items进行遍历">
+<meta name="keywords" content="python">
 <meta property="og:type" content="article">
-<meta property="og:title" content="GradientBoosting Parameters Tune">
-<meta property="og:url" content="https:&#x2F;&#x2F;yaoyaoustc.github.io&#x2F;2019&#x2F;10&#x2F;30&#x2F;GradientBoosting-Parameters-Tune&#x2F;index.html">
+<meta property="og:title" content="python3 iteration summary">
+<meta property="og:url" content="https:&#x2F;&#x2F;yaoyaoustc.github.io&#x2F;2019&#x2F;10&#x2F;22&#x2F;py3_iter&#x2F;index.html">
 <meta property="og:site_name" content="Yao&#39;s rabbit hole">
-<meta property="og:description" content="how to tune GradientBoosting Parameters GradientBoostingClassifier(     loss=’deviance’,     learning_rate=0.1,     n_estimators=100,     subsample=1.0,     criterion=’friedman_mse’,     min_samples_s">
+<meta property="og:description" content="python 3 iteration summary一个小小的总结，summarize一下python3里面的iteration.iteritems()用于 series, dataframe:1for index, data in a.iteritems():iterate a list用于不需要index的情况，只对items进行遍历">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-10-30T05:12:15.824Z">
+<meta property="og:updated_time" content="2019-11-14T02:52:03.385Z">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://yaoyaoustc.github.io/2019/10/30/GradientBoosting-Parameters-Tune/">
+<link rel="canonical" href="https://yaoyaoustc.github.io/2019/10/22/py3_iter/">
 
 
 <script id="page-configurations">
@@ -76,7 +76,7 @@
   };
 </script>
 
-  <title>GradientBoosting Parameters Tune | Yao's rabbit hole</title>
+  <title>python3 iteration summary | Yao's rabbit hole</title>
   
     <script>
       function sendPageView() {
@@ -208,7 +208,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
-    <link itemprop="mainEntityOfPage" href="https://yaoyaoustc.github.io/2019/10/30/GradientBoosting-Parameters-Tune/">
+    <link itemprop="mainEntityOfPage" href="https://yaoyaoustc.github.io/2019/10/22/py3_iter/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -221,7 +221,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          GradientBoosting Parameters Tune
+          python3 iteration summary
         </h1>
 
         <div class="post-meta">
@@ -230,18 +230,24 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2019-10-30 14:46:36 / Modified: 16:12:15" itemprop="dateCreated datePublished" datetime="2019-10-30T14:46:36+11:00">2019-10-30</time>
+              <time title="Created: 2019-10-22 17:52:59" itemprop="dateCreated datePublished" datetime="2019-10-22T17:52:59+11:00">2019-10-22</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-11-14 13:52:03" itemprop="dateModified" datetime="2019-11-14T13:52:03+11:00">2019-11-14</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
               <span class="post-meta-item-text">In</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/sklearn/" itemprop="url" rel="index">
-                    <span itemprop="name">sklearn</span>
+                  <a href="/categories/python/" itemprop="url" rel="index">
+                    <span itemprop="name">python</span>
                   </a>
                 </span>
             </span>
@@ -252,7 +258,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>1.4k</span>
+              <span>384</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
@@ -271,50 +277,22 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="how-to-tune-GradientBoosting-Parameters"><a href="#how-to-tune-GradientBoosting-Parameters" class="headerlink" title="how to tune GradientBoosting Parameters"></a>how to tune GradientBoosting Parameters</h1><blockquote>
-<p>GradientBoostingClassifier(
-    loss=’deviance’,
-    learning_rate=0.1,
-    n_estimators=100,
-    subsample=1.0,
-    criterion=’friedman_mse’,
-    min_samples_split=2,
-    min_samples_leaf=1,
-    min_weight_fraction_leaf=0.0,
-    max_depth=3,
-    min_impurity_decrease=0.0,
-    min_impurity_split=None,
-    init=None,
-    random_state=None,
-    max_features=None,
-    verbose=0,
-    max_leaf_nodes=None,
-    warm_start=False,
-    presort=’auto’,
-    validation_fraction=0.1,
-    n_iter_no_change=None,
-    tol=0.0001,
-)</p>
-</blockquote><a id="more"></a>
-<h2 id="1-Fix-learning-rate-and-number-of-estimators-for-tuning-tree-based-parameters"><a href="#1-Fix-learning-rate-and-number-of-estimators-for-tuning-tree-based-parameters" class="headerlink" title="1. Fix learning rate and number of estimators for tuning tree-based parameters"></a>1. Fix learning rate and number of estimators for tuning tree-based parameters</h2><p>initial parameters, others use default</p>
-<ul>
-<li>min_samples_split = 0.9 : This should be ~0.5-1% of total values. Since this is imbalanced class problem, we’ll take a small value from the range.</li>
-<li>min_samples_leaf = 20 : Can be selected based on intuition. This is just used for preventing overfitting and again a small value because of imbalanced classes.</li>
-<li>max_depth = 8 : Should be chosen (5-8) based on the number of observations and predictors. This has 87K rows and 49 columns so lets take 8 here.</li>
-<li>max_features = ‘sqrt’ : Its a general thumb-rule to start with square root.</li>
-<li>subsample = 0.9 : This is a commonly used used start value</li>
-</ul>
-<h3 id="tips"><a href="#tips" class="headerlink" title="tips"></a>tips</h3><ul>
-<li>If the value is around 20, you might want to try lowering the learning rate to 0.05 and re-run grid search</li>
-<li>If the values are too high ~100, tuning the other parameters will take long time and you can try a higher learning rate</li>
-</ul>
-<p>now we have n_estimators and learning_rate</p>
-<h2 id="2-Tune-tree-related-parameters"><a href="#2-Tune-tree-related-parameters" class="headerlink" title="2. Tune tree related parameters"></a>2. Tune tree related parameters</h2><ul>
-<li>Tune max_depth and num_samples_split</li>
-<li>Tune min_samples_leaf</li>
-<li>Tune max_features</li>
-</ul>
-<h2 id="3-Tune-subsample-and-lower-the-learning-rates"><a href="#3-Tune-subsample-and-lower-the-learning-rates" class="headerlink" title="3. Tune subsample and lower the learning rates"></a>3. Tune subsample and lower the learning rates</h2>
+        <h1 id="python-3-iteration-summary"><a href="#python-3-iteration-summary" class="headerlink" title="python 3 iteration summary"></a>python 3 iteration summary</h1><p>一个小小的总结，summarize一下python3里面的iteration</p><h2 id="iteritems"><a href="#iteritems" class="headerlink" title=".iteritems()"></a>.iteritems()</h2><p>用于 series, dataframe:</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">for</span> index, data <span class="hljs-keyword">in</span> a.iteritems():<br></code></pre></td></tr></table></figure><h2 id="iterate-a-list"><a href="#iterate-a-list" class="headerlink" title="iterate a list"></a>iterate a list</h2><p>用于不需要index的情况，只对items进行遍历</p><a id="more"></a>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">for</span> data <span class="hljs-keyword">in</span> a:<br></code></pre></td></tr></table></figure>
+
+<h2 id="enumerate"><a href="#enumerate" class="headerlink" title="enumerate()"></a>enumerate()</h2><p>用于list，set等没有index的datatype</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">for</span> index, data <span class="hljs-keyword">in</span> enumerate(a):<br></code></pre></td></tr></table></figure>
+
+<h2 id="items"><a href="#items" class="headerlink" title=".items()"></a>.items()</h2><p>用于dict，等同于.iteritems()</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">for</span> index, data <span class="hljs-keyword">in</span> dict.items():<br></code></pre></td></tr></table></figure>
+
+<h2 id="iterrows"><a href="#iterrows" class="headerlink" title=".iterrows()"></a>.iterrows()</h2><p>用于dataframe，针对每一行数据整体的iter</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">for</span> indexname, (all data <span class="hljs-keyword">in</span> this index) <span class="hljs-keyword">in</span> df.iterrows():<br></code></pre></td></tr></table></figure>
+
     </div>
 
     
@@ -323,24 +301,20 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/sklearn/" rel="tag"># sklearn</a>
-              <a href="/tags/machine-learning/" rel="tag"># machine learning</a>
+              <a href="/tags/python/" rel="tag"># python</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
-                <a href="/2019/10/22/python-3-iterate-summary/" rel="next" title="python 3 iterate summary">
-                  <i class="fa fa-chevron-left"></i> python 3 iterate summary
-                </a>
             </div>
 
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
-                <a href="/2019/10/30/QDA/" rel="prev" title="Comparisons Logistic Regression,LDA,KNN,QDA">
-                  Comparisons Logistic Regression,LDA,KNN,QDA <i class="fa fa-chevron-right"></i>
+                <a href="/2019/10/30/GBpara_Tune/" rel="prev" title="GradientBoosting Parameters Tune">
+                  GradientBoosting Parameters Tune <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
           </div>
@@ -381,7 +355,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#how-to-tune-GradientBoosting-Parameters"><span class="nav-number">1.</span> <span class="nav-text">how to tune GradientBoosting Parameters</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Fix-learning-rate-and-number-of-estimators-for-tuning-tree-based-parameters"><span class="nav-number">1.1.</span> <span class="nav-text">1. Fix learning rate and number of estimators for tuning tree-based parameters</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#tips"><span class="nav-number">1.1.1.</span> <span class="nav-text">tips</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Tune-tree-related-parameters"><span class="nav-number">1.2.</span> <span class="nav-text">2. Tune tree related parameters</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Tune-subsample-and-lower-the-learning-rates"><span class="nav-number">1.3.</span> <span class="nav-text">3. Tune subsample and lower the learning rates</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#python-3-iteration-summary"><span class="nav-number">1.</span> <span class="nav-text">python 3 iteration summary</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#iteritems"><span class="nav-number">1.1.</span> <span class="nav-text">.iteritems()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iterate-a-list"><span class="nav-number">1.2.</span> <span class="nav-text">iterate a list</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#enumerate"><span class="nav-number">1.3.</span> <span class="nav-text">enumerate()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#items"><span class="nav-number">1.4.</span> <span class="nav-text">.items()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iterrows"><span class="nav-number">1.5.</span> <span class="nav-text">.iterrows()</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -397,7 +371,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-count">5</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -410,7 +384,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -457,12 +431,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="Symbols count total">102k</span>
+    <span title="Symbols count total">10k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">1:33</span>
+    <span title="Reading time total">9 mins.</span>
 </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.0.0
   </div>
@@ -529,7 +503,7 @@
       repo: 'yaoyaoustc.github.io',
       owner: 'yaoyaoustc',
       admin: ['yaoyaoustc'],
-      id: 'e76ebb9954bf55b22ea4a3f6e7c170ae',
+      id: 'e85bc3115498e1e72e4fc99ceccc64ea',
         language: '',
       distractionFreeMode: 'true'
     });
