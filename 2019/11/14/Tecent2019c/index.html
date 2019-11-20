@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <link rel="alternate" href="/atom.xml" title="Yao's rabbit hole" type="application/atom+xml">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="Just another day of Data cleaning… this dataset really required lots and lots of cleaning…Data prepare: continuedFrom last notebook we’ve get the correct label: next 24 hour exposure rate.">
+<meta name="keywords" content="Competition,data cleaning,Machine learning">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Tencent 2019 Data Science Competition[Ads Exposure Rate] Part 3">
+<meta property="og:url" content="https:&#x2F;&#x2F;yaoyaoustc.github.io&#x2F;2019&#x2F;11&#x2F;14&#x2F;Tecent2019c&#x2F;index.html">
+<meta property="og:site_name" content="Yao&#39;s rabbit hole">
+<meta property="og:description" content="Just another day of Data cleaning… this dataset really required lots and lots of cleaning…Data prepare: continuedFrom last notebook we’ve get the correct label: next 24 hour exposure rate.">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-11-20T03:34:14.816Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://yaoyaoustc.github.io/2019/11/14/Tecent2019c/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Tencent 2019 Data Science Competition[Ads Exposure Rate] Part 3 | Yao's rabbit hole</title>
+  
+    <script>
+      function sendPageView() {
+        var host = window.location.hostname;
+        if (host == "localhost" && true) return;
+        var uid = localStorage.getItem('uid') || (Math.random() + '.' + Math.random());
+        localStorage.setItem('uid', uid);
+        navigator.sendBeacon('https://www.google-analytics.com/collect', new URLSearchParams({
+          v  : 1,
+          tid: 'UA-45686348-2',
+          cid: uid,
+          t  : 'pageview',
+          dp : encodeURIComponent(location.pathname)
+        }));
+      }
+      document.addEventListener('pjax:complete', sendPageView);
+      sendPageView();
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Yao's rabbit hole</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">The poor rabbit chased by Python and Anaconda :p</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="https://yaoyaoustc.github.io/2019/11/14/Tecent2019c/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Yao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yao's rabbit hole">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Tencent 2019 Data Science Competition[Ads Exposure Rate] Part 3
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-11-14 15:53:29" itemprop="dateCreated datePublished" datetime="2019-11-14T15:53:29+11:00">2019-11-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-11-20 14:34:14" itemprop="dateModified" datetime="2019-11-20T14:34:14+11:00">2019-11-20</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Project/" itemprop="url" rel="index">
+                    <span itemprop="name">Project</span>
+                  </a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>7.8k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>7 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>Just another day of Data cleaning… this dataset really required lots and lots of cleaning…</p><h1 id="Data-prepare-continued"><a href="#Data-prepare-continued" class="headerlink" title="Data prepare: continued"></a>Data prepare: continued</h1><p>From last notebook we’ve get the correct label: next 24 hour exposure rate.</p><a id="more"></a>
+
+<p>now we need to further finalize the training dataset and test dataset to make them ready for the ML imput</p>
+<h1 id="import-libs"><a href="#import-libs" class="headerlink" title="import libs"></a>import libs</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd<br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">import</span> re<br><span class="hljs-keyword">from</span> sklearn.feature_extraction <span class="hljs-keyword">import</span> FeatureHasher<br><span class="hljs-keyword">import</span> seaborn <span class="hljs-keyword">as</span> sns<br>%matplotlib inline<br></code></pre></td></tr></table></figure>
+
+<h1 id="load-data"><a href="#load-data" class="headerlink" title="load data"></a>load data</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">with</span> open(<span class="hljs-string">'train_final.csv'</span>) <span class="hljs-keyword">as</span> f:<br>    train_raw = pd.read_csv(f)<br>    train_raw.drop(columns = <span class="hljs-string">'Unnamed: 0'</span>,inplace=<span class="hljs-literal">True</span>)<br></code></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">train_raw.head()<br></code></pre></td></tr></table></figure>
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}</code></pre><p></style><p></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Id</th>
+      <th>Date_create</th>
+      <th>Bid</th>
+      <th>Crowd</th>
+      <th>Time</th>
+      <th>AdAccountId</th>
+      <th>CommodityId</th>
+      <th>CommodityType</th>
+      <th>AdIndustryId</th>
+      <th>AdSize</th>
+      <th>Date_p24h</th>
+      <th>exporate</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>32</td>
+      <td>1543563617</td>
+      <td>83</td>
+      <td>area:7572</td>
+      <td>70368475742208,70368475742208,70368475742208,7...</td>
+      <td>18752</td>
+      <td>32534</td>
+      <td>13</td>
+      <td>136</td>
+      <td>40</td>
+      <td>1543650017</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>32</td>
+      <td>1550727091</td>
+      <td>91</td>
+      <td>area:7572</td>
+      <td>70368475742208,70368475742208,70368475742208,7...</td>
+      <td>18752</td>
+      <td>32534</td>
+      <td>13</td>
+      <td>136</td>
+      <td>40</td>
+      <td>1550813491</td>
+      <td>6.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>32</td>
+      <td>1551110479</td>
+      <td>90</td>
+      <td>area:7572</td>
+      <td>70368475742208,70368475742208,70368475742208,7...</td>
+      <td>18752</td>
+      <td>32534</td>
+      <td>13</td>
+      <td>136</td>
+      <td>40</td>
+      <td>1551196879</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>32</td>
+      <td>1551331895</td>
+      <td>106</td>
+      <td>area:7572</td>
+      <td>70368475742208,70368475742208,70368475742208,7...</td>
+      <td>18752</td>
+      <td>32534</td>
+      <td>13</td>
+      <td>136</td>
+      <td>40</td>
+      <td>1551418295</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>32</td>
+      <td>1551504704</td>
+      <td>97</td>
+      <td>area:7572</td>
+      <td>70368475742208,70368475742208,70368475742208,7...</td>
+      <td>18752</td>
+      <td>32534</td>
+      <td>13</td>
+      <td>136</td>
+      <td>40</td>
+      <td>1551591104</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+<h1 id="combine-train-data-and-test-data-to-process-together"><a href="#combine-train-data-and-test-data-to-process-together" class="headerlink" title="combine train data and test data to process together."></a>combine train data and test data to process together.</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">collist_test = [<span class="hljs-string">'Id'</span>,<span class="hljs-string">'AdId'</span>,<span class="hljs-string">'Date'</span>,<span class="hljs-string">'AdSize'</span>,<span class="hljs-string">'AdIndustryId'</span>,<span class="hljs-string">'CommodityType'</span>,<span class="hljs-string">'CommodityId'</span>,<br>                <span class="hljs-string">'AdAccountId'</span>,<span class="hljs-string">'ExpoTime'</span>,<span class="hljs-string">'Crowd'</span>,<span class="hljs-string">'Bid'</span>]<br><span class="hljs-keyword">with</span> open(<span class="hljs-string">'test_sample.dat'</span>) <span class="hljs-keyword">as</span> ft:<br>    df_test = pd.read_csv(ft,sep=<span class="hljs-string">'\t'</span>,names = collist_test)<br></code></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df_test.head()<br></code></pre></td></tr></table></figure>
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}</code></pre><p></style><p></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Id</th>
+      <th>AdId</th>
+      <th>Date</th>
+      <th>AdSize</th>
+      <th>AdIndustryId</th>
+      <th>CommodityType</th>
+      <th>CommodityId</th>
+      <th>AdAccountId</th>
+      <th>ExpoTime</th>
+      <th>Crowd</th>
+      <th>Bid</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>394352</td>
+      <td>1529648412</td>
+      <td>34</td>
+      <td>84</td>
+      <td>13</td>
+      <td>29663</td>
+      <td>26657</td>
+      <td>281474976645120,281474976645120,28147497664512...</td>
+      <td>age:819,608,988,741,202,837,400,394,942,361,72...</td>
+      <td>120</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>585401</td>
+      <td>1553076190</td>
+      <td>40</td>
+      <td>221</td>
+      <td>1</td>
+      <td>-1</td>
+      <td>6262</td>
+      <td>281474976579587,281474976579587,28147497657958...</td>
+      <td>age:819,433,479,741,229,347,522,79,753,601|edu...</td>
+      <td>42</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>419408</td>
+      <td>1553031394</td>
+      <td>30</td>
+      <td>122</td>
+      <td>13</td>
+      <td>32110</td>
+      <td>17436</td>
+      <td>17592185782272,17592185782272,17592185782272,1...</td>
+      <td>all</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>405326</td>
+      <td>1553238836</td>
+      <td>64</td>
+      <td>136</td>
+      <td>1</td>
+      <td>-1</td>
+      <td>22359</td>
+      <td>281474976694272,281474976694272,28147497669427...</td>
+      <td>age:333,1|gender:2|area:11505,1874,3790,4566,5...</td>
+      <td>181</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>578942</td>
+      <td>1541191585</td>
+      <td>34</td>
+      <td>12</td>
+      <td>13</td>
+      <td>6372</td>
+      <td>24082</td>
+      <td>68719214592,68719214592,68719214592,6871921459...</td>
+      <td>age:819,608,988,741,202,837,400,394,942,361,72...</td>
+      <td>31</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">test_train_combine</span><span class="hljs-params">(train_raw,df_test)</span>:</span><br>    <span class="hljs-comment"># reformat the train dataset</span><br>    Y_train = train_raw[<span class="hljs-string">'exporate'</span>]<br>    train_raw = train_raw.drop(columns=[<span class="hljs-string">'Date_p24h'</span>,<span class="hljs-string">'exporate'</span>])<br>    collist = [<span class="hljs-string">'Id'</span>, <span class="hljs-string">'Date_create'</span>,<span class="hljs-string">'AdSize'</span>,<span class="hljs-string">'AdIndustryId'</span>,<span class="hljs-string">'CommodityType'</span>,<br>               <span class="hljs-string">'CommodityId'</span>,<span class="hljs-string">'AdAccountId'</span>,<span class="hljs-string">'Time'</span>, <span class="hljs-string">'Crowd'</span>,<span class="hljs-string">'Bid'</span>]<br>    train_raw = train_raw[collist]<br>    <span class="hljs-comment"># replace some names to make it consistent with test</span><br>    train_raw.rename(columns=&#123;<span class="hljs-string">'Id'</span>:<span class="hljs-string">'AdId'</span>,<span class="hljs-string">'Date_create'</span>:<span class="hljs-string">'Date'</span>,<span class="hljs-string">'Time'</span>:<span class="hljs-string">'ExpoTime'</span>&#125;,inplace=<span class="hljs-literal">True</span>)<br>    train_raw[<span class="hljs-string">'trainset'</span>] = <span class="hljs-number">1</span><br>    <span class="hljs-comment"># next for df_test</span><br>    df_test.drop(columns=<span class="hljs-string">'Id'</span>,inplace=<span class="hljs-literal">True</span>)<br>    df_test[<span class="hljs-string">'trainset'</span>] = <span class="hljs-number">0</span><br>    df_combine = pd.concat([train_raw,df_test]).reset_index(drop=<span class="hljs-literal">True</span>)<br>    <span class="hljs-keyword">return</span>  df_combine, Y_train<br></code></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df_combine,Y_train = test_train_combine(train_raw,df_test)<br></code></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df_combine.loc[df_combine[<span class="hljs-string">'Crowd'</span>] == <span class="hljs-string">'all'</span>,].head()<br></code></pre></td></tr></table></figure>
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}</code></pre><p></style><p></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>AdId</th>
+      <th>Date</th>
+      <th>AdSize</th>
+      <th>AdIndustryId</th>
+      <th>CommodityType</th>
+      <th>CommodityId</th>
+      <th>AdAccountId</th>
+      <th>ExpoTime</th>
+      <th>Crowd</th>
+      <th>Bid</th>
+      <th>trainset</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>48</th>
+      <td>415</td>
+      <td>1547789504</td>
+      <td>1</td>
+      <td>117</td>
+      <td>1</td>
+      <td>-1</td>
+      <td>17240</td>
+      <td>17592185782272,17592185782272,17592185782272,1...</td>
+      <td>all</td>
+      <td>300</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>49</th>
+      <td>415</td>
+      <td>1550532431</td>
+      <td>1</td>
+      <td>117</td>
+      <td>1</td>
+      <td>-1</td>
+      <td>17240</td>
+      <td>17592185782272,17592185782272,17592185782272,1...</td>
+      <td>all</td>
+      <td>300</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>50</th>
+      <td>415</td>
+      <td>1551787638</td>
+      <td>1</td>
+      <td>117</td>
+      <td>1</td>
+      <td>-1</td>
+      <td>17240</td>
+      <td>17592185782272,17592185782272,17592185782272,1...</td>
+      <td>all</td>
+      <td>600</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>71</th>
+      <td>635</td>
+      <td>1552887473</td>
+      <td>40</td>
+      <td>122</td>
+      <td>13</td>
+      <td>22528</td>
+      <td>7672</td>
+      <td>17575274348544,17575274348544,17575274348544,1...</td>
+      <td>all</td>
+      <td>90</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>136</th>
+      <td>1090</td>
+      <td>1552369106</td>
+      <td>30</td>
+      <td>122</td>
+      <td>13</td>
+      <td>26955</td>
+      <td>1050</td>
+      <td>69273464340480,69273464340480,69273464340480,6...</td>
+      <td>all</td>
+      <td>34</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+<h1 id="deal-with-crowd"><a href="#deal-with-crowd" class="headerlink" title="deal with crowd."></a>deal with crowd.</h1><p>The crowd attribute represent what kind of user the ad is targeting on. we need to split it into multi-column features to make it useful.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">crowd_refine</span><span class="hljs-params">(train_raw)</span>:</span><br>    crowd = train_raw[<span class="hljs-string">'Crowd'</span>]<br>    <span class="hljs-comment"># get ads which has multiple crowd attributes</span><br>    multifield = crowd[crowd.str.contains(<span class="hljs-string">r'\|'</span>)]<br>    <span class="hljs-comment"># find how many unique attributes exist in Crowd column</span><br>    matches = []<br>    <span class="hljs-keyword">for</span> line <span class="hljs-keyword">in</span> multifield:<br>        match = re.findall(<span class="hljs-string">r'\w+:'</span>, line)<br>        matches.extend(match)<br>    crowd_attr = set(matches)<br>    crowd_attr = list(map(<span class="hljs-keyword">lambda</span> x: x[:<span class="hljs-number">-1</span>],crowd_attr))<br>    <span class="hljs-comment"># expand the crowd to multiple columns</span><br>    rows_list = []<br>    <span class="hljs-keyword">for</span> row <span class="hljs-keyword">in</span> crowd:<br>        dict1 = &#123;&#125;<br>        <span class="hljs-keyword">for</span> attr <span class="hljs-keyword">in</span> crowd_attr:<br>            attrpat = attr + <span class="hljs-string">':[0-9]+[,[0-9]+]*'</span><br>            match = re.findall(attrpat, row)<br>            <span class="hljs-keyword">if</span> len(match) == <span class="hljs-number">0</span>:<br>                value = np.nan<br>            <span class="hljs-keyword">else</span>:<br>                value = re.search(<span class="hljs-string">r'[0-9]+[,[0-9]+]*'</span>,match[<span class="hljs-number">0</span>]).group()<br>            dict1.update(&#123;attr:value&#125;)<br>        rows_list.append(dict1)<br>        <span class="hljs-comment"># age,area is meaningless values, discard</span><br>    df_crowd = pd.DataFrame(rows_list).drop(columns=[<span class="hljs-string">'age'</span>,<span class="hljs-string">'area'</span>,<span class="hljs-string">'consuptionAbility'</span>,<span class="hljs-string">'device'</span>,<span class="hljs-string">'gender'</span>,<span class="hljs-string">'work'</span>,<span class="hljs-string">'behavior'</span>,<span class="hljs-string">'os'</span>])<br>    <span class="hljs-comment">#</span><br>    <span class="hljs-comment"># one special case of the attribute: all is not defined, will do it later.</span><br>    <span class="hljs-keyword">return</span> df_crowd<br><br>df_crowd = crowd_refine(df_combine)<br></code></pre></td></tr></table></figure>
+
+<p>use one hot and hashing to encode each features.</p>
+<ul>
+<li>why age feature has sooooo many categories??? values = 998…so scary.Ok I checked the doc, age is a random number…</li>
+<li>Only education/status/connecttype has enough valid values</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">onehot_encode_features</span><span class="hljs-params">(df,df_combine)</span>:</span><br>    attrlist = df.columns<br>    df_crowd_expand = pd.DataFrame()<br>    <span class="hljs-keyword">for</span> attr <span class="hljs-keyword">in</span> attrlist:<br>        p = df[attr].str.get_dummies(sep=<span class="hljs-string">","</span>)<br>        p.columns = list(map(<span class="hljs-keyword">lambda</span> x: attr + x, p.columns))<br>        <span class="hljs-comment"># deal with crowd == all</span><br>        all_list = df_combine[df_combine[<span class="hljs-string">'Crowd'</span>] == <span class="hljs-string">'all'</span>].index.to_list()<br>        p.iloc[all_list,<span class="hljs-number">0</span>] = <span class="hljs-number">1.0</span><br>        df_crowd_expand = pd.concat([df_crowd_expand,p],axis=<span class="hljs-number">1</span>)<br>    <span class="hljs-keyword">return</span> df_crowd_expand<br></code></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df_crowd_expand = onehot_encode_features(df_crowd,df_combine)<br></code></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df_crowd_expand.shape<br></code></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>(121130, 28)</code></pre><h2 id="now-deal-with-the-expo-time"><a href="#now-deal-with-the-expo-time" class="headerlink" title="now deal with the expo time"></a>now deal with the expo time</h2><p>the expotime has seven int numbers, each represent 1 day in a week. convert the int to 48 binanry numbers, 1 = post, 0 = non post.</p>
+<ul>
+<li>split the expotime to seven days</li>
+<li>for each day, convert the int to binanry and split.</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">expotime_refine</span><span class="hljs-params">(train_raw)</span>:</span><br>    expotime = train_raw[<span class="hljs-string">'ExpoTime'</span>].str.split(<span class="hljs-string">','</span>,expand=<span class="hljs-literal">True</span>)<br>    <span class="hljs-comment"># convert to 48-digit binanry</span><br>    expotime = expotime.astype(int).applymap(<span class="hljs-keyword">lambda</span> x: <span class="hljs-string">f'<span class="hljs-subst">&#123;x:<span class="hljs-number">48</span>b&#125;</span>'</span>.replace(<span class="hljs-string">' '</span>,<span class="hljs-string">'0'</span>))<br>    count = <span class="hljs-number">0</span><br>    <span class="hljs-keyword">for</span> col <span class="hljs-keyword">in</span> expotime.columns:<br>        a1 = expotime[col].apply(<span class="hljs-keyword">lambda</span> x: pd.Series(list(x)))<br>        <span class="hljs-keyword">if</span> count == <span class="hljs-number">0</span>:<br>            base = pd.DataFrame(a1)<br>        <span class="hljs-keyword">else</span>:<br>            base = pd.DataFrame(np.hstack((base,a1)))<br>        count += <span class="hljs-number">1</span><br>    <span class="hljs-keyword">return</span> base<br><br>expotime = expotime_refine(df_combine)<br></code></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">expotime.shape<br></code></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>(121130, 336)</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">buildbase</span><span class="hljs-params">(df_combine)</span>:</span><br>    base = df_combine.drop(columns=[<span class="hljs-string">'ExpoTime'</span>,<span class="hljs-string">'Crowd'</span>])<br>    <span class="hljs-comment"># for bid</span><br>    <span class="hljs-comment"># in train set, max bid = 10000, testset, maxbid = 20000,so large values should be kept</span><br>    <span class="hljs-comment"># convert the bid to log scale for even distribution</span><br>    base[<span class="hljs-string">'Bid'</span>] = np.log1p(base[<span class="hljs-string">'Bid'</span>])<br>    <span class="hljs-comment"># fix Adindustry id</span><br>    x = base[base[<span class="hljs-string">'AdIndustryId'</span>].astype(str).str.contains(<span class="hljs-string">','</span>)][<span class="hljs-string">'AdIndustryId'</span>].map(<span class="hljs-keyword">lambda</span> x: x.split(<span class="hljs-string">','</span>)).map(<span class="hljs-keyword">lambda</span> x: x[<span class="hljs-number">0</span>])<br>    y = base[~base[<span class="hljs-string">'AdIndustryId'</span>].astype(str).str.contains(<span class="hljs-string">','</span>)][<span class="hljs-string">'AdIndustryId'</span>]<br>    base[<span class="hljs-string">'AdIndustryId'</span>] = y.append(x).sort_index()<br>    <span class="hljs-comment"># build weekday/hour attribute for ad creation date</span><br>    base[<span class="hljs-string">'hour'</span>] = pd.to_datetime(base[<span class="hljs-string">'Date'</span>],unit=<span class="hljs-string">'s'</span>).dt.hour<br>    base[<span class="hljs-string">'dayofweek'</span>] = pd.to_datetime(base[<span class="hljs-string">'Date'</span>],unit=<span class="hljs-string">'s'</span>).dt.dayofweek<br>    <span class="hljs-comment"># unify attributes</span><br>    base = base.drop(columns=[<span class="hljs-string">'AdId'</span>,<span class="hljs-string">'Date'</span>,<span class="hljs-string">'CommodityId'</span>,<span class="hljs-string">'AdAccountId'</span>])<br>    strlist = [<span class="hljs-string">'AdSize'</span>,<span class="hljs-string">'AdIndustryId'</span>,<span class="hljs-string">'CommodityType'</span>,<span class="hljs-string">'hour'</span>,<span class="hljs-string">'dayofweek'</span>]<br>    base[strlist] = base[strlist].astype(str)<br>    <span class="hljs-comment"># add all features together</span><br>    base = pd.get_dummies(base)<br>    <span class="hljs-keyword">return</span> base<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">build_train_test</span><span class="hljs-params">(base,df_crowd_expand,expotime,Y_train)</span>:</span><br>    base2 = pd.concat([df_crowd_expand,expotime],axis=<span class="hljs-number">1</span>)<br>    final = pd.concat([base,base2],axis=<span class="hljs-number">1</span>)<br>    <span class="hljs-keyword">del</span> base<br>    <span class="hljs-keyword">del</span> base2<br>    <span class="hljs-comment"># build train/test</span><br>    X_train = final.loc[final[<span class="hljs-string">'trainset'</span>] == <span class="hljs-number">1</span>,].drop(columns=<span class="hljs-string">'trainset'</span>)<br>    X_test = final.loc[final[<span class="hljs-string">'trainset'</span>] == <span class="hljs-number">0</span>,].drop(columns=<span class="hljs-string">'trainset'</span>)<br>    <span class="hljs-comment"># fill Y_Train nan with zero</span><br>    Y_train = Y_train.fillna(<span class="hljs-number">0</span>)<br>    <span class="hljs-keyword">return</span> X_train, Y_train, X_test<br></code></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">base = buildbase(df_combine)<br></code></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">X_train, Y_train, X_test = build_train_test(base,df_crowd_expand,expotime,Y_train)<br></code></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">X_train.shape<br>Y_train.shape<br>X_test.shape<br></code></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>(100840, 627)
+
+
+
+
+
+
+(100840,)
+
+
+
+
+
+
+(20290, 627)</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">X_train.to_csv(<span class="hljs-string">'X_train.csv'</span>)<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">Y_train.to_csv(<span class="hljs-string">'Y_train.csv'</span>)<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">X_test.to_csv(<span class="hljs-string">'X_test.csv'</span>)<br></code></pre></td></tr></table></figure>
+
+
+<h1 id="now-we-finally-have-a-ready-to-train-dataset-Next-let’s-try-finally-machine-learning-part"><a href="#now-we-finally-have-a-ready-to-train-dataset-Next-let’s-try-finally-machine-learning-part" class="headerlink" title="now we finally have a ready to train dataset.. Next let’s try, finally, machine learning part."></a>now we finally have a ready to train dataset.. Next let’s try, finally, machine learning part.</h1>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Competition/" rel="tag"># Competition</a>
+              <a href="/tags/data-cleaning/" rel="tag"># data cleaning</a>
+              <a href="/tags/Machine-learning/" rel="tag"># Machine learning</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2019/11/14/Tecent2019b/" rel="next" title="Tencent 2019 Data Science Competition[Ads Exposure Rate] Part 2">
+                  <i class="fa fa-chevron-left"></i> Tencent 2019 Data Science Competition[Ads Exposure Rate] Part 2
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2019/11/19/tips-multionehot/" rel="prev" title="Multiple values per cell: How to one-hot encoder it">
+                  Multiple values per cell: How to one-hot encoder it <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Data-prepare-continued"><span class="nav-number">1.</span> <span class="nav-text">Data prepare: continued</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#import-libs"><span class="nav-number">2.</span> <span class="nav-text">import libs</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#load-data"><span class="nav-number">3.</span> <span class="nav-text">load data</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#combine-train-data-and-test-data-to-process-together"><span class="nav-number">4.</span> <span class="nav-text">combine train data and test data to process together.</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#deal-with-crowd"><span class="nav-number">5.</span> <span class="nav-text">deal with crowd.</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#now-deal-with-the-expo-time"><span class="nav-number">5.1.</span> <span class="nav-text">now deal with the expo time</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#now-we-finally-have-a-ready-to-train-dataset-Next-let’s-try-finally-machine-learning-part"><span class="nav-number">6.</span> <span class="nav-text">now we finally have a ready to train dataset.. Next let’s try, finally, machine learning part.</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Yao"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Yao</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/yaoyaoustc" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yaoyaoustc" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/yaoyaoustc" title="Linkedin → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;yaoyaoustc" rel="noopener" target="_blank"><i class="fa fa-fw fa-linkedin"></i>Linkedin</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yao</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="Symbols count total">37k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">34 mins.</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '23415d15c2c965e59702',
+      clientSecret: 'ac38c84c22c708974dc45804251e55141d3cda2d',
+      repo: 'yaoyaoustc.github.io',
+      owner: 'yaoyaoustc',
+      admin: ['yaoyaoustc'],
+      id: '508c5aafaa1eed2de3954c9052490449',
+        language: '',
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
+
+</body>
+</html>
