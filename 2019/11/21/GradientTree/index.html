@@ -51,18 +51,18 @@
   };
 </script>
 
-  <meta name="description" content="AboutLearning sometimes can be tedious and boring (or it always be?),so I need a place to share some thoughts, write down some learning notes, or just make some memes.">
-<meta name="keywords" content="Data Science, Machine Learning">
-<meta property="og:type" content="website">
-<meta property="og:title" content="I heard everyone has an &quot;About&quot; page...">
-<meta property="og:url" content="https:&#x2F;&#x2F;yaoyaoustc.github.io&#x2F;about&#x2F;index.html">
+  <meta name="description" content="Gradient Boosting Tree Basic start with a weak and simpler learner (e.g. mean()), get a prediction use a lost function J to compute the error between y_true and y_predict">
+<meta name="keywords" content="sklearn,machine learning,classifier,tree">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GradientTree">
+<meta property="og:url" content="https:&#x2F;&#x2F;yaoyaoustc.github.io&#x2F;2019&#x2F;11&#x2F;21&#x2F;GradientTree&#x2F;index.html">
 <meta property="og:site_name" content="Yao&#39;s rabbit hole">
-<meta property="og:description" content="AboutLearning sometimes can be tedious and boring (or it always be?),so I need a place to share some thoughts, write down some learning notes, or just make some memes.">
+<meta property="og:description" content="Gradient Boosting Tree Basic start with a weak and simpler learner (e.g. mean()), get a prediction use a lost function J to compute the error between y_true and y_predict">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-11-14T04:10:58.363Z">
+<meta property="og:updated_time" content="2019-11-21T02:22:35.414Z">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://yaoyaoustc.github.io/about/">
+<link rel="canonical" href="https://yaoyaoustc.github.io/2019/11/21/GradientTree/">
 
 
 <script id="page-configurations">
@@ -70,14 +70,13 @@
   CONFIG.page = {
     sidebar: "",
     isHome: false,
-    isPost: false,
-    isPage: true,
+    isPost: true,
+    isPage: false,
     isArchive: false
   };
 </script>
 
-  <title>I heard everyone has an "About" page... | Yao's rabbit hole
-  </title>
+  <title>GradientTree | Yao's rabbit hole</title>
   
     <script>
       function sendPageView() {
@@ -200,49 +199,180 @@
       <div class="main-inner">
         <div class="content-wrap">
           
-  
-  
 
           <div class="content">
             
 
   <div class="posts-expand">
-    
-    
-    
-    <div class="post-block" lang="en">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="https://yaoyaoustc.github.io/2019/11/21/GradientTree/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Yao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yao's rabbit hole">
+    </span>
       <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          GradientTree
+        </h1>
 
-<h1 class="post-title" itemprop="name headline">I heard everyone has an "About" page...
-</h1>
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
 
-<div class="post-meta">
+              <time title="Created: 2019-11-21 12:03:14 / Modified: 13:22:35" itemprop="dateCreated datePublished" datetime="2019-11-21T12:03:14+11:00">2019-11-21</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Tips-Tricks/" itemprop="url" rel="index">
+                    <span itemprop="name">Tips & Tricks</span>
+                  </a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>1.5k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>1 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Gradient-Boosting-Tree-Basic"><a href="#Gradient-Boosting-Tree-Basic" class="headerlink" title="Gradient Boosting Tree Basic"></a>Gradient Boosting Tree Basic</h1><ul>
+<li>start with a weak and simpler learner (e.g. mean()), get a prediction</li>
+<li>use a lost function J to compute the error between y_true and y_predict</li>
+</ul><a id="more"></a>
+<ul>
+<li>Loss function: L2(Y,y)</li>
+<li>Objective function: sum(L2(Y,y)) for all examples.</li>
+</ul>
+<ul>
+<li>create K boosting trees, each tree create a tree to predict J</li>
+<li>combine k trees together for the prediction</li>
+</ul>
+<h2 id="Sudo-code"><a href="#Sudo-code" class="headerlink" title="Sudo code:"></a>Sudo code:</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python">y = mean(X,Y) <span class="hljs-comment"># define a very simple base tree, here we use mean</span><br>errorJ = Y - y <span class="hljs-comment"># create a lost function errorJ</span><br>For i <span class="hljs-keyword">in</span> range(K): <span class="hljs-comment"># K boosted trees</span><br>  learner(K) = regression(X,errorJ)<br>  predicterrorJ(K) = learner(K).predict(X)<br>  <span class="hljs-comment"># create a learner K, use a method, here is regression. fit the X to the error J.</span><br>  alpha(K) = <span class="hljs-number">1</span><br>  <span class="hljs-comment"># define the learing rate of this learner: step size.</span><br>  <span class="hljs-comment"># smaller alpha, more trees, better predictions.</span><br><br>  errorJ = errorJ - alpha(K)*predicterrorJ(K)<br></code></pre></td></tr></table></figure>
+
+<h1 id="GBDT-in-SKlearn"><a href="#GBDT-in-SKlearn" class="headerlink" title="GBDT in SKlearn"></a>GBDT in SKlearn</h1><ul>
+<li>Objective function</li>
+</ul>
+<ul>
+<li>use 1st Taylor expansion</li>
+</ul>
+<ul>
+<li>Base Tree: CART</li>
+<li>No reg term</li>
+<li>No sparse handling, so split finding is slow</li>
+</ul>
+<h1 id="XGBoost"><a href="#XGBoost" class="headerlink" title="XGBoost"></a>XGBoost</h1><ul>
+<li>Objective Function = sum(L2(Y,y)) for all examples + <strong>reg term</strong></li>
+</ul>
+<ul>
+<li>use 2nd Taylor expansion, objective function can computed using first and second derivative of lost function.</li>
+</ul>
+<ul>
+<li>Base Tree: CART and Linear Regressor</li>
+<li>reg term = mu<em>(num_leaf) + lambda</em>sum(weight of each leaf^2)</li>
+<li>calculate gain for each split</li>
+<li>Greedy Algorithm for split finding</li>
+<li>Approximate Algorithm for split finding</li>
+</ul>
+<ul>
+<li>Global: use same split point for all trees</li>
+<li>local: use different split point for different trees</li>
+</ul>
+<ul>
+<li>Sparse Aware algorithm for better nan values in features.</li>
+<li>Computation optimization</li>
+</ul>
+<ul>
+<li>use block storage: Most time consuming: sort feature values for every split finding.</li>
+<li>support parallel computing</li>
+</ul>
+<ul>
+<li>Memeory consume is still large</li>
+</ul>
+<h1 id="lightGBM"><a href="#lightGBM" class="headerlink" title="lightGBM"></a>lightGBM</h1><ul>
+<li>Gradient-based One-side sampling</li>
+<li>Greedy Bundling</li>
+<li>Merge Exclusive Features, create bins</li>
+<li>Computation optimization</li>
+</ul>
+<ul>
+<li>features parallel</li>
+<li>Reduce scatter</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/sklearn/" rel="tag"># sklearn</a>
+              <a href="/tags/machine-learning/" rel="tag"># machine learning</a>
+              <a href="/tags/classifier/" rel="tag"># classifier</a>
+              <a href="/tags/tree/" rel="tag"># tree</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2019/11/20/pandas-mindmap/" rel="next" title="How to Learn Pandas from Zero: Use a Mindmap!">
+                  <i class="fa fa-chevron-left"></i> How to Learn Pandas from Zero: Use a Mindmap!
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2019/11/21/SVM-OR-CART/" rel="prev" title="SVM_OR_CART">
+                  SVM_OR_CART <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
   
 
-</div>
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
-          <h1 id="About"><a href="#About" class="headerlink" title="About"></a>About</h1><p>Learning sometimes can be tedious and boring (or it always be?),so I need a place to share some thoughts, write down some learning notes, or just make some memes.  </p><a id="more"></a>
-<p>If my posts happen to answer some questions from you, great, I never think this can work in that way.  </p>
-<p>If my posts describe something which doesn’t make any sense, perfect, please let me know and I will fix it… Someday.  </p>
-<p>If you spend a few minutes here and find out you’ve get nothing from it, well, doing nothing is actually considering as relax. So, I’m glad you’re relaxed here.  </p>
-<h2 id="Keep-it-simple-keep-it-useful-keep-it-last-long"><a href="#Keep-it-simple-keep-it-useful-keep-it-last-long" class="headerlink" title="Keep it simple, keep it useful, keep it last long"></a>Keep it simple, keep it useful, keep it last long</h2><p>This is not my first blog, and I believe it’s not going to be the last. Finger crossed, hope this time my passion can last long.  </p>
-
-      </div>
-      
-      
-      
-    </div>
-    
-
-    
-    
-    
   </div>
 
 
@@ -273,7 +403,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#About"><span class="nav-number">1.</span> <span class="nav-text">About</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Keep-it-simple-keep-it-useful-keep-it-last-long"><span class="nav-number">1.1.</span> <span class="nav-text">Keep it simple, keep it useful, keep it last long</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Gradient-Boosting-Tree-Basic"><span class="nav-number">1.</span> <span class="nav-text">Gradient Boosting Tree Basic</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Sudo-code"><span class="nav-number">1.1.</span> <span class="nav-text">Sudo code:</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#GBDT-in-SKlearn"><span class="nav-number">2.</span> <span class="nav-text">GBDT in SKlearn</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#XGBoost"><span class="nav-number">3.</span> <span class="nav-text">XGBoost</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#lightGBM"><span class="nav-number">4.</span> <span class="nav-text">lightGBM</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -421,7 +551,7 @@
       repo: 'yaoyaoustc.github.io',
       owner: 'yaoyaoustc',
       admin: ['yaoyaoustc'],
-      id: '3be7aa98d992907175cbd79c194399f2',
+      id: '9da8ba365d09b78d99137512117ac55b',
         language: '',
       distractionFreeMode: 'true'
     });

@@ -51,34 +51,29 @@
   };
 </script>
 
-  <meta name="description" content="When I first started learning Pandas library, I seriously suffered a memory issue:My brain said:It’s hard to write the pandas functions into the disk, while your memory is not enough.">
-<meta name="keywords" content="python,Pandas">
-<meta property="og:type" content="article">
-<meta property="og:title" content="How to Learn Pandas from Zero: Use a Mindmap!">
-<meta property="og:url" content="https:&#x2F;&#x2F;yaoyaoustc.github.io&#x2F;2019&#x2F;11&#x2F;20&#x2F;pandas-mindmap&#x2F;index.html">
+  <meta name="keywords" content="Data Science, Machine Learning">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Yao&#39;s rabbit hole">
+<meta property="og:url" content="https:&#x2F;&#x2F;yaoyaoustc.github.io&#x2F;page&#x2F;2&#x2F;index.html">
 <meta property="og:site_name" content="Yao&#39;s rabbit hole">
-<meta property="og:description" content="When I first started learning Pandas library, I seriously suffered a memory issue:My brain said:It’s hard to write the pandas functions into the disk, while your memory is not enough.">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="https:&#x2F;&#x2F;yaoyaoustc.github.io&#x2F;2019&#x2F;11&#x2F;20&#x2F;pandas-mindmap&#x2F;Pandas.png">
-<meta property="og:updated_time" content="2019-11-20T03:19:35.205Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;yaoyaoustc.github.io&#x2F;2019&#x2F;11&#x2F;20&#x2F;pandas-mindmap&#x2F;Pandas.png">
 
-<link rel="canonical" href="https://yaoyaoustc.github.io/2019/11/20/pandas-mindmap/">
+<link rel="canonical" href="https://yaoyaoustc.github.io/page/2/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome: false,
-    isPost: true,
+    isHome: true,
+    isPost: false,
     isPage: false,
     isArchive: false
   };
 </script>
 
-  <title>How to Learn Pandas from Zero: Use a Mindmap! | Yao's rabbit hole</title>
+  <title>Yao's rabbit hole</title>
   
     <script>
       function sendPageView() {
@@ -206,11 +201,11 @@
             
 
   <div class="posts-expand">
-      
+        
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
-    <link itemprop="mainEntityOfPage" href="https://yaoyaoustc.github.io/2019/11/20/pandas-mindmap/">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://yaoyaoustc.github.io/2019/10/30/GBpara_Tune/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -223,7 +218,8 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          How to Learn Pandas from Zero: Use a Mindmap!
+          
+            <a href="/2019/10/30/GBpara_Tune/" class="post-title-link" itemprop="url">GradientBoosting Parameters Tune</a>
         </h1>
 
         <div class="post-meta">
@@ -232,18 +228,24 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2019-11-20 14:02:51 / Modified: 14:19:35" itemprop="dateCreated datePublished" datetime="2019-11-20T14:02:51+11:00">2019-11-20</time>
+              <time title="Created: 2019-10-30 14:46:36" itemprop="dateCreated datePublished" datetime="2019-10-30T14:46:36+11:00">2019-10-30</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-11-14 13:58:52" itemprop="dateModified" datetime="2019-11-14T13:58:52+11:00">2019-11-14</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
               <span class="post-meta-item-text">In</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Tips-Tricks/" itemprop="url" rel="index">
-                    <span itemprop="name">Tips & Tricks</span>
+                  <a href="/categories/sklearn/" itemprop="url" rel="index">
+                    <span itemprop="name">sklearn</span>
                   </a>
                 </span>
             </span>
@@ -254,7 +256,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>749</span>
+              <span>1.4k</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
@@ -273,57 +275,121 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>When I first started learning Pandas library, I seriously suffered a memory issue:</p><p>My brain said:</p><p>It’s hard to write the pandas functions into the disk, while your memory is not enough.</p><a id="more"></a>
-
-
-<p>This is a typical learning day:</p>
-<ul>
-<li>Decided to learn how to do a pivot table</li>
-<li>Find a exercise to practice</li>
-<li>forget the function name, search the descriptions, solve the problem</li>
-<li>Find another excercise</li>
-<li>forget the function name, search the descriptions, solve the problem…</li>
-<li>just repeat</li>
-</ul>
-<p>This is literally driving me crazy….</p>
-<p>Therefore, I spent sometime to summarize a mindmap (or cheat sheet) to guide me through.</p>
-<p>My life is much easier once I can quickly check the usage of a function from this cheat sheet.</p>
-<p>While everyone has a different mindsetting, but I’m glad if you can also find this useful.</p>
-<p>I used a free software called “Xmind”, the .xmind format file can be found in my github:</p>
-<p><a href="https://github.com/yaoyaoustc/toolbox" target="_blank" rel="noopener">https://github.com/yaoyaoustc/toolbox</a></p>
-<img src="/2019/11/20/pandas-mindmap/Pandas.png" class title="This is an image">
-
+          <h1 id="how-to-tune-GradientBoosting-Parameters"><a href="#how-to-tune-GradientBoosting-Parameters" class="headerlink" title="how to tune GradientBoosting Parameters"></a>how to tune GradientBoosting Parameters</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs python">GradientBoostingClassifier(<br>    loss=<span class="hljs-string">'deviance'</span>,<br>    learning_rate=<span class="hljs-number">0.1</span>,<br>    n_estimators=<span class="hljs-number">100</span>,<br>    subsample=<span class="hljs-number">1.0</span>,<br>    criterion=<span class="hljs-string">'friedman_mse'</span>,<br>    min_samples_split=<span class="hljs-number">2</span>,<br>    min_samples_leaf=<span class="hljs-number">1</span>,<br>    min_weight_fraction_leaf=<span class="hljs-number">0.0</span>,<br>    max_depth=<span class="hljs-number">3</span>,<br>    min_impurity_decrease=<span class="hljs-number">0.0</span>,<br>    min_impurity_split=<span class="hljs-literal">None</span>,<br>    init=<span class="hljs-literal">None</span>,<br>    random_state=<span class="hljs-literal">None</span>,<br>    max_features=<span class="hljs-literal">None</span>,<br>    verbose=<span class="hljs-number">0</span>,<br>    max_leaf_nodes=<span class="hljs-literal">None</span>,<br>    warm_start=<span class="hljs-literal">False</span>,<br>    presort=<span class="hljs-string">'auto'</span>,<br>    validation_fraction=<span class="hljs-number">0.1</span>,<br>    n_iter_no_change=<span class="hljs-literal">None</span>,<br>    tol=<span class="hljs-number">0.0001</span>,<br>)<br></code></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/10/30/GBpara_Tune/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
     </div>
 
     
     
     
-
       <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/python/" rel="tag"># python</a>
-              <a href="/tags/Pandas/" rel="tag"># Pandas</a>
-          </div>
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
 
         
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://yaoyaoustc.github.io/2019/10/22/py3_iter/">
 
-          <div class="post-nav">
-            <div class="post-nav-next post-nav-item">
-                <a href="/2019/11/19/Tecent2019c/" rel="next" title="Tencent 2019 Data Science Competition[Ads Exposure Rate] Part 3">
-                  <i class="fa fa-chevron-left"></i> Tencent 2019 Data Science Competition[Ads Exposure Rate] Part 3
-                </a>
-            </div>
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Yao">
+      <meta itemprop="description" content="">
+    </span>
 
-            <span class="post-nav-divider"></span>
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yao's rabbit hole">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/10/22/py3_iter/" class="post-title-link" itemprop="url">python3 iteration summary</a>
+        </h1>
 
-            <div class="post-nav-prev post-nav-item">
-                <a href="/2019/11/21/GradientTree/" rel="prev" title="GradientTree">
-                  GradientTree <i class="fa fa-chevron-right"></i>
-                </a>
-            </div>
-          </div>
-      </footer>
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-10-22 17:52:59" itemprop="dateCreated datePublished" datetime="2019-10-22T17:52:59+11:00">2019-10-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-11-14 13:52:03" itemprop="dateModified" datetime="2019-11-14T13:52:03+11:00">2019-11-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/" itemprop="url" rel="index">
+                    <span itemprop="name">python</span>
+                  </a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>384</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>1 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
     
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="python-3-iteration-summary"><a href="#python-3-iteration-summary" class="headerlink" title="python 3 iteration summary"></a>python 3 iteration summary</h1><p>一个小小的总结，summarize一下python3里面的iteration</p><h2 id="iteritems"><a href="#iteritems" class="headerlink" title=".iteritems()"></a>.iteritems()</h2><p>用于 series, dataframe:</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">for</span> index, data <span class="hljs-keyword">in</span> a.iteritems():<br></code></pre></td></tr></table></figure><h2 id="iterate-a-list"><a href="#iterate-a-list" class="headerlink" title="iterate a list"></a>iterate a list</h2><p>用于不需要index的情况，只对items进行遍历</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/10/22/py3_iter/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
   </article>
   
   
@@ -331,10 +397,15 @@
 
   </div>
 
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+  </nav>
+
+
 
           </div>
           
-    <div class="comments" id="gitalk-container"></div>
 
         </div>
           
@@ -496,23 +567,6 @@
 
   
 
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
-
-<script>
-  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
-    var gitalk = new Gitalk({
-      clientID: '23415d15c2c965e59702',
-      clientSecret: 'ac38c84c22c708974dc45804251e55141d3cda2d',
-      repo: 'yaoyaoustc.github.io',
-      owner: 'yaoyaoustc',
-      admin: ['yaoyaoustc'],
-      id: '60e7b4e0b72791b31df643bbf76d29d7',
-        language: '',
-      distractionFreeMode: 'true'
-    });
-    gitalk.render('gitalk-container');
-  }, window.Gitalk);
-</script>
 
 </body>
 </html>

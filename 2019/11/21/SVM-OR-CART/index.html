@@ -51,18 +51,18 @@
   };
 </script>
 
-  <meta name="description" content="AboutLearning sometimes can be tedious and boring (or it always be?),so I need a place to share some thoughts, write down some learning notes, or just make some memes.">
-<meta name="keywords" content="Data Science, Machine Learning">
-<meta property="og:type" content="website">
-<meta property="og:title" content="I heard everyone has an &quot;About&quot; page...">
-<meta property="og:url" content="https:&#x2F;&#x2F;yaoyaoustc.github.io&#x2F;about&#x2F;index.html">
+  <meta name="description" content="I think there is no solid evidence to prove which is better than another. These two algorithms build from different methods with different hyper-parameters to tune. Therefore, I think the right approa">
+<meta name="keywords" content="machine learning,tree">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SVM_OR_CART">
+<meta property="og:url" content="https:&#x2F;&#x2F;yaoyaoustc.github.io&#x2F;2019&#x2F;11&#x2F;21&#x2F;SVM-OR-CART&#x2F;index.html">
 <meta property="og:site_name" content="Yao&#39;s rabbit hole">
-<meta property="og:description" content="AboutLearning sometimes can be tedious and boring (or it always be?),so I need a place to share some thoughts, write down some learning notes, or just make some memes.">
+<meta property="og:description" content="I think there is no solid evidence to prove which is better than another. These two algorithms build from different methods with different hyper-parameters to tune. Therefore, I think the right approa">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-11-14T04:10:58.363Z">
+<meta property="og:updated_time" content="2019-11-21T02:58:45.558Z">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://yaoyaoustc.github.io/about/">
+<link rel="canonical" href="https://yaoyaoustc.github.io/2019/11/21/SVM-OR-CART/">
 
 
 <script id="page-configurations">
@@ -70,14 +70,13 @@
   CONFIG.page = {
     sidebar: "",
     isHome: false,
-    isPost: false,
-    isPage: true,
+    isPost: true,
+    isPage: false,
     isArchive: false
   };
 </script>
 
-  <title>I heard everyone has an "About" page... | Yao's rabbit hole
-  </title>
+  <title>SVM_OR_CART | Yao's rabbit hole</title>
   
     <script>
       function sendPageView() {
@@ -200,49 +199,130 @@
       <div class="main-inner">
         <div class="content-wrap">
           
-  
-  
 
           <div class="content">
             
 
   <div class="posts-expand">
-    
-    
-    
-    <div class="post-block" lang="en">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="https://yaoyaoustc.github.io/2019/11/21/SVM-OR-CART/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Yao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yao's rabbit hole">
+    </span>
       <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          SVM_OR_CART
+        </h1>
 
-<h1 class="post-title" itemprop="name headline">I heard everyone has an "About" page...
-</h1>
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
 
-<div class="post-meta">
+              <time title="Created: 2019-11-21 13:37:24 / Modified: 13:58:45" itemprop="dateCreated datePublished" datetime="2019-11-21T13:37:24+11:00">2019-11-21</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Tips-Tricks/" itemprop="url" rel="index">
+                    <span itemprop="name">Tips & Tricks</span>
+                  </a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>634</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>1 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>I think there is no solid evidence to prove which is better than another. These two algorithms build from different methods with different hyper-parameters to tune. Therefore, I think the right approach is to understand the pros and cons of the two, recall the pros and cons when solving your specific problem.</p><a id="more"></a>
+<h1 id="SVM"><a href="#SVM" class="headerlink" title="SVM"></a>SVM</h1><ul>
+<li>Kernel based, turn linear sep problem to non-linear problem.</li>
+<li>Good for high dimension feature space</li>
+<li>slow for large training set</li>
+<li>hard to interpret</li>
+<li>hard to find a good kernel</li>
+<li>not robust for noisy training set</li>
+<li>sensitive for missing data</li>
+</ul>
+<h1 id="Decision-tree"><a href="#Decision-tree" class="headerlink" title="Decision tree"></a>Decision tree</h1><ul>
+<li>Good for handling non-linear problems</li>
+<li>easy to interpret</li>
+<li>can handle some noisy data</li>
+<li>easy over-fitting</li>
+<li>not work so well for large feature space</li>
+<li>not work so well if some features have close correlation</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/machine-learning/" rel="tag"># machine learning</a>
+              <a href="/tags/tree/" rel="tag"># tree</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2019/11/21/GradientTree/" rel="next" title="GradientTree">
+                  <i class="fa fa-chevron-left"></i> GradientTree
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
   
 
-</div>
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
-          <h1 id="About"><a href="#About" class="headerlink" title="About"></a>About</h1><p>Learning sometimes can be tedious and boring (or it always be?),so I need a place to share some thoughts, write down some learning notes, or just make some memes.  </p><a id="more"></a>
-<p>If my posts happen to answer some questions from you, great, I never think this can work in that way.  </p>
-<p>If my posts describe something which doesn’t make any sense, perfect, please let me know and I will fix it… Someday.  </p>
-<p>If you spend a few minutes here and find out you’ve get nothing from it, well, doing nothing is actually considering as relax. So, I’m glad you’re relaxed here.  </p>
-<h2 id="Keep-it-simple-keep-it-useful-keep-it-last-long"><a href="#Keep-it-simple-keep-it-useful-keep-it-last-long" class="headerlink" title="Keep it simple, keep it useful, keep it last long"></a>Keep it simple, keep it useful, keep it last long</h2><p>This is not my first blog, and I believe it’s not going to be the last. Finger crossed, hope this time my passion can last long.  </p>
-
-      </div>
-      
-      
-      
-    </div>
-    
-
-    
-    
-    
   </div>
 
 
@@ -273,7 +353,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#About"><span class="nav-number">1.</span> <span class="nav-text">About</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Keep-it-simple-keep-it-useful-keep-it-last-long"><span class="nav-number">1.1.</span> <span class="nav-text">Keep it simple, keep it useful, keep it last long</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SVM"><span class="nav-number">1.</span> <span class="nav-text">SVM</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Decision-tree"><span class="nav-number">2.</span> <span class="nav-text">Decision tree</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -421,7 +501,7 @@
       repo: 'yaoyaoustc.github.io',
       owner: 'yaoyaoustc',
       admin: ['yaoyaoustc'],
-      id: '3be7aa98d992907175cbd79c194399f2',
+      id: 'b39e2ebdb740c023007d451e15e5a5c4',
         language: '',
       distractionFreeMode: 'true'
     });
