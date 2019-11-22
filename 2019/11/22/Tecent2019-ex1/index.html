@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <link rel="alternate" href="/atom.xml" title="Yao's rabbit hole" type="application/atom+xml">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="Just for some extra fun, Let’s do some plots to explore the ads dataset a bit123456import pandas as pdimport numpy as npimport matplotlib.pyplot as pltimport seaborn as snsimport calendar%matplotlib i">
+<meta name="keywords" content="Competition,data cleaning,Machine learning,Data Visualization">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Tencent 2019 Data Science Competition[Ads Exposure Rate] Extra: Data Visualization">
+<meta property="og:url" content="https:&#x2F;&#x2F;yaoyaoustc.github.io&#x2F;2019&#x2F;11&#x2F;22&#x2F;Tecent2019-ex1&#x2F;index.html">
+<meta property="og:site_name" content="Yao&#39;s rabbit hole">
+<meta property="og:description" content="Just for some extra fun, Let’s do some plots to explore the ads dataset a bit123456import pandas as pdimport numpy as npimport matplotlib.pyplot as pltimport seaborn as snsimport calendar%matplotlib i">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https:&#x2F;&#x2F;yaoyaoustc.github.io&#x2F;2019&#x2F;11&#x2F;22&#x2F;Tecent2019-ex1&#x2F;Other1_VIS_4_0.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;yaoyaoustc.github.io&#x2F;2019&#x2F;11&#x2F;22&#x2F;Tecent2019-ex1&#x2F;Other1_VIS_10_0.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;yaoyaoustc.github.io&#x2F;2019&#x2F;11&#x2F;22&#x2F;Tecent2019-ex1&#x2F;Other1_VIS_13_0.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;yaoyaoustc.github.io&#x2F;2019&#x2F;11&#x2F;22&#x2F;Tecent2019-ex1&#x2F;Other1_VIS_15_0.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;yaoyaoustc.github.io&#x2F;2019&#x2F;11&#x2F;22&#x2F;Tecent2019-ex1&#x2F;Other1_VIS_17_0.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;yaoyaoustc.github.io&#x2F;2019&#x2F;11&#x2F;22&#x2F;Tecent2019-ex1&#x2F;Other1_VIS_18_0.png">
+<meta property="og:updated_time" content="2019-11-22T04:37:41.105Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;yaoyaoustc.github.io&#x2F;2019&#x2F;11&#x2F;22&#x2F;Tecent2019-ex1&#x2F;Other1_VIS_4_0.png">
+
+<link rel="canonical" href="https://yaoyaoustc.github.io/2019/11/22/Tecent2019-ex1/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Tencent 2019 Data Science Competition[Ads Exposure Rate] Extra: Data Visualization | Yao's rabbit hole</title>
+  
+    <script>
+      function sendPageView() {
+        var host = window.location.hostname;
+        if (host == "localhost" && true) return;
+        var uid = localStorage.getItem('uid') || (Math.random() + '.' + Math.random());
+        localStorage.setItem('uid', uid);
+        navigator.sendBeacon('https://www.google-analytics.com/collect', new URLSearchParams({
+          v  : 1,
+          tid: 'UA-45686348-2',
+          cid: uid,
+          t  : 'pageview',
+          dp : encodeURIComponent(location.pathname)
+        }));
+      }
+      document.addEventListener('pjax:complete', sendPageView);
+      sendPageView();
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Yao's rabbit hole</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">The poor rabbit chased by Python and Anaconda :p</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="https://yaoyaoustc.github.io/2019/11/22/Tecent2019-ex1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Yao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yao's rabbit hole">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Tencent 2019 Data Science Competition[Ads Exposure Rate] Extra: Data Visualization
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2019-11-22 15:31:46 / Modified: 15:37:41" itemprop="dateCreated datePublished" datetime="2019-11-22T15:31:46+11:00">2019-11-22</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Project/" itemprop="url" rel="index">
+                    <span itemprop="name">Project</span>
+                  </a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>3.4k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>3 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>Just for some extra fun, Let’s do some plots to explore the ads dataset a bit</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd<br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br><span class="hljs-keyword">import</span> seaborn <span class="hljs-keyword">as</span> sns<br><span class="hljs-keyword">import</span> calendar<br>%matplotlib inline<br></code></pre></td></tr></table></figure><a id="more"></a>
+
+
+<h1 id="some-fun-visualization-of-the-ads-dataset"><a href="#some-fun-visualization-of-the-ads-dataset" class="headerlink" title="some fun visualization of the ads dataset"></a>some fun visualization of the ads dataset</h1><h2 id="exposure-rate-distribution-for-the-training-set"><a href="#exposure-rate-distribution-for-the-training-set" class="headerlink" title="exposure rate distribution for the training set"></a>exposure rate distribution for the training set</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">with</span> open(<span class="hljs-string">'Y_train.csv'</span>) <span class="hljs-keyword">as</span> f:<br>    df_Y = pd.read_csv(f,header=<span class="hljs-literal">None</span>).drop(columns=<span class="hljs-number">0</span>)<br></code></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">plot_exporate</span><span class="hljs-params">(df_Y)</span>:</span><br>    sns.set(style=<span class="hljs-string">"dark"</span>, palette=<span class="hljs-string">"muted"</span>, color_codes=<span class="hljs-literal">True</span>)<br>    f, axes = plt.subplots(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, figsize=(<span class="hljs-number">14</span>, <span class="hljs-number">7</span>))<br>    sns.distplot(df_Y,ax=axes[<span class="hljs-number">0</span>])<br>    sns.distplot(np.log1p(df_Y),ax=axes[<span class="hljs-number">1</span>])<br>    axes[<span class="hljs-number">0</span>].title.set_text(<span class="hljs-string">'24 h exposure rate distribution'</span>)<br>    axes[<span class="hljs-number">0</span>].set_ylim(<span class="hljs-number">0</span>,<span class="hljs-number">0.0002</span>)<br>    axes[<span class="hljs-number">0</span>].set_xlabel(<span class="hljs-string">'exposure rate'</span>)<br>    axes[<span class="hljs-number">1</span>].title.set_text(<span class="hljs-string">'log 24 h exposure rate distribution'</span>)<br>    axes[<span class="hljs-number">1</span>].set_ylim(<span class="hljs-number">0</span>,<span class="hljs-number">2</span>)<br>    axes[<span class="hljs-number">1</span>].set_xlabel(<span class="hljs-string">'log exposure rate'</span>)<br>    plt.tight_layout()<br><br>plot_exporate(df_Y)<br></code></pre></td></tr></table></figure>
+
+<p><img src="Other1_VIS_4_0.png" alt="png"></p>
+<p>Summary: the distribution of y is skewed, it will be better to apply a np.log before apply machine learning algorithms.</p>
+<h2 id="plot-training-set-features"><a href="#plot-training-set-features" class="headerlink" title="plot training set features"></a>plot training set features</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">with</span> open(<span class="hljs-string">'train_final.csv'</span>) <span class="hljs-keyword">as</span> f:<br>    train_raw = pd.read_csv(f)<br>    train_raw.drop(columns = <span class="hljs-string">'Unnamed: 0'</span>,inplace=<span class="hljs-literal">True</span>)<br></code></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">refine_dataset</span><span class="hljs-params">(train_raw)</span>:</span><br>    base= train_raw.copy()<br>    base.drop(columns=[<span class="hljs-string">'Crowd'</span>,<span class="hljs-string">'AdAccountId'</span>,<span class="hljs-string">'CommodityId'</span>,<span class="hljs-string">'CommodityType'</span>,<span class="hljs-string">'AdIndustryId'</span>,<span class="hljs-string">'AdSize'</span>,<span class="hljs-string">'Date_p24h'</span>],inplace=<span class="hljs-literal">True</span>)<br>    <span class="hljs-comment"># plus 8 hours for gmt+8 beijing time</span><br>    base[<span class="hljs-string">'Date'</span>] = pd.to_datetime(base[<span class="hljs-string">'Date_create'</span>],unit=<span class="hljs-string">'s'</span>) + pd.DateOffset(hours=<span class="hljs-number">8</span>)<br>    base[<span class="hljs-string">'hour'</span>] = base[<span class="hljs-string">'Date'</span>].dt.hour<br>    base[<span class="hljs-string">'dayofweek'</span>] = base[<span class="hljs-string">'Date'</span>].dt.dayofweek<br>    base = base.fillna(<span class="hljs-number">0</span>)<br>    base_time = base[<span class="hljs-string">'Time'</span>].str.split(<span class="hljs-string">','</span>,expand=<span class="hljs-literal">True</span>)<br>    base = pd.concat([base,base_time],axis = <span class="hljs-number">1</span>)<br>    <span class="hljs-keyword">return</span> base<br>df_train = refine_dataset(train_raw)<br></code></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">plot_ad_edits</span><span class="hljs-params">(df_train)</span>:</span><br>    plt.figure(figsize=(<span class="hljs-number">14</span>,<span class="hljs-number">10</span>))<br>    ad_edits = df_train[<span class="hljs-string">'Id'</span>].value_counts().sort_values()<br>    sns.set(style=<span class="hljs-string">"dark"</span>, palette=<span class="hljs-string">"muted"</span>, color_codes=<span class="hljs-literal">True</span>)<br>    sns.distplot(ad_edits.values)<br>    f = plt.gcf()<br>    plt.title(<span class="hljs-string">'distribution of number of ad edits'</span>)<br>    plt.xlabel(<span class="hljs-string">'number of edits'</span>)<br>    plt.ylabel(<span class="hljs-string">'percentage'</span>)<br>    plt.xticks(np.arange(min(ad_edits), max(ad_edits)+<span class="hljs-number">1</span>, <span class="hljs-number">1.0</span>))<br></code></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">plot_ad_edits(df_train)<br></code></pre></td></tr></table></figure>
+
+
+<p><img src="Other1_VIS_10_0.png" alt="png"></p>
+<p>Summary: most ads never been edited during project period.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">plot_exporate_vs_day</span><span class="hljs-params">(df_train)</span>:</span><br>    plotdata = df_train.groupby(<span class="hljs-string">'dayofweek'</span>)[<span class="hljs-string">'exporate'</span>].mean().reset_index()<br>    plotdata[<span class="hljs-string">'weekdayname'</span>] = [calendar.day_name[x] <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> plotdata[<span class="hljs-string">'dayofweek'</span>].astype(int).values]<br>    plt.figure(figsize=(<span class="hljs-number">14</span>,<span class="hljs-number">7</span>))<br>    sns.barplot(x=<span class="hljs-string">'weekdayname'</span>,y=<span class="hljs-string">'exporate'</span>,data = plotdata)<br>    plt.title(<span class="hljs-string">'Average exporate for each day of the week'</span>)<br></code></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">plot_exporate_vs_day(df_train)<br></code></pre></td></tr></table></figure>
+
+
+<p><img src="Other1_VIS_13_0.png" alt="png"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">plot_hourly_ad_create</span><span class="hljs-params">(df_train)</span>:</span><br>    plotdata = df_train.groupby(<span class="hljs-string">'hour'</span>)[<span class="hljs-string">'Id'</span>].count().reset_index().rename(columns=&#123;<span class="hljs-string">'Id'</span>:<span class="hljs-string">'AdCounts'</span>&#125;)<br>    plt.figure(figsize=(<span class="hljs-number">14</span>,<span class="hljs-number">7</span>))<br>    sns.barplot(x=<span class="hljs-string">'hour'</span>,y=<span class="hljs-string">'AdCounts'</span>,data = plotdata)<br>    plt.title(<span class="hljs-string">'Total ads created per hour'</span>)<br></code></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">plot_hourly_ad_create(df_train)<br></code></pre></td></tr></table></figure>
+
+
+<p><img src="Other1_VIS_15_0.png" alt="png"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">plot_meanbid</span><span class="hljs-params">(df_train)</span>:</span><br>    plotdata = df_train.groupby(<span class="hljs-string">'Id'</span>)[<span class="hljs-string">'Bid'</span>].mean().reset_index().rename(columns=&#123;<span class="hljs-string">'Bid'</span>:<span class="hljs-string">'Mean Bid'</span>&#125;)<br>    plt.figure(figsize=(<span class="hljs-number">14</span>,<span class="hljs-number">7</span>))<br>    sns.distplot(plotdata[<span class="hljs-string">'Mean Bid'</span>])<br>    plt.ylim(<span class="hljs-number">0</span>,<span class="hljs-number">0.001</span>)<br>    <span class="hljs-comment">#plt.xlim(0,1000)</span><br>    plt.title(<span class="hljs-string">'Mean Bid distribution'</span>)<br></code></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">plot_meanbid(df_train)<br></code></pre></td></tr></table></figure>
+
+
+<p><img src="Other1_VIS_17_0.png" alt="png"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">plot_expohours</span><span class="hljs-params">(df_train)</span>:</span><br>    base = df_train.copy()<br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">0</span>,<span class="hljs-number">7</span>):<br>        colname = calendar.day_name[i]<br>        base[colname] = df_train.iloc[:,<span class="hljs-number">8</span>:<span class="hljs-number">16</span>].astype(int).applymap(<span class="hljs-keyword">lambda</span> x: <span class="hljs-string">f'<span class="hljs-subst">&#123;x:<span class="hljs-number">48</span>b&#125;</span>'</span>.replace(<span class="hljs-string">' '</span>,<span class="hljs-string">'0'</span>))[i].str.count(<span class="hljs-string">'1'</span>)/<span class="hljs-number">2</span><br>    base = base.loc[:,<span class="hljs-string">'Monday'</span>:<span class="hljs-string">'Sunday'</span>]<br>    plt.figure(figsize=(<span class="hljs-number">14</span>,<span class="hljs-number">7</span>))<br>    sns.violinplot(pd.melt(base)[<span class="hljs-string">'variable'</span>],pd.melt(base)[<span class="hljs-string">'value'</span>])<br>    plt.title(<span class="hljs-string">'Number of hours ads display per weekday'</span>)<br>    plt.xlabel(<span class="hljs-string">''</span>)<br>    plt.ylabel(<span class="hljs-string">'Total hours'</span>)<br><br>plot_expohours(df_train)<br></code></pre></td></tr></table></figure>
+
+
+<p><img src="Other1_VIS_18_0.png" alt="png"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Competition/" rel="tag"># Competition</a>
+              <a href="/tags/data-cleaning/" rel="tag"># data cleaning</a>
+              <a href="/tags/Machine-learning/" rel="tag"># Machine learning</a>
+              <a href="/tags/Data-Visualization/" rel="tag"># Data Visualization</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2019/11/21/SVM-OR-CART/" rel="next" title="SVM or CART?">
+                  <i class="fa fa-chevron-left"></i> SVM or CART?
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#some-fun-visualization-of-the-ads-dataset"><span class="nav-number">1.</span> <span class="nav-text">some fun visualization of the ads dataset</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#exposure-rate-distribution-for-the-training-set"><span class="nav-number">1.1.</span> <span class="nav-text">exposure rate distribution for the training set</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#plot-training-set-features"><span class="nav-number">1.2.</span> <span class="nav-text">plot training set features</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Yao"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Yao</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/yaoyaoustc" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yaoyaoustc" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/yaoyaoustc" title="Linkedin → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;yaoyaoustc" rel="noopener" target="_blank"><i class="fa fa-fw fa-linkedin"></i>Linkedin</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yao</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="Symbols count total">43k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">39 mins.</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '23415d15c2c965e59702',
+      clientSecret: 'ac38c84c22c708974dc45804251e55141d3cda2d',
+      repo: 'yaoyaoustc.github.io',
+      owner: 'yaoyaoustc',
+      admin: ['yaoyaoustc'],
+      id: '5374f555bdcd3ad3861262c753675259',
+        language: '',
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
+
+</body>
+</html>
