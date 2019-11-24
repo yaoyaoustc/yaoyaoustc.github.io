@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <link rel="alternate" href="/atom.xml" title="Yao's rabbit hole" type="application/atom+xml">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="If you: Followed some tutorials called “how to plot in python in 5 mins” and learned matplotlib. Know to add ‘from matplotlib.pyplot import plt’. But always need to open the google page when doing any">
+<meta name="keywords" content="Data Visualization,python,matplotlib,seaborn">
+<meta property="og:type" content="article">
+<meta property="og:title" content="matplotlib: Have you ever confused by plt.&#x2F;ax.&#x2F;fig.&#x2F; ?">
+<meta property="og:url" content="https:&#x2F;&#x2F;yaoyaoustc.github.io&#x2F;2019&#x2F;11&#x2F;24&#x2F;matplotlib-tips&#x2F;index.html">
+<meta property="og:site_name" content="Yao&#39;s rabbit hole">
+<meta property="og:description" content="If you: Followed some tutorials called “how to plot in python in 5 mins” and learned matplotlib. Know to add ‘from matplotlib.pyplot import plt’. But always need to open the google page when doing any">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https:&#x2F;&#x2F;yaoyaoustc.github.io&#x2F;2019&#x2F;11&#x2F;24&#x2F;matplotlib-tips&#x2F;fig1.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;yaoyaoustc.github.io&#x2F;2019&#x2F;11&#x2F;24&#x2F;matplotlib-tips&#x2F;fig2.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;yaoyaoustc.github.io&#x2F;2019&#x2F;11&#x2F;24&#x2F;matplotlib-tips&#x2F;matplot_ex_4_0.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;yaoyaoustc.github.io&#x2F;2019&#x2F;11&#x2F;24&#x2F;matplotlib-tips&#x2F;matplot_ex_6_2.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;yaoyaoustc.github.io&#x2F;2019&#x2F;11&#x2F;24&#x2F;matplotlib-tips&#x2F;matplot_ex_8_8.png">
+<meta property="og:updated_time" content="2019-11-24T06:54:16.386Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;yaoyaoustc.github.io&#x2F;2019&#x2F;11&#x2F;24&#x2F;matplotlib-tips&#x2F;fig1.png">
+
+<link rel="canonical" href="https://yaoyaoustc.github.io/2019/11/24/matplotlib-tips/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>matplotlib: Have you ever confused by plt./ax./fig./ ? | Yao's rabbit hole</title>
+  
+    <script>
+      function sendPageView() {
+        var host = window.location.hostname;
+        if (host == "localhost" && true) return;
+        var uid = localStorage.getItem('uid') || (Math.random() + '.' + Math.random());
+        localStorage.setItem('uid', uid);
+        navigator.sendBeacon('https://www.google-analytics.com/collect', new URLSearchParams({
+          v  : 1,
+          tid: 'UA-45686348-2',
+          cid: uid,
+          t  : 'pageview',
+          dp : encodeURIComponent(location.pathname)
+        }));
+      }
+      document.addEventListener('pjax:complete', sendPageView);
+      sendPageView();
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Yao's rabbit hole</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">The poor rabbit chased by Python and Anaconda :p</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="https://yaoyaoustc.github.io/2019/11/24/matplotlib-tips/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Yao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yao's rabbit hole">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          matplotlib: Have you ever confused by plt./ax./fig./ ?
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2019-11-24 15:42:32 / Modified: 17:54:16" itemprop="dateCreated datePublished" datetime="2019-11-24T15:42:32+11:00">2019-11-24</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Tips-Tricks/" itemprop="url" rel="index">
+                    <span itemprop="name">Tips & Tricks</span>
+                  </a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>3.8k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>3 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>If you:</p><ul>
+<li>Followed some tutorials called “how to plot in python in 5 mins” and learned matplotlib.</li>
+<li>Know to add ‘from matplotlib.pyplot import plt’.</li>
+<li>But always need to open the google page when doing any plot.</li>
+<li>Always struggling at adding labels/text/ticks/ to the plots.</li>
+<li>Know some tasks(like adding xlabels) can be done in several ways, but don’t know which is the best way.</li>
+<li>Open matplotlib official doc several times but have no idea what they are talking about.</li>
+<li>Confused by the terms: figure, axes, axis.</li>
+</ul><a id="more"></a>
+
+<p>Then you’re not alone. I’m here with you. Always.</p>
+<p>The purpose of this post, is to provide a clear guide of “how to use matplotlib without stackoverflow”, inspired from my struggling, based on my understanding.</p>
+<h1 id="plt-figure-V-S-fig-ax-plt-subplots"><a href="#plt-figure-V-S-fig-ax-plt-subplots" class="headerlink" title="plt.figure() V.S. fig, ax = plt.subplots()"></a><code>plt.figure()</code> V.S. <code>fig, ax = plt.subplots()</code></h1><p>I think all matplotlib tutorials should start with distinguishing between these two.</p>
+<ul>
+<li><p>There are two methods of making plots in matplotlib</p>
+<ul>
+<li><code>plt.figure()</code>: Through a plot package, it’s like a short cut: quickly generate figures, but limited functions. You just need to use a bunch of <code>plt.***</code> to generate the figure.<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">plt.figure(<span class="hljs-number">1</span>)<br>plt.subplot(<span class="hljs-number">211</span>)<br>plt.plot(A,B)<br>plt.show()<br></code></pre></td></tr></table></figure></li>
+<li><code>fig, ax = plt.subplots()</code>: On the other hand, through a real plot generator, mostly use axes. Generate fig and axes handler and plot based on them.<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">fig, ax = plt.subplots()<br>ax.plot(A,B)<br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>Most beginner tutorials starts with the <code>plt.***</code>, which I think is a bit misleading. It is a quick and easy way to plot, but without understanding what is going on under the hood, it’s hard to add on detailed features as you want better and better plots. Also, for detailed features, most often you need to switch to use axes, then this additional switch just create unnecessary confusions for beginner users.</p>
+</li>
+<li><p>From my experience, I think it’s much better to avoid using any <code>plt.***</code> in the beginning. Once you understand what is figure/axes/axis, and you know how to control them, then it’s ok to use <code>plt.***</code> if you just want a quick and dirty plot.</p>
+</li>
+</ul>
+<h1 id="Terms-in-matplotlib"><a href="#Terms-in-matplotlib" class="headerlink" title="Terms in matplotlib"></a>Terms in matplotlib</h1><p>Before digging into the details, let’s first clarify the terms. I borrow this very good demonstration from official doc <a href="https://matplotlib.org/1.5.1/faq/usage_faq.html#parts-of-a-figure" target="_blank" rel="noopener">official doc</a> (see? there are some parts of the official doc are readable).
+<img src="fig1.png" alt="png"></p>
+<ul>
+<li>Figure <code>fig = plt.figure()</code>:<ul>
+<li>it’s like the canvas, everything you want to plot is on this canvas.</li>
+<li>The first thing when plotting , is to create a figure object, then you append/add differnt functions to this object.</li>
+</ul>
+</li>
+<li>Axes <code>ax = fig.add_subplot(1,1,1)</code>:<ul>
+<li>IT’S NOT X/Y AXIS!! I really hope when they first create the library they can get a better name of it.</li>
+<li>You can think it as the object you want to put on the figure. For example, you draw a sun, a house and a bike on the figure, then the sun is axes 1, the house is axes 2, etc.</li>
+<li>For single plot figures, you only have one axes. For figures have subplots, each subplot is an Axes.</li>
+<li>This is the center of the matplotlib universe! <code>ax.***</code> can solve most of your little edittings.</li>
+</ul>
+</li>
+<li>Axis <code>ax.xaxis/ax.yaxis</code>:<ul>
+<li>Here are the x/y axis for plotting your data.</li>
+<li>Axis is actually made of a bench of ticks and numbers, you can treat each of them as a small subplot of the axes. So you can call <code>ax.xaxis.axes</code> which can modify the details of the xaxis. Here is the hierarchy between fig and axes.</li>
+</ul>
+</li>
+</ul>
+<h1 id="Anatomy-of-a-figure"><a href="#Anatomy-of-a-figure" class="headerlink" title="Anatomy of a figure"></a>Anatomy of a figure</h1><p>The figure from <a href="https://matplotlib.org/tutorials/introductory/usage.html" target="_blank" rel="noopener">User Guide</a> is an excellent example of terms and names of a figure.
+<img src="fig2.png" alt="png"></p>
+<h1 id="Step-by-Step"><a href="#Step-by-Step" class="headerlink" title="Step by Step"></a>Step by Step</h1><p>Now you have an idea of the terms and structures of a matplotlin plot. Next let’s go through an example for demonstration.</p>
+<h2 id="Import-library-and-data-for-ploting"><a href="#Import-library-and-data-for-ploting" class="headerlink" title="Import library and data for ploting"></a>Import library and data for ploting</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br>%matplotlib inline<br>A = np.arange(<span class="hljs-number">1</span>,<span class="hljs-number">5</span>)<br>B = A**<span class="hljs-number">2</span><br>C = A**<span class="hljs-number">3</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="First-generate-a-figure"><a href="#First-generate-a-figure" class="headerlink" title="First, generate a figure"></a>First, generate a figure</h2><p>put an axes on it, and give the size of the figure.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">fig, ax = plt.subplots(figsize=(<span class="hljs-number">14</span>,<span class="hljs-number">7</span>))<br></code></pre></td></tr></table></figure>
+
+
+<p><img src="matplot_ex_4_0.png" alt="png"></p>
+<h2 id="plot-two-data-series-on-it"><a href="#plot-two-data-series-on-it" class="headerlink" title="plot two data series on it"></a>plot two data series on it</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">fig, ax = plt.subplots(figsize=(<span class="hljs-number">14</span>,<span class="hljs-number">7</span>))<br>ax.plot(A,B)<br>ax.plot(B,A)<br></code></pre></td></tr></table></figure>
+
+
+<p><img src="matplot_ex_6_2.png" alt="png"></p>
+<h2 id="set-title-xlabel-ylabel"><a href="#set-title-xlabel-ylabel" class="headerlink" title="set title, xlabel, ylabel"></a>set title, xlabel, ylabel</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs python">fig, ax = plt.subplots(figsize=(<span class="hljs-number">14</span>,<span class="hljs-number">14</span>))<br>ax.plot(A,B,label=<span class="hljs-string">'plot1'</span>)<br>ax.plot(B,A,label=<span class="hljs-string">'plot2'</span>)<br><span class="hljs-comment"># label properties</span><br>ax.set_title(<span class="hljs-string">'Title'</span>,fontsize=<span class="hljs-number">18</span>)<br>ax.set_xlabel(<span class="hljs-string">'xlabel'</span>, fontsize=<span class="hljs-number">18</span>,fontfamily = <span class="hljs-string">'sans-serif'</span>,fontstyle=<span class="hljs-string">'italic'</span>)<br>ax.set_ylabel(<span class="hljs-string">'ylabel'</span>, fontsize=<span class="hljs-string">'x-large'</span>,fontstyle=<span class="hljs-string">'oblique'</span>)<br><span class="hljs-comment"># xyaxis properties</span><br>ax.set_aspect(<span class="hljs-string">'equal'</span>)<br>ax.minorticks_on()<br>ax.set_xlim(<span class="hljs-number">0</span>,<span class="hljs-number">16</span>)<br>ax.grid(which=<span class="hljs-string">'minor'</span>, axis=<span class="hljs-string">'both'</span>)<br><span class="hljs-comment"># on axis level</span><br>ax.xaxis.set_tick_params(rotation=<span class="hljs-number">45</span>,labelsize=<span class="hljs-number">18</span>,colors=<span class="hljs-string">'w'</span>)<br>start, end = ax.get_xlim()<br>ax.xaxis.set_ticks(np.arange(start, end, <span class="hljs-number">1</span>))<br>ax.yaxis.tick_right()<br><span class="hljs-comment"># legend</span><br>ax.legend()<br></code></pre></td></tr></table></figure>
+
+<p><img src="matplot_ex_8_8.png" alt="png"></p>
+<p>Great, you finished an ugly plot with all necessary components in.</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Data-Visualization/" rel="tag"># Data Visualization</a>
+              <a href="/tags/python/" rel="tag"># python</a>
+              <a href="/tags/matplotlib/" rel="tag"># matplotlib</a>
+              <a href="/tags/seaborn/" rel="tag"># seaborn</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2019/11/22/Tecent2019-ex1/" rel="next" title="Tencent 2019 Data Science Competition[Ads Exposure Rate] Extra: Data Visualization">
+                  <i class="fa fa-chevron-left"></i> Tencent 2019 Data Science Competition[Ads Exposure Rate] Extra: Data Visualization
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#plt-figure-V-S-fig-ax-plt-subplots"><span class="nav-number">1.</span> <span class="nav-text">plt.figure() V.S. fig, ax = plt.subplots()</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Terms-in-matplotlib"><span class="nav-number">2.</span> <span class="nav-text">Terms in matplotlib</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Anatomy-of-a-figure"><span class="nav-number">3.</span> <span class="nav-text">Anatomy of a figure</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Step-by-Step"><span class="nav-number">4.</span> <span class="nav-text">Step by Step</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Import-library-and-data-for-ploting"><span class="nav-number">4.1.</span> <span class="nav-text">Import library and data for ploting</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#First-generate-a-figure"><span class="nav-number">4.2.</span> <span class="nav-text">First, generate a figure</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#plot-two-data-series-on-it"><span class="nav-number">4.3.</span> <span class="nav-text">plot two data series on it</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#set-title-xlabel-ylabel"><span class="nav-number">4.4.</span> <span class="nav-text">set title, xlabel, ylabel</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Yao"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Yao</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/yaoyaoustc" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yaoyaoustc" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/yaoyaoustc" title="Linkedin → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;yaoyaoustc" rel="noopener" target="_blank"><i class="fa fa-fw fa-linkedin"></i>Linkedin</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yao</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="Symbols count total">47k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">42 mins.</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '23415d15c2c965e59702',
+      clientSecret: 'ac38c84c22c708974dc45804251e55141d3cda2d',
+      repo: 'yaoyaoustc.github.io',
+      owner: 'yaoyaoustc',
+      admin: ['yaoyaoustc'],
+      id: 'a5f9909f186131a1aa8f939c7602332c',
+        language: '',
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
+
+</body>
+</html>
