@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <link rel="alternate" href="/atom.xml" title="Yao's rabbit hole" type="application/atom+xml">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="While we’re waiting for the data, let’s do some data visualization, take one day’s rental data as an example.load library123456import pandas as pdimport numpy as npimport matplotlib.pyplot as pltimpor">
+<meta name="keywords" content="data cleaning,data visualization">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Melbourne Rental Project Part 2: Data Visualization">
+<meta property="og:url" content="https:&#x2F;&#x2F;yaoyaoustc.github.io&#x2F;2019&#x2F;11&#x2F;25&#x2F;MelRental-p2&#x2F;index.html">
+<meta property="og:site_name" content="Yao&#39;s rabbit hole">
+<meta property="og:description" content="While we’re waiting for the data, let’s do some data visualization, take one day’s rental data as an example.load library123456import pandas as pdimport numpy as npimport matplotlib.pyplot as pltimpor">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https:&#x2F;&#x2F;yaoyaoustc.github.io&#x2F;2019&#x2F;11&#x2F;25&#x2F;MelRental-p2&#x2F;P2_EDA_10_0.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;yaoyaoustc.github.io&#x2F;2019&#x2F;11&#x2F;25&#x2F;MelRental-p2&#x2F;P2_EDA_13_0.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;yaoyaoustc.github.io&#x2F;2019&#x2F;11&#x2F;25&#x2F;MelRental-p2&#x2F;P2_EDA_17_0.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;yaoyaoustc.github.io&#x2F;2019&#x2F;11&#x2F;25&#x2F;MelRental-p2&#x2F;P2_EDA_20_0.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;yaoyaoustc.github.io&#x2F;2019&#x2F;11&#x2F;25&#x2F;MelRental-p2&#x2F;P2_EDA_24_0.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;yaoyaoustc.github.io&#x2F;2019&#x2F;11&#x2F;25&#x2F;MelRental-p2&#x2F;P2_EDA_28_0.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;yaoyaoustc.github.io&#x2F;2019&#x2F;11&#x2F;25&#x2F;MelRental-p2&#x2F;P2_EDA_30_1.png">
+<meta property="og:updated_time" content="2019-11-25T07:02:30.562Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;yaoyaoustc.github.io&#x2F;2019&#x2F;11&#x2F;25&#x2F;MelRental-p2&#x2F;P2_EDA_10_0.png">
+
+<link rel="canonical" href="https://yaoyaoustc.github.io/2019/11/25/MelRental-p2/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Melbourne Rental Project Part 2: Data Visualization | Yao's rabbit hole</title>
+  
+    <script>
+      function sendPageView() {
+        var host = window.location.hostname;
+        if (host == "localhost" && true) return;
+        var uid = localStorage.getItem('uid') || (Math.random() + '.' + Math.random());
+        localStorage.setItem('uid', uid);
+        navigator.sendBeacon('https://www.google-analytics.com/collect', new URLSearchParams({
+          v  : 1,
+          tid: 'UA-45686348-2',
+          cid: uid,
+          t  : 'pageview',
+          dp : encodeURIComponent(location.pathname)
+        }));
+      }
+      document.addEventListener('pjax:complete', sendPageView);
+      sendPageView();
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Yao's rabbit hole</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">The poor rabbit chased by Python and Anaconda :p</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="https://yaoyaoustc.github.io/2019/11/25/MelRental-p2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Yao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yao's rabbit hole">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Melbourne Rental Project Part 2: Data Visualization
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2019-11-25 17:57:49 / Modified: 18:02:30" itemprop="dateCreated datePublished" datetime="2019-11-25T17:57:49+11:00">2019-11-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Project/" itemprop="url" rel="index">
+                    <span itemprop="name">Project</span>
+                  </a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>8.3k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>8 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>While we’re waiting for the data, let’s do some data visualization, take one day’s rental data as an example.</p><h1 id="load-library"><a href="#load-library" class="headerlink" title="load library"></a>load library</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd<br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br><span class="hljs-keyword">import</span> seaborn <span class="hljs-keyword">as</span> sns<br><span class="hljs-keyword">import</span> calendar<br>%matplotlib inline<br></code></pre></td></tr></table></figure><a id="more"></a>
+
+
+<h1 id="load-data"><a href="#load-data" class="headerlink" title="load data"></a>load data</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">with</span> open(<span class="hljs-string">'14_11_2019_rentals_raw.csv'</span>) <span class="hljs-keyword">as</span> f:<br>    df = pd.read_csv(f)<br></code></pre></td></tr></table></figure>
+
+<h1 id="some-basic-cleaning-before-eda"><a href="#some-basic-cleaning-before-eda" class="headerlink" title="some basic cleaning before eda"></a>some basic cleaning before eda</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">data_clean</span><span class="hljs-params">(df)</span>:</span><br>    <span class="hljs-comment"># price drop nan, should only contain numbers, drop the record if not.</span><br>    temp = df[~df[<span class="hljs-string">'price'</span>].isnull()]<br>    df = temp[temp[<span class="hljs-string">'price'</span>].str.isdigit()].reset_index(drop=<span class="hljs-literal">True</span>)<br>    <span class="hljs-comment"># reformat some features</span><br>    df[<span class="hljs-string">'price'</span>] = df[<span class="hljs-string">'price'</span>].astype(float)<br>    <span class="hljs-comment"># some price is not reasonable, drop them</span><br>    df = df.loc[df[<span class="hljs-string">'price'</span>] &gt; <span class="hljs-number">140</span>,].reset_index(drop=<span class="hljs-literal">True</span>)<br>    df[<span class="hljs-string">'suburb'</span>] = df[<span class="hljs-string">'address'</span>].str.rsplit(<span class="hljs-string">','</span>,<span class="hljs-number">1</span>,expand=<span class="hljs-literal">True</span>)[<span class="hljs-number">1</span>].str.strip()<br>    df[<span class="hljs-string">'bond'</span>] = df[<span class="hljs-string">'bond'</span>].str.split(<span class="hljs-string">'$'</span>,expand=<span class="hljs-literal">True</span>)[<span class="hljs-number">1</span>].str.replace(<span class="hljs-string">','</span>,<span class="hljs-string">''</span>).astype(float)<br>    df[<span class="hljs-string">'agent_suburb'</span>] = df[<span class="hljs-string">'agent_brand'</span>].str.split(<span class="hljs-string">'-'</span>,expand=<span class="hljs-literal">True</span>)[<span class="hljs-number">1</span>]<br>    df[<span class="hljs-string">'agent_brand'</span>] = df[<span class="hljs-string">'agent_brand'</span>].str.split(<span class="hljs-string">'-'</span>,expand=<span class="hljs-literal">True</span>)[<span class="hljs-number">0</span>]<br>    df[<span class="hljs-string">'agent_brand'</span>] = df[<span class="hljs-string">'agent_brand'</span>].str.strip()<br>    temp = df[<span class="hljs-string">'agent_name'</span>].str.split(<span class="hljs-string">':'</span>,expand=<span class="hljs-literal">True</span>)<br>    replace = temp.loc[temp[<span class="hljs-number">0</span>].str.lower() == <span class="hljs-string">'agent'</span>,]<br>    old = temp.loc[temp[<span class="hljs-number">0</span>].str.lower() != <span class="hljs-string">'agent'</span>,]<br>    replace[<span class="hljs-number">0</span>] = replace[<span class="hljs-number">1</span>]<br>    df[<span class="hljs-string">'agent_name'</span>] = pd.concat([old,replace]).sort_index()[<span class="hljs-number">0</span>]<br>    <span class="hljs-keyword">return</span> df<br>df_clean = data_clean(df)<br></code></pre></td></tr></table></figure>
+
+
+
+<h1 id="EDA"><a href="#EDA" class="headerlink" title="EDA"></a>EDA</h1><h2 id="how-many-properties-are-listed-today-for-each-property-type"><a href="#how-many-properties-are-listed-today-for-each-property-type" class="headerlink" title="how many properties are listed today for each property type?"></a>how many properties are listed today for each property type?</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">plot_property_type</span><span class="hljs-params">(df_clean)</span>:</span><br>    plotdata = df_clean.groupby([<span class="hljs-string">'suburb'</span>,<span class="hljs-string">'property_type'</span>]).count()[<span class="hljs-string">'price'</span>].unstack(level=<span class="hljs-number">1</span>).reset_index().melt(id_vars=<span class="hljs-string">'suburb'</span>,value_name=<span class="hljs-string">'property_count'</span>)<br>    fig, ax = plt.subplots(figsize=(<span class="hljs-number">24</span>,<span class="hljs-number">10</span>))<br>    sns.set(palette=<span class="hljs-string">'muted'</span>,style=<span class="hljs-string">"whitegrid"</span>, color_codes=<span class="hljs-literal">True</span>)<br>    ax = sns.barplot(x=<span class="hljs-string">'property_type'</span>,y=<span class="hljs-string">'property_count'</span>,hue=<span class="hljs-string">'suburb'</span>,data=plotdata)<br>    ax.set_title(<span class="hljs-string">'Property distributions across suburbs of Melbourne'</span>,fontsize=<span class="hljs-number">20</span>)<br>    ax.tick_params(axis=<span class="hljs-string">'both'</span>, which=<span class="hljs-string">'major'</span>, labelsize=<span class="hljs-number">16</span>)<br>    ax.set_xlabel(<span class="hljs-string">'Property Type'</span>,fontsize=<span class="hljs-number">18</span>)<br>    ax.set_ylabel(<span class="hljs-string">'Property Counts'</span>,fontsize=<span class="hljs-number">18</span>)<br>    ax.legend(fontsize=<span class="hljs-string">'x-large'</span>, title_fontsize=<span class="hljs-string">'40'</span>,loc=<span class="hljs-string">'upper right'</span>)<br></code></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">plot_property_type(df_clean)<br></code></pre></td></tr></table></figure>
+
+
+<p><img src="P2_EDA_10_0.png" alt="png"></p>
+<ul>
+<li>Apparently most of the properties are apartments, which make sense :)</li>
+<li>Melbourne suburbs have A LOT apartments…Impressive.</li>
+<li>Melbourne suburbs have quite a few studios as well. Since it’s so expansive to live in the city, so studio is a popular choices for people.</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">plot_suburb_type</span><span class="hljs-params">(df_clean)</span>:</span><br>    plotdata = df_clean.groupby([<span class="hljs-string">'suburb'</span>,<span class="hljs-string">'property_type'</span>]).count()[<span class="hljs-string">'price'</span>].unstack(level=<span class="hljs-number">1</span>).reset_index().melt(id_vars=<span class="hljs-string">'suburb'</span>,value_name=<span class="hljs-string">'property_count'</span>)<br>    plt.figure(figsize=(<span class="hljs-number">24</span>,<span class="hljs-number">10</span>))<br>    sns.set(palette=<span class="hljs-string">'muted'</span>,style=<span class="hljs-string">"whitegrid"</span>, color_codes=<span class="hljs-literal">True</span>)<br>    ax = sns.barplot(x=<span class="hljs-string">'suburb'</span>,y=<span class="hljs-string">'property_count'</span>,hue=<span class="hljs-string">'property_type'</span>,data=plotdata)<br>    plt.title(<span class="hljs-string">'Property distributions across suburbs of Melbourne'</span>,fontsize=<span class="hljs-number">20</span>)<br>    ax.tick_params(axis=<span class="hljs-string">'both'</span>, which=<span class="hljs-string">'major'</span>, labelsize=<span class="hljs-number">16</span>)<br>    ax.set_xlabel(<span class="hljs-string">'Suburbs'</span>,fontsize=<span class="hljs-number">18</span>)<br>    ax.set_ylabel(<span class="hljs-string">'Property Counts'</span>,fontsize=<span class="hljs-number">18</span>)<br>    plt.legend(fontsize=<span class="hljs-string">'x-large'</span>, title_fontsize=<span class="hljs-string">'40'</span>,loc=<span class="hljs-string">'upper right'</span>)<br></code></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">plot_suburb_type(df_clean)<br></code></pre></td></tr></table></figure>
+
+
+<p><img src="P2_EDA_13_0.png" alt="png"></p>
+<ul>
+<li>just another view of the property count, see if I can find something else.</li>
+<li>Chadstone, SpringVale, Mount Waverley, and Glen Waverley are suburbs have more houses than apartments.</li>
+</ul>
+<h2 id="What’s-the-average-rental-price-for-suburbs"><a href="#What’s-the-average-rental-price-for-suburbs" class="headerlink" title="What’s the average rental price for suburbs?"></a>What’s the average rental price for suburbs?</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">plot_avg_price</span><span class="hljs-params">(df_clean)</span>:</span><br>    plotdata = df_clean.loc[:,[<span class="hljs-string">'property_type'</span>,<span class="hljs-string">'price'</span>,<span class="hljs-string">'suburb'</span>]]<br>    f,axes = plt.subplots(<span class="hljs-number">2</span>,<span class="hljs-number">1</span>,figsize=(<span class="hljs-number">24</span>,<span class="hljs-number">20</span>))<br>    sns.set(palette=<span class="hljs-string">'muted'</span>,style=<span class="hljs-string">"whitegrid"</span>, color_codes=<span class="hljs-literal">True</span>)<br>    sns.swarmplot(x=<span class="hljs-string">'suburb'</span>,y=<span class="hljs-string">'price'</span>,hue=<span class="hljs-string">'property_type'</span>,data=plotdata,ax=axes[<span class="hljs-number">0</span>])<br>    sns.boxplot(x=<span class="hljs-string">'suburb'</span>,y=<span class="hljs-string">'price'</span>,hue=<span class="hljs-string">'property_type'</span>,data=plotdata,ax=axes[<span class="hljs-number">1</span>])<br>    axes[<span class="hljs-number">0</span>].set_title(<span class="hljs-string">'Swarm Plot of Rental Price of Melbourne Suburbs'</span>,fontsize=<span class="hljs-number">16</span>)<br>    axes[<span class="hljs-number">1</span>].set_title(<span class="hljs-string">'Box Plot of Rental Price of Melbourne Suburbs'</span>,fontsize=<span class="hljs-number">16</span>)<br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">2</span>):<br>        axes[i].tick_params(axis=<span class="hljs-string">'both'</span>, which=<span class="hljs-string">'major'</span>, labelsize=<span class="hljs-number">16</span>)<br>        axes[i].set_xlabel(<span class="hljs-string">'Suburbs'</span>,fontsize=<span class="hljs-number">18</span>)<br>        axes[i].set_ylabel(<span class="hljs-string">'Price'</span>,fontsize=<span class="hljs-number">18</span>)<br></code></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">plot_avg_price(df_clean)<br></code></pre></td></tr></table></figure>
+
+
+<p><img src="P2_EDA_17_0.png" alt="png"></p>
+<ul>
+<li>two different views of the rental price of all suburbs.</li>
+<li>scatter point plots can show distribution more clearly. There are some extreme values present.</li>
+<li>boxplots show mean price better, but I just don’t like the style.</li>
+<li>consider split the property_type and suburbs for a better visualization.</li>
+<li>I also plot the bond as well, but they are almost the same. the bond should be one month rent, so they are linearly relationship.</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">plot_avg_apt_price</span><span class="hljs-params">(df_clean)</span>:</span><br>    plotdata = df_clean.loc[df_clean[<span class="hljs-string">'property_type'</span>] == <span class="hljs-string">'Apartment'</span>,[<span class="hljs-string">'property_type'</span>,<span class="hljs-string">'price'</span>,<span class="hljs-string">'suburb'</span>]]<br>    plotorder = plotdata.groupby(<span class="hljs-string">'suburb'</span>)[<span class="hljs-string">'price'</span>].median().sort_values(ascending=<span class="hljs-literal">False</span>).index<br>    medians = plotdata.groupby(<span class="hljs-string">'suburb'</span>)[<span class="hljs-string">'price'</span>].median().sort_values(ascending=<span class="hljs-literal">False</span>).values<br>    median_labels = [str(np.round(s, <span class="hljs-number">2</span>)) <span class="hljs-keyword">for</span> s <span class="hljs-keyword">in</span> medians]<br>    <span class="hljs-comment">#plot</span><br>    plt.figure(figsize=(<span class="hljs-number">24</span>,<span class="hljs-number">10</span>))<br>    sns.set(palette=<span class="hljs-string">'muted'</span>,style=<span class="hljs-string">"whitegrid"</span>, color_codes=<span class="hljs-literal">True</span>)<br>    ax = sns.boxplot(x=<span class="hljs-string">'suburb'</span>,y=<span class="hljs-string">'price'</span>,data=plotdata,order = plotorder)<br>    ax.set_ylim(<span class="hljs-number">0</span>,<span class="hljs-number">1500</span>)<br>    ax.set_title(<span class="hljs-string">'Apartment Rental Price of Melbourne Suburbs'</span>,fontsize=<span class="hljs-number">16</span>)<br>    ax.tick_params(axis=<span class="hljs-string">'both'</span>, which=<span class="hljs-string">'major'</span>, labelsize=<span class="hljs-number">16</span>)<br>    ax.set_xlabel(<span class="hljs-string">'Suburbs'</span>,fontsize=<span class="hljs-number">18</span>)<br>    ax.set_ylabel(<span class="hljs-string">'Price'</span>,fontsize=<span class="hljs-number">18</span>)<br>    <span class="hljs-comment"># refine plot</span><br>    pos = range(len(medians))<br>    <span class="hljs-keyword">for</span> tick,label <span class="hljs-keyword">in</span> zip(pos,ax.get_xticklabels()):<br>            ax.text(pos[tick], medians[tick] + <span class="hljs-number">3</span>, median_labels[tick],<br>            horizontalalignment=<span class="hljs-string">'center'</span>, size=<span class="hljs-string">'large'</span>, color=<span class="hljs-string">'k'</span>, weight=<span class="hljs-string">'semibold'</span>)<br></code></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">plot_avg_apt_price(df_clean)<br></code></pre></td></tr></table></figure>
+
+
+<p><img src="P2_EDA_20_0.png" alt="png"></p>
+<ul>
+<li>The figure shows the average rental price for apartments of different suburbs.</li>
+<li>The most expensive suburb is Southbank, while Melbourne suburb has quite a few very very expensive apartments, probably these skyhigh apartments.</li>
+<li>The apartment rental price vary a lot in Toorak suburb.</li>
+<li>This is an average of all apartments. of course 1b1b is cheaper than 2b1b, so next lets exam them separately</li>
+</ul>
+<h2 id="Rental-Price-of-Aparments-details"><a href="#Rental-Price-of-Aparments-details" class="headerlink" title="Rental Price of Aparments: details"></a>Rental Price of Aparments: details</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">plot_detail_apt_price</span><span class="hljs-params">(df_clean)</span>:</span><br>    plotdata = df_clean.loc[(df_clean[<span class="hljs-string">'property_type'</span>] == <span class="hljs-string">'Apartment'</span>) &amp; (df_clean[<span class="hljs-string">'feature_bedroom'</span>] &lt;= <span class="hljs-number">2</span>) &amp; (df_clean[<span class="hljs-string">'feature_bedroom'</span>] != <span class="hljs-number">0</span>),]<br>    plotdata = plotdata.loc[:,[<span class="hljs-string">'price'</span>,<span class="hljs-string">'suburb'</span>,<span class="hljs-string">'feature_bedroom'</span>]]<br>    plotorder = plotdata.groupby(<span class="hljs-string">'suburb'</span>)[<span class="hljs-string">'price'</span>].median().sort_values(ascending=<span class="hljs-literal">False</span>).index<br>    medians = plotdata.groupby(<span class="hljs-string">'suburb'</span>)[<span class="hljs-string">'price'</span>].median().sort_values(ascending=<span class="hljs-literal">False</span>).values<br>    median_labels = [str(np.round(s, <span class="hljs-number">2</span>)) <span class="hljs-keyword">for</span> s <span class="hljs-keyword">in</span> medians]<br>    <span class="hljs-comment">#plot</span><br>    plt.figure(figsize=(<span class="hljs-number">24</span>,<span class="hljs-number">10</span>))<br>    sns.set(palette=<span class="hljs-string">'muted'</span>,style=<span class="hljs-string">"whitegrid"</span>, color_codes=<span class="hljs-literal">True</span>)<br>    ax = sns.boxplot(x=<span class="hljs-string">'suburb'</span>,y=<span class="hljs-string">'price'</span>,hue=<span class="hljs-string">'feature_bedroom'</span>,data=plotdata,order = plotorder)<br>    ax.set_ylim(<span class="hljs-number">0</span>,<span class="hljs-number">1500</span>)<br>    ax.set_title(<span class="hljs-string">'Apartment Rental Price of Melbourne Suburbs'</span>,fontsize=<span class="hljs-number">16</span>)<br>    ax.tick_params(axis=<span class="hljs-string">'both'</span>, which=<span class="hljs-string">'major'</span>, labelsize=<span class="hljs-number">16</span>)<br>    ax.set_xlabel(<span class="hljs-string">'Suburbs'</span>,fontsize=<span class="hljs-number">18</span>)<br>    ax.set_ylabel(<span class="hljs-string">'Price'</span>,fontsize=<span class="hljs-number">18</span>)<br></code></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">plot_detail_apt_price(df_clean)<br></code></pre></td></tr></table></figure>
+
+
+<p><img src="P2_EDA_24_0.png" alt="png"></p>
+<ul>
+<li>It seems like Glen Waverley’s 1 bedroom apartments are just cheaper than usual</li>
+<li>I used to think Toorak is very very expensive to live, but apparently not..South bank is a more expensive place to live in.</li>
+<li>Glen Waverley has the third expensive rental price but no very high end apartments.</li>
+</ul>
+<h2 id="Anything-interesting-about-the-agency"><a href="#Anything-interesting-about-the-agency" class="headerlink" title="Anything interesting about the agency?"></a>Anything interesting about the agency?</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">plot_top10_agency</span><span class="hljs-params">(df_clean)</span>:</span><br>    plotdata = df_clean.groupby(<span class="hljs-string">'agent_brand'</span>).count()[<span class="hljs-string">'price'</span>] \<br>                        .sort_values(ascending=<span class="hljs-literal">False</span>)[<span class="hljs-number">0</span>:<span class="hljs-number">10</span>] \<br>                        .reset_index()<br>    sns.set(palette=<span class="hljs-string">'muted'</span>,style=<span class="hljs-string">"white"</span>, color_codes=<span class="hljs-literal">True</span>)<br>    fig,ax = plt.subplots(figsize=(<span class="hljs-number">30</span>,<span class="hljs-number">8</span>))<br>    ax = sns.barplot(plotdata.agent_brand,plotdata.price)<br>    ax.set_title(<span class="hljs-string">'Top 10 Agent Brands dominating the Melbourne market'</span>,fontsize=<span class="hljs-number">20</span>)<br>    ax.set_xlabel(<span class="hljs-string">'Agents'</span>,fontsize=<span class="hljs-number">18</span>)<br>    ax.set_ylabel(<span class="hljs-string">'Number of properties'</span>,fontsize=<span class="hljs-number">18</span>)<br>    ax.tick_params(axis=<span class="hljs-string">'both'</span>, which=<span class="hljs-string">'major'</span>, labelsize=<span class="hljs-number">16</span>)<br>    ax.xaxis.set_tick_params(rotation=<span class="hljs-number">15</span>,labelsize=<span class="hljs-number">18</span>)<br></code></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">plot_top10_agency(df_clean)<br></code></pre></td></tr></table></figure>
+
+
+<p><img src="P2_EDA_28_0.png" alt="png"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">plot_price_agent</span><span class="hljs-params">(df_clean)</span>:</span><br>    plotdata = df_clean.groupby(<span class="hljs-string">'agent_brand'</span>).count()[<span class="hljs-string">'price'</span>] \<br>                        .sort_values(ascending=<span class="hljs-literal">False</span>)[<span class="hljs-number">0</span>:<span class="hljs-number">10</span>] \<br>                        .reset_index()<br>    plot_data2 = df_clean.loc[(df_clean[<span class="hljs-string">'property_type'</span>] == <span class="hljs-string">'Apartment'</span>) &amp; (df_clean[<span class="hljs-string">'feature_bedroom'</span>] &lt;= <span class="hljs-number">2</span>) &amp; (df_clean[<span class="hljs-string">'feature_bedroom'</span>] != <span class="hljs-number">0</span>),]<br>    temp = plot_data2.loc[plot_data2[<span class="hljs-string">'agent_brand'</span>].isin(plotdata.agent_brand),] \<br>                    .groupby((<span class="hljs-string">'agent_brand'</span>,<span class="hljs-string">'feature_bedroom'</span>)).mean()[<span class="hljs-string">'price'</span>].unstack(level=<span class="hljs-number">1</span>)<br>    temp.columns = [<span class="hljs-string">'bed1'</span>,<span class="hljs-string">'bed2'</span>]<br>    plotorder = temp.mean(axis=<span class="hljs-number">1</span>).sort_values(ascending=<span class="hljs-literal">False</span>).index<br>    sns.set_color_codes(<span class="hljs-string">"pastel"</span>)<br>    fig,ax = plt.subplots(figsize=(<span class="hljs-number">14</span>,<span class="hljs-number">10</span>))<br>    ax = sns.barplot(temp.bed2,temp.index,label=<span class="hljs-string">"2 bedrooms"</span>,color=<span class="hljs-string">'b'</span>,order = plotorder)<br>    sns.set_color_codes(<span class="hljs-string">"muted"</span>)<br>    ax = sns.barplot(temp.bed1,temp.index,label=<span class="hljs-string">"1 bedroom"</span>,color=<span class="hljs-string">'b'</span>,order = plotorder)<br>    ax.legend(ncol=<span class="hljs-number">2</span>, loc=<span class="hljs-string">"lower right"</span>, frameon=<span class="hljs-literal">True</span>)<br>    ax.set(xlabel=<span class="hljs-string">"Average Rental Price per Week"</span>,ylabel=<span class="hljs-string">"Agency Name"</span>)<br>    sns.despine(left=<span class="hljs-literal">True</span>, bottom=<span class="hljs-literal">True</span>)<br></code></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">plot_price_agent(df_clean)<br></code></pre></td></tr></table></figure>
+
+
+<p><img src="P2_EDA_30_1.png" alt="png"></p>
+<ul>
+<li>It’s hard to say that Kay &amp; Burton is just more expensive than the rest of the agency. The price can be related to many factors.</li>
+<li>but it’s interesting to see that Ray White has such a small difference between 1 bedroom and 2 bedrooms.</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/data-cleaning/" rel="tag"># data cleaning</a>
+              <a href="/tags/data-visualization/" rel="tag"># data visualization</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2019/11/24/matplotlib-tips/" rel="next" title="matplotlib: Have you ever confused by plt./ax./fig./ ?">
+                  <i class="fa fa-chevron-left"></i> matplotlib: Have you ever confused by plt./ax./fig./ ?
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#load-library"><span class="nav-number">1.</span> <span class="nav-text">load library</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#load-data"><span class="nav-number">2.</span> <span class="nav-text">load data</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#some-basic-cleaning-before-eda"><span class="nav-number">3.</span> <span class="nav-text">some basic cleaning before eda</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#EDA"><span class="nav-number">4.</span> <span class="nav-text">EDA</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#how-many-properties-are-listed-today-for-each-property-type"><span class="nav-number">4.1.</span> <span class="nav-text">how many properties are listed today for each property type?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#What’s-the-average-rental-price-for-suburbs"><span class="nav-number">4.2.</span> <span class="nav-text">What’s the average rental price for suburbs?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Rental-Price-of-Aparments-details"><span class="nav-number">4.3.</span> <span class="nav-text">Rental Price of Aparments: details</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Anything-interesting-about-the-agency"><span class="nav-number">4.4.</span> <span class="nav-text">Anything interesting about the agency?</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Yao"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Yao</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/yaoyaoustc" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yaoyaoustc" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/yaoyaoustc" title="Linkedin → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;yaoyaoustc" rel="noopener" target="_blank"><i class="fa fa-fw fa-linkedin"></i>Linkedin</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yao</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="Symbols count total">55k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">50 mins.</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '23415d15c2c965e59702',
+      clientSecret: 'ac38c84c22c708974dc45804251e55141d3cda2d',
+      repo: 'yaoyaoustc.github.io',
+      owner: 'yaoyaoustc',
+      admin: ['yaoyaoustc'],
+      id: '40d2be0e9cdb6a1957882023728fadca',
+        language: '',
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
+
+</body>
+</html>
