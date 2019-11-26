@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <link rel="alternate" href="/atom.xml" title="Yao's rabbit hole" type="application/atom+xml">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="Now let’s try word2vec on the property details page and see if we can find something interesting.load libs123456789import pandas as pdimport numpy as npimport matplotlib.pyplot as pltimport seaborn as">
+<meta name="keywords" content="NLP,word2vec,data visualization">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MelRental-p3">
+<meta property="og:url" content="https:&#x2F;&#x2F;yaoyaoustc.github.io&#x2F;2019&#x2F;11&#x2F;26&#x2F;MelRental-p3&#x2F;index.html">
+<meta property="og:site_name" content="Yao&#39;s rabbit hole">
+<meta property="og:description" content="Now let’s try word2vec on the property details page and see if we can find something interesting.load libs123456789import pandas as pdimport numpy as npimport matplotlib.pyplot as pltimport seaborn as">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https:&#x2F;&#x2F;yaoyaoustc.github.io&#x2F;2019&#x2F;11&#x2F;26&#x2F;MelRental-p3&#x2F;P3_word2vec_14_0.png">
+<meta property="og:updated_time" content="2019-11-26T03:43:13.578Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;yaoyaoustc.github.io&#x2F;2019&#x2F;11&#x2F;26&#x2F;MelRental-p3&#x2F;P3_word2vec_14_0.png">
+
+<link rel="canonical" href="https://yaoyaoustc.github.io/2019/11/26/MelRental-p3/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>MelRental-p3 | Yao's rabbit hole</title>
+  
+    <script>
+      function sendPageView() {
+        var host = window.location.hostname;
+        if (host == "localhost" && true) return;
+        var uid = localStorage.getItem('uid') || (Math.random() + '.' + Math.random());
+        localStorage.setItem('uid', uid);
+        navigator.sendBeacon('https://www.google-analytics.com/collect', new URLSearchParams({
+          v  : 1,
+          tid: 'UA-45686348-2',
+          cid: uid,
+          t  : 'pageview',
+          dp : encodeURIComponent(location.pathname)
+        }));
+      }
+      document.addEventListener('pjax:complete', sendPageView);
+      sendPageView();
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Yao's rabbit hole</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">The poor rabbit chased by Python and Anaconda :p</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="https://yaoyaoustc.github.io/2019/11/26/MelRental-p3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Yao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yao's rabbit hole">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          MelRental-p3
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2019-11-26 14:00:42 / Modified: 14:43:13" itemprop="dateCreated datePublished" datetime="2019-11-26T14:00:42+11:00">2019-11-26</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Project/" itemprop="url" rel="index">
+                    <span itemprop="name">Project</span>
+                  </a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>9.6k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>9 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>Now let’s try word2vec on the property details page and see if we can find something interesting.</p><h1 id="load-libs"><a href="#load-libs" class="headerlink" title="load libs"></a>load libs</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd<br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br><span class="hljs-keyword">import</span> seaborn <span class="hljs-keyword">as</span> sns<br><span class="hljs-keyword">import</span> gensim<br><span class="hljs-keyword">import</span> nltk<br><span class="hljs-keyword">import</span> string<br><span class="hljs-keyword">import</span> re<br>%matplotlib inline<br></code></pre></td></tr></table></figure><a id="more"></a>
+
+
+<h1 id="Load-data"><a href="#Load-data" class="headerlink" title="Load data"></a>Load data</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">with</span> open(<span class="hljs-string">'14_11_2019_rentals_raw.csv'</span>) <span class="hljs-keyword">as</span> f:<br>    df = pd.read_csv(f)<br></code></pre></td></tr></table></figure>
+
+<h1 id="Basic-data-prepare"><a href="#Basic-data-prepare" class="headerlink" title="Basic data prepare"></a>Basic data prepare</h1><h2 id="reformat-the-input"><a href="#reformat-the-input" class="headerlink" title="reformat the input"></a>reformat the input</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">data_clean</span><span class="hljs-params">(df)</span>:</span><br>    <span class="hljs-comment"># price drop nan, should only contain numbers, drop the record if not.</span><br>    temp = df[~df[<span class="hljs-string">'price'</span>].isnull()]<br>    df = temp[temp[<span class="hljs-string">'price'</span>].str.isdigit()].reset_index(drop=<span class="hljs-literal">True</span>)<br>    <span class="hljs-comment"># reformat some features</span><br>    df[<span class="hljs-string">'price'</span>] = df[<span class="hljs-string">'price'</span>].astype(float)<br>    <span class="hljs-comment"># some price is not reasonable, drop them</span><br>    df = df.loc[df[<span class="hljs-string">'price'</span>] &gt; <span class="hljs-number">140</span>,].reset_index(drop=<span class="hljs-literal">True</span>)<br>    df[<span class="hljs-string">'suburb'</span>] = df[<span class="hljs-string">'address'</span>].str.rsplit(<span class="hljs-string">','</span>,<span class="hljs-number">1</span>,expand=<span class="hljs-literal">True</span>)[<span class="hljs-number">1</span>].str.strip()<br>    df[<span class="hljs-string">'bond'</span>] = df[<span class="hljs-string">'bond'</span>].str.split(<span class="hljs-string">'$'</span>,expand=<span class="hljs-literal">True</span>)[<span class="hljs-number">1</span>].str.replace(<span class="hljs-string">','</span>,<span class="hljs-string">''</span>).astype(float)<br>    df[<span class="hljs-string">'agent_suburb'</span>] = df[<span class="hljs-string">'agent_brand'</span>].str.split(<span class="hljs-string">'-'</span>,expand=<span class="hljs-literal">True</span>)[<span class="hljs-number">1</span>]<br>    df[<span class="hljs-string">'agent_brand'</span>] = df[<span class="hljs-string">'agent_brand'</span>].str.split(<span class="hljs-string">'-'</span>,expand=<span class="hljs-literal">True</span>)[<span class="hljs-number">0</span>]<br>    df[<span class="hljs-string">'agent_brand'</span>] = df[<span class="hljs-string">'agent_brand'</span>].str.strip()<br>    temp = df[<span class="hljs-string">'agent_name'</span>].str.split(<span class="hljs-string">':'</span>,expand=<span class="hljs-literal">True</span>)<br>    replace = temp.loc[temp[<span class="hljs-number">0</span>].str.lower() == <span class="hljs-string">'agent'</span>,]<br>    old = temp.loc[temp[<span class="hljs-number">0</span>].str.lower() != <span class="hljs-string">'agent'</span>,]<br>    replace[<span class="hljs-number">0</span>] = replace[<span class="hljs-number">1</span>]<br>    df[<span class="hljs-string">'agent_name'</span>] = pd.concat([old,replace]).sort_index()[<span class="hljs-number">0</span>]<br>    <span class="hljs-keyword">return</span> df<br>df_clean = data_clean(df)<br></code></pre></td></tr></table></figure>
+
+<pre><code>/Users/yaoyao/anaconda3/lib/python3.7/site-packages/ipykernel_launcher.py:17: SettingWithCopyWarning:
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stable/indexing.html#indexing-view-versus-copy</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df_clean.head()<br></code></pre></td></tr></table></figure>
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}</code></pre><p></style><p></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>property_type</th>
+      <th>price</th>
+      <th>bond</th>
+      <th>address</th>
+      <th>feature_bedroom</th>
+      <th>feature_bathroom</th>
+      <th>feature_parking</th>
+      <th>agent_brand</th>
+      <th>agent_name</th>
+      <th>available_date</th>
+      <th>property_details</th>
+      <th>suburb</th>
+      <th>agent_suburb</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Apartment</td>
+      <td>450.0</td>
+      <td>1956.0</td>
+      <td>102/40 Bettina Street, Clayton</td>
+      <td>2</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Harcourts</td>
+      <td>Steven Ker</td>
+      <td>Open Sat 16 Nov 11:45am View allAvailable 25 N...</td>
+      <td>First floor apartment with balcony consists of...</td>
+      <td>Clayton</td>
+      <td>Judd White</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Townhouse</td>
+      <td>560.0</td>
+      <td>2433.0</td>
+      <td>15 Gentle Street, Clayton</td>
+      <td>3</td>
+      <td>2</td>
+      <td>2</td>
+      <td>Buxton</td>
+      <td>Talia Karagaslis</td>
+      <td>Available 20 Dec 2019</td>
+      <td>This beautiful three bedroom townhouse is loca...</td>
+      <td>Clayton</td>
+      <td>Oakleigh</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Townhouse</td>
+      <td>590.0</td>
+      <td>2564.0</td>
+      <td>4 Main Road, Clayton</td>
+      <td>3</td>
+      <td>2</td>
+      <td>2</td>
+      <td>Ray White</td>
+      <td>Anthony Lu</td>
+      <td>Open today 4:45pm View allAvailable 22 Nov 2019</td>
+      <td>Only minutes to Clayton train station, bus sto...</td>
+      <td>Clayton</td>
+      <td>Oakleigh</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Apartment</td>
+      <td>340.0</td>
+      <td>1477.0</td>
+      <td>7/126 Wellington Road, Clayton</td>
+      <td>2</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Ray White</td>
+      <td>Anthony Lu</td>
+      <td>Open today 12:00pm View allAvailable 25 Nov 2019</td>
+      <td>Located within walking distance to Monash Univ...</td>
+      <td>Clayton</td>
+      <td>Oakleigh</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Unit</td>
+      <td>475.0</td>
+      <td>2064.0</td>
+      <td>Address available on request, Clayton</td>
+      <td>3</td>
+      <td>1</td>
+      <td>2</td>
+      <td>Ray White</td>
+      <td>Johnson Tan</td>
+      <td>Available 01 Dec 2019</td>
+      <td>* Three generous-sized Bedrooms with Built-In ...</td>
+      <td>Clayton</td>
+      <td>Oakleigh</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+<h2 id="apply-basic-text-cleaning-for-the-property-details"><a href="#apply-basic-text-cleaning-for-the-property-details" class="headerlink" title="apply basic text cleaning for the property details."></a>apply basic text cleaning for the property details.</h2><p>The basic cleaning should include:</p>
+<ul>
+<li>remove punctuations</li>
+<li>convert to all lower cases</li>
+<li>word tokenize</li>
+<li>word lemmatization</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">remove_punct</span><span class="hljs-params">(text)</span>:</span><br>    newtext = <span class="hljs-string">""</span>.join([char <span class="hljs-keyword">for</span> char <span class="hljs-keyword">in</span> text <span class="hljs-keyword">if</span> char <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> string.punctuation])<br>    newtext = re.sub(<span class="hljs-string">'[0-9\t/•]+'</span>, <span class="hljs-string">''</span>, newtext)<br>    <span class="hljs-keyword">return</span> newtext<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">remove_stopword</span><span class="hljs-params">(text)</span>:</span><br>    newtext = [word <span class="hljs-keyword">for</span> word <span class="hljs-keyword">in</span> text <span class="hljs-keyword">if</span> word <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> nltk.corpus.stopwords.words(<span class="hljs-string">'english'</span>)]<br>    <span class="hljs-keyword">return</span> newtext<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">apply_lemmatization</span><span class="hljs-params">(text)</span>:</span><br>    WNlemma = nltk.WordNetLemmatizer()<br>    newtext = [WNlemma.lemmatize(word) <span class="hljs-keyword">for</span> word <span class="hljs-keyword">in</span> text]<br>    <span class="hljs-keyword">return</span> newtext<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">text_clean</span><span class="hljs-params">(df_clean)</span>:</span><br>    df_clean[<span class="hljs-string">'pd_punct'</span>] = df_clean[<span class="hljs-string">'property_details'</span>].apply(<span class="hljs-keyword">lambda</span> x: remove_punct(x)).str.lower()<br>    temp = df_clean[<span class="hljs-string">'pd_punct'</span>].apply(<span class="hljs-keyword">lambda</span> x: nltk.word_tokenize(x))<br>    temp = temp.apply(<span class="hljs-keyword">lambda</span> x: remove_stopword(x))<br>    df_clean[<span class="hljs-string">'pd_final'</span>]  = temp.apply(<span class="hljs-keyword">lambda</span> x: apply_lemmatization(x))<br><br>text_clean(df_clean)<br></code></pre></td></tr></table></figure>
+
+<h1 id="Some-EDA-and-Visualization"><a href="#Some-EDA-and-Visualization" class="headerlink" title="Some EDA and Visualization"></a>Some EDA and Visualization</h1><h2 id="Word-Cloud"><a href="#Word-Cloud" class="headerlink" title="Word Cloud"></a>Word Cloud</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">build_input</span><span class="hljs-params">(df)</span>:</span><br>    listall = []<br>    <span class="hljs-comment"># list some common words that you don't want them present in the world cloud</span><br>    noshow = [<span class="hljs-string">'inspection'</span>,<span class="hljs-string">'time'</span>,<span class="hljs-string">'open'</span>,<span class="hljs-string">'book'</span>,<span class="hljs-string">'apartment'</span>,<span class="hljs-string">'house'</span>,<span class="hljs-string">'studio'</span>,<span class="hljs-string">'email'</span>,<span class="hljs-string">'agent'</span>,<br>              <span class="hljs-string">'cancellation'</span>,<span class="hljs-string">'update'</span>,<span class="hljs-string">'change'</span>,<span class="hljs-string">'informed'</span>,<span class="hljs-string">'property'</span>,<span class="hljs-string">'inspect'</span>,<span class="hljs-string">'townhouse'</span>]<br>    <span class="hljs-keyword">for</span> line <span class="hljs-keyword">in</span> df:<br>        line_All = <span class="hljs-string">" "</span>.join(word <span class="hljs-keyword">for</span> word <span class="hljs-keyword">in</span> line <span class="hljs-keyword">if</span> word <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> noshow)<br>        listall.append(line_All)<br>    showall = <span class="hljs-string">""</span>.join(line <span class="hljs-keyword">for</span> line <span class="hljs-keyword">in</span> listall)<br>    <span class="hljs-keyword">return</span> showall<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">plot_wordcloud</span><span class="hljs-params">(df_clean)</span>:</span><br>    <span class="hljs-keyword">from</span> wordcloud <span class="hljs-keyword">import</span> WordCloud, STOPWORDS , ImageColorGenerator<br>    df_apt = df_clean.loc[df_clean[<span class="hljs-string">'property_type'</span>] == <span class="hljs-string">'Apartment'</span>,<span class="hljs-string">'pd_final'</span>]<br>    df_townhouse = df_clean.loc[df_clean[<span class="hljs-string">'property_type'</span>] == <span class="hljs-string">'Townhouse'</span>,<span class="hljs-string">'pd_final'</span>]<br>    df_house = df_clean.loc[df_clean[<span class="hljs-string">'property_type'</span>] == <span class="hljs-string">'House'</span>,<span class="hljs-string">'pd_final'</span>]<br>    df_studio = df_clean.loc[df_clean[<span class="hljs-string">'property_type'</span>] == <span class="hljs-string">'Studio'</span>,<span class="hljs-string">'pd_final'</span>]<br><br>    list_apt = build_input(df_apt)<br>    list_townhouse = build_input(df_townhouse)<br>    list_house = build_input(df_apt)<br>    list_studio  = build_input(df_studio)<br><br>    fig, ax = plt.subplots(<span class="hljs-number">4</span>, <span class="hljs-number">1</span>, figsize  = (<span class="hljs-number">30</span>,<span class="hljs-number">40</span>))<br>    wordcloud_apt = WordCloud(max_font_size=<span class="hljs-number">30</span>, max_words=<span class="hljs-number">100</span>, background_color=<span class="hljs-string">"white"</span>) \<br>            .generate(list_apt)<br>    wordcloud_townhouse = WordCloud(max_font_size=<span class="hljs-number">30</span>, max_words=<span class="hljs-number">100</span>, background_color=<span class="hljs-string">"white"</span>) \<br>            .generate(list_townhouse)<br>    wordcloud_house = WordCloud(max_font_size=<span class="hljs-number">30</span>, max_words=<span class="hljs-number">100</span>, background_color=<span class="hljs-string">"white"</span>) \<br>            .generate(list_house)<br>    wordcloud_studio = WordCloud(max_font_size=<span class="hljs-number">30</span>, max_words=<span class="hljs-number">100</span>, background_color=<span class="hljs-string">"white"</span>) \<br>            .generate(list_studio)<br>    ax[<span class="hljs-number">0</span>].imshow(wordcloud_apt, interpolation=<span class="hljs-string">'bilinear'</span>)<br>    ax[<span class="hljs-number">0</span>].set_title(<span class="hljs-string">"Common Words in Apartment Description"</span>,fontsize=<span class="hljs-string">"20"</span>)<br>    ax[<span class="hljs-number">0</span>].axis(<span class="hljs-string">'off'</span>)<br>    ax[<span class="hljs-number">1</span>].imshow(wordcloud_townhouse, interpolation=<span class="hljs-string">'bilinear'</span>)<br>    ax[<span class="hljs-number">1</span>].set_title(<span class="hljs-string">"Common Words in Town House Description"</span>,fontsize=<span class="hljs-string">"20"</span>)<br>    ax[<span class="hljs-number">1</span>].axis(<span class="hljs-string">'off'</span>)<br>    ax[<span class="hljs-number">2</span>].imshow(wordcloud_house, interpolation=<span class="hljs-string">'bilinear'</span>)<br>    ax[<span class="hljs-number">2</span>].set_title(<span class="hljs-string">"Common Words in House Description"</span>,fontsize=<span class="hljs-string">"20"</span>)<br>    ax[<span class="hljs-number">2</span>].axis(<span class="hljs-string">'off'</span>)<br>    ax[<span class="hljs-number">3</span>].imshow(wordcloud_studio, interpolation=<span class="hljs-string">'bilinear'</span>)<br>    ax[<span class="hljs-number">3</span>].set_title(<span class="hljs-string">"Common Words in Studio Description"</span>,fontsize=<span class="hljs-string">"20"</span>)<br>    ax[<span class="hljs-number">3</span>].axis(<span class="hljs-string">'off'</span>)<br><br>plot_wordcloud(df_clean)<br></code></pre></td></tr></table></figure>
+
+
+<p><img src="P3_word2vec_14_0.png" alt="png"></p>
+<p>This is a quite interesting plot I really like it.</p>
+<ul>
+<li>the key words for house/townhouse/apartment/studio are quite different</li>
+<li>It’s easy to spot some quite interesting pattern. eg. for studio, fully furnished is a key word not appearing in other types of properties.</li>
+<li>train station, walking distance, steel appliance are quite common</li>
+</ul>
+<h2 id="Word-frequency"><a href="#Word-frequency" class="headerlink" title="Word frequency"></a>Word frequency</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">build_input_wf</span><span class="hljs-params">(df)</span>:</span><br>    listall = []<br>    <span class="hljs-comment"># list some common words that you don't want them present in the world cloud</span><br>    noshow = [<span class="hljs-string">'inspection'</span>,<span class="hljs-string">'time'</span>,<span class="hljs-string">'open'</span>,<span class="hljs-string">'book'</span>,<span class="hljs-string">'apartment'</span>,<span class="hljs-string">'house'</span>,<span class="hljs-string">'studio'</span>,<span class="hljs-string">'email'</span>,<span class="hljs-string">'agent'</span>,<br>              <span class="hljs-string">'cancellation'</span>,<span class="hljs-string">'update'</span>,<span class="hljs-string">'change'</span>,<span class="hljs-string">'informed'</span>,<span class="hljs-string">'property'</span>,<span class="hljs-string">'inspect'</span>,<span class="hljs-string">'townhouse'</span>]<br>    <span class="hljs-keyword">for</span> line <span class="hljs-keyword">in</span> df:<br>        line_All = [word <span class="hljs-keyword">for</span> word <span class="hljs-keyword">in</span> line <span class="hljs-keyword">if</span> word <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> noshow]<br>        listall.extend(line_All)<br>    <span class="hljs-comment">#showall = "".join(line for line in listall)</span><br>    <span class="hljs-keyword">return</span> listall<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">plot_word_frequency</span><span class="hljs-params">(df_clean)</span>:</span><br>    <span class="hljs-keyword">from</span> nltk.probability <span class="hljs-keyword">import</span> FreqDist<br>    df_apt = df_clean.loc[df_clean[<span class="hljs-string">'property_type'</span>] == <span class="hljs-string">'Apartment'</span>,<span class="hljs-string">'pd_final'</span>]<br>    df_townhouse = df_clean.loc[df_clean[<span class="hljs-string">'property_type'</span>] == <span class="hljs-string">'Townhouse'</span>,<span class="hljs-string">'pd_final'</span>]<br>    df_house = df_clean.loc[df_clean[<span class="hljs-string">'property_type'</span>] == <span class="hljs-string">'House'</span>,<span class="hljs-string">'pd_final'</span>]<br>    df_studio = df_clean.loc[df_clean[<span class="hljs-string">'property_type'</span>] == <span class="hljs-string">'Studio'</span>,<span class="hljs-string">'pd_final'</span>]<br><br>    list_apt = build_input_wf(df_apt)<br>    list_townhouse = build_input_wf(df_townhouse)<br>    list_house = build_input_wf(df_apt)<br>    list_studio  = build_input_wf(df_studio)<br>    frequency_house = FreqDist(list_house)<br><br>    <span class="hljs-keyword">return</span> frequency_house.most_common(n=<span class="hljs-number">20</span>)<br></code></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">plot_word_frequency(df_clean)<br></code></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>[(&apos;bedroom&apos;, 2769),
+ (&apos;melbourne&apos;, 1854),
+ (&apos;kitchen&apos;, 1713),
+ (&apos;living&apos;, 1494),
+ (&apos;area&apos;, 1438),
+ (&apos;bathroom&apos;, 1427),
+ (&apos;one&apos;, 1082),
+ (&apos;feature&apos;, 1052),
+ (&apos;space&apos;, 1032),
+ (&apos;room&apos;, 1030),
+ (&apos;city&apos;, 978),
+ (&apos;view&apos;, 943),
+ (&apos;located&apos;, 938),
+ (&apos;laundry&apos;, 932),
+ (&apos;building&apos;, 917),
+ (&apos;floor&apos;, 897),
+ (&apos;access&apos;, 895),
+ (&apos;appliance&apos;, 894),
+ (&apos;private&apos;, 878),
+ (&apos;street&apos;, 864)]</code></pre><h1 id="word2vec"><a href="#word2vec" class="headerlink" title="word2vec"></a>word2vec</h1><h2 id="build-vocal"><a href="#build-vocal" class="headerlink" title="build vocal"></a>build vocal</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">wordlist = df_clean[<span class="hljs-string">'pd_final'</span>].to_list()<br></code></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python">model = gensim.models.Word2Vec(<br>        wordlist,<br>        size=<span class="hljs-number">150</span>,<br>        window=<span class="hljs-number">10</span>,<br>        min_count=<span class="hljs-number">2</span>,<br>        workers=<span class="hljs-number">10</span>,<br>        iter=<span class="hljs-number">10</span>)<br></code></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">w1 = <span class="hljs-string">'train'</span><br>model.wv.most_similar(positive=w1)<br></code></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>[(&apos;bus&apos;, 0.9083044528961182),
+ (&apos;stop&apos;, 0.8881006240844727),
+ (&apos;railway&apos;, 0.8856533169746399),
+ (&apos;station&apos;, 0.812629759311676),
+ (&apos;route&apos;, 0.8058450818061829),
+ (&apos;springvale&apos;, 0.8043614625930786),
+ (&apos;tram&apos;, 0.7951110601425171),
+ (&apos;center&apos;, 0.7859233617782593),
+ (&apos;shopping&apos;, 0.7831301689147949),
+ (&apos;parliament&apos;, 0.781488299369812)]</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">model.wv.__getitem__(<span class="hljs-string">'train'</span>)<br></code></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>array([-0.9055207 ,  0.3383803 , -1.0070474 ,  0.6496934 ,  0.5079288 ,
+        0.2651052 ,  0.28885823, -0.37675577,  0.20077397,  2.2651038 ,
+       -0.634687  , -0.12877388, -1.1244543 , -0.16395192, -1.1265266 ,
+        1.987248  , -1.7640041 ,  0.0111573 ,  0.5782551 ,  0.3475309 ,
+        3.0830522 ,  1.7851418 ,  1.8113701 ,  1.2043551 , -0.494675  ,
+       -0.38805577, -0.84290814,  0.3232301 , -0.2537486 ,  0.6098439 ,
+        0.87573195, -1.6538352 ,  0.7550999 , -0.18528049,  0.22006646,
+       -0.05651824, -2.0897374 , -0.3931295 ,  2.0241232 ,  0.65036017,
+        0.38358206,  0.40651393, -0.04384508,  1.4108607 ,  0.6118807 ,
+       -0.19642885,  1.3095136 ,  0.7283475 ,  0.6006522 , -1.2531968 ,
+        0.14988308,  1.6452932 , -0.70153093,  0.8074702 , -2.211348  ,
+       -1.236841  ,  0.4659164 ,  0.16054933, -1.6786027 ,  0.94784266,
+        0.4248309 ,  0.97811186,  1.7608812 ,  0.08076338,  1.0514913 ,
+        1.4854838 ,  0.17836648,  0.02803503, -0.73165715, -0.6264381 ,
+       -3.764019  ,  1.8128228 ,  1.8578556 , -2.208528  , -1.132535  ,
+       -2.2616606 , -0.07818842,  0.10757745, -0.32016277,  0.6547073 ,
+        0.70446897, -0.02661847,  0.38358182, -0.43814224, -0.42898545,
+        0.12477661, -0.6984484 , -0.27979696,  2.0922875 ,  0.7715444 ,
+        1.5044686 , -0.5870474 , -0.7020896 ,  1.7359827 ,  1.5990449 ,
+       -0.4320323 ,  2.108935  , -0.41747302, -1.145535  ,  2.4129176 ,
+        0.89127445, -0.42052403, -1.7306162 , -1.8634758 , -2.7774615 ,
+        2.9477477 , -0.05811455, -0.3156799 ,  0.9396679 , -0.42951274,
+        0.76986086, -1.3020213 ,  1.4949676 ,  0.7106628 , -0.631309  ,
+       -0.04139144,  1.687128  ,  0.5391253 , -0.76657486, -0.29014868,
+       -0.280084  , -0.98488003,  0.20266072, -1.1121765 ,  0.7734707 ,
+       -0.9676994 , -0.8653948 ,  0.78150386,  1.8499094 , -0.14956334,
+        1.8008482 , -0.393235  ,  0.32997358, -1.920201  ,  0.20352392,
+        0.5000303 , -1.2298875 ,  0.8242096 ,  0.15986371,  1.2411798 ,
+        0.37643033,  1.6649051 ,  0.76609766,  1.549611  , -0.75124633,
+       -1.7489674 , -3.142393  , -2.14125   ,  0.21818882,  0.3581236 ],
+      dtype=float32)</code></pre>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/NLP/" rel="tag"># NLP</a>
+              <a href="/tags/word2vec/" rel="tag"># word2vec</a>
+              <a href="/tags/data-visualization/" rel="tag"># data visualization</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2019/11/25/MelRental-p2/" rel="next" title="Melbourne Rental Project Part 2: Data Visualization">
+                  <i class="fa fa-chevron-left"></i> Melbourne Rental Project Part 2: Data Visualization
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#load-libs"><span class="nav-number">1.</span> <span class="nav-text">load libs</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Load-data"><span class="nav-number">2.</span> <span class="nav-text">Load data</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Basic-data-prepare"><span class="nav-number">3.</span> <span class="nav-text">Basic data prepare</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#reformat-the-input"><span class="nav-number">3.1.</span> <span class="nav-text">reformat the input</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#apply-basic-text-cleaning-for-the-property-details"><span class="nav-number">3.2.</span> <span class="nav-text">apply basic text cleaning for the property details.</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Some-EDA-and-Visualization"><span class="nav-number">4.</span> <span class="nav-text">Some EDA and Visualization</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Word-Cloud"><span class="nav-number">4.1.</span> <span class="nav-text">Word Cloud</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Word-frequency"><span class="nav-number">4.2.</span> <span class="nav-text">Word frequency</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#word2vec"><span class="nav-number">5.</span> <span class="nav-text">word2vec</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#build-vocal"><span class="nav-number">5.1.</span> <span class="nav-text">build vocal</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Yao"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Yao</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/yaoyaoustc" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yaoyaoustc" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/yaoyaoustc" title="Linkedin → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;yaoyaoustc" rel="noopener" target="_blank"><i class="fa fa-fw fa-linkedin"></i>Linkedin</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yao</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="Symbols count total">64k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">59 mins.</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '23415d15c2c965e59702',
+      clientSecret: 'ac38c84c22c708974dc45804251e55141d3cda2d',
+      repo: 'yaoyaoustc.github.io',
+      owner: 'yaoyaoustc',
+      admin: ['yaoyaoustc'],
+      id: '070e16060fa2f4e7c6efb25472ea7963',
+        language: '',
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
+
+</body>
+</html>
