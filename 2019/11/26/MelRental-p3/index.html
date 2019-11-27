@@ -52,15 +52,15 @@
 </script>
 
   <meta name="description" content="Now let’s try word2vec on the property details page and see if we can find something interesting.load libs123456789import pandas as pdimport numpy as npimport matplotlib.pyplot as pltimport seaborn as">
-<meta name="keywords" content="NLP,word2vec,data visualization">
+<meta name="keywords" content="data visualization,NLP,word2vec">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MelRental-p3">
+<meta property="og:title" content="Melbourne Rental Project Part 3: word2vec">
 <meta property="og:url" content="https:&#x2F;&#x2F;yaoyaoustc.github.io&#x2F;2019&#x2F;11&#x2F;26&#x2F;MelRental-p3&#x2F;index.html">
 <meta property="og:site_name" content="Yao&#39;s rabbit hole">
 <meta property="og:description" content="Now let’s try word2vec on the property details page and see if we can find something interesting.load libs123456789import pandas as pdimport numpy as npimport matplotlib.pyplot as pltimport seaborn as">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https:&#x2F;&#x2F;yaoyaoustc.github.io&#x2F;2019&#x2F;11&#x2F;26&#x2F;MelRental-p3&#x2F;P3_word2vec_14_0.png">
-<meta property="og:updated_time" content="2019-11-26T03:43:13.578Z">
+<meta property="og:updated_time" content="2019-11-26T23:49:50.113Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;yaoyaoustc.github.io&#x2F;2019&#x2F;11&#x2F;26&#x2F;MelRental-p3&#x2F;P3_word2vec_14_0.png">
 
@@ -78,7 +78,7 @@
   };
 </script>
 
-  <title>MelRental-p3 | Yao's rabbit hole</title>
+  <title>Melbourne Rental Project Part 3: word2vec | Yao's rabbit hole</title>
   
     <script>
       function sendPageView() {
@@ -223,7 +223,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          MelRental-p3
+          Melbourne Rental Project Part 3: word2vec
         </h1>
 
         <div class="post-meta">
@@ -232,10 +232,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2019-11-26 14:00:42 / Modified: 14:43:13" itemprop="dateCreated datePublished" datetime="2019-11-26T14:00:42+11:00">2019-11-26</time>
+              <time title="Created: 2019-11-26 14:00:42" itemprop="dateCreated datePublished" datetime="2019-11-26T14:00:42+11:00">2019-11-26</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-11-27 10:49:50" itemprop="dateModified" datetime="2019-11-27T10:49:50+11:00">2019-11-27</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -518,9 +524,9 @@ See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stabl
 
       <footer class="post-footer">
           <div class="post-tags">
+              <a href="/tags/data-visualization/" rel="tag"># data visualization</a>
               <a href="/tags/NLP/" rel="tag"># NLP</a>
               <a href="/tags/word2vec/" rel="tag"># word2vec</a>
-              <a href="/tags/data-visualization/" rel="tag"># data visualization</a>
           </div>
 
         
@@ -535,6 +541,9 @@ See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stabl
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
+                <a href="/2019/11/27/LR-metrics/" rel="prev" title="Linear Regression Evaluation Metrics: pros and cons">
+                  Linear Regression Evaluation Metrics: pros and cons <i class="fa fa-chevron-right"></i>
+                </a>
             </div>
           </div>
       </footer>
@@ -590,20 +599,20 @@ See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stabl
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-count">19</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-count">20</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -650,12 +659,12 @@ See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stabl
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="Symbols count total">64k</span>
+    <span title="Symbols count total">71k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">59 mins.</span>
+    <span title="Reading time total">1:04</span>
 </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.0.0
   </div>

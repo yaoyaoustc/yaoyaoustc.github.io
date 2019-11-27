@@ -54,12 +54,12 @@
   <meta name="description" content="I think there is no solid evidence to prove which is better than another. These two algorithms build from different methods with different hyper-parameters to tune. Therefore, I think the right approa">
 <meta name="keywords" content="machine learning,tree">
 <meta property="og:type" content="article">
-<meta property="og:title" content="SVM or CART?">
+<meta property="og:title" content="SVM &#x2F; CART &#x2F; LG &#x2F; NB ?">
 <meta property="og:url" content="https:&#x2F;&#x2F;yaoyaoustc.github.io&#x2F;2019&#x2F;11&#x2F;21&#x2F;SVM-OR-CART&#x2F;index.html">
 <meta property="og:site_name" content="Yao&#39;s rabbit hole">
 <meta property="og:description" content="I think there is no solid evidence to prove which is better than another. These two algorithms build from different methods with different hyper-parameters to tune. Therefore, I think the right approa">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-11-21T03:24:11.730Z">
+<meta property="og:updated_time" content="2019-11-27T05:51:24.129Z">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="https://yaoyaoustc.github.io/2019/11/21/SVM-OR-CART/">
@@ -76,7 +76,7 @@
   };
 </script>
 
-  <title>SVM or CART? | Yao's rabbit hole</title>
+  <title>SVM / CART / LG / NB ? | Yao's rabbit hole</title>
   
     <script>
       function sendPageView() {
@@ -221,7 +221,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          SVM or CART?
+          SVM / CART / LG / NB ?
         </h1>
 
         <div class="post-meta">
@@ -230,10 +230,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2019-11-21 13:37:24 / Modified: 14:24:11" itemprop="dateCreated datePublished" datetime="2019-11-21T13:37:24+11:00">2019-11-21</time>
+              <time title="Created: 2019-11-21 13:37:24" itemprop="dateCreated datePublished" datetime="2019-11-21T13:37:24+11:00">2019-11-21</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-11-27 16:51:24" itemprop="dateModified" datetime="2019-11-27T16:51:24+11:00">2019-11-27</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -252,7 +258,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>634</span>
+              <span>1.3k</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
@@ -283,11 +289,28 @@
 </ul>
 <h1 id="Decision-tree"><a href="#Decision-tree" class="headerlink" title="Decision tree"></a>Decision tree</h1><ul>
 <li>Good for handling non-linear problems</li>
+<li>Handle categorical data well</li>
 <li>easy to interpret</li>
 <li>can handle some noisy data</li>
 <li>easy over-fitting</li>
 <li>not work so well for large feature space</li>
 <li>not work so well if some features have close correlation</li>
+</ul>
+<h1 id="Logistic-regression"><a href="#Logistic-regression" class="headerlink" title="Logistic regression"></a>Logistic regression</h1><ul>
+<li>Assumptions: linear relationship/multivariate normal/little or no multicollinearity/no or little auto-correlation / meaning the residuals are equal across the regression line</li>
+<li>handle linear problem well</li>
+<li>robust to noise, use l1,l2 regularization for model selection, avoid overfitting</li>
+<li>computationally efficient</li>
+<li>variations with regularizations:<ul>
+<li>Lasso: penalizes the absolute size of coefficients, offers automatic feature selection</li>
+<li>Ridge: penalizes the squared size of coefficients, offers automatic feature shrinkage</li>
+<li>Elastic Net: combination of Lasso and Ridge</li>
+</ul>
+</li>
+</ul>
+<h1 id="Naive-Bayes"><a href="#Naive-Bayes" class="headerlink" title="Naive Bayes"></a>Naive Bayes</h1><ul>
+<li>computationally efficient when P is large by alleviating the curse of dimensionality</li>
+<li>works surprisingly well for some cases even if the condition doesn’t hold</li>
 </ul>
 
     </div>
@@ -356,7 +379,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SVM"><span class="nav-number">1.</span> <span class="nav-text">SVM</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Decision-tree"><span class="nav-number">2.</span> <span class="nav-text">Decision tree</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SVM"><span class="nav-number">1.</span> <span class="nav-text">SVM</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Decision-tree"><span class="nav-number">2.</span> <span class="nav-text">Decision tree</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Logistic-regression"><span class="nav-number">3.</span> <span class="nav-text">Logistic regression</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Naive-Bayes"><span class="nav-number">4.</span> <span class="nav-text">Naive Bayes</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -372,20 +395,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-count">19</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-count">20</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -432,12 +455,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="Symbols count total">64k</span>
+    <span title="Symbols count total">71k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">59 mins.</span>
+    <span title="Reading time total">1:04</span>
 </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.0.0
   </div>
