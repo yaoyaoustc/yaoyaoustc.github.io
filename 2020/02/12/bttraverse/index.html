@@ -51,15 +51,15 @@
   };
 </script>
 
-  <meta name="description" content="‘’’python def inorderTraversal(self, root):         # write your code here         results = []         stack = collections.deque([])         cur = root         while cur or stack:             while c">
+  <meta name="description" content="12345678910111213def inorderTraversal(self, root):        # write your code here        results = []        stack = collections.deque([])        cur = root        while cur or stack:            while">
 <meta name="keywords" content="Binary Tree">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Binary Tree Traverse: pre,in,post order">
 <meta property="og:url" content="https:&#x2F;&#x2F;yaoyaoustc.github.io&#x2F;2020&#x2F;02&#x2F;12&#x2F;bttraverse&#x2F;index.html">
 <meta property="og:site_name" content="Yao&#39;s rabbit hole">
-<meta property="og:description" content="‘’’python def inorderTraversal(self, root):         # write your code here         results = []         stack = collections.deque([])         cur = root         while cur or stack:             while c">
+<meta property="og:description" content="12345678910111213def inorderTraversal(self, root):        # write your code here        results = []        stack = collections.deque([])        cur = root        while cur or stack:            while">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2020-02-12T04:36:36.380Z">
+<meta property="og:updated_time" content="2020-02-12T22:50:17.561Z">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="https://yaoyaoustc.github.io/2020/02/12/bttraverse/">
@@ -230,10 +230,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-02-12 15:31:48 / Modified: 15:36:36" itemprop="dateCreated datePublished" datetime="2020-02-12T15:31:48+11:00">2020-02-12</time>
+              <time title="Created: 2020-02-12 15:31:48" itemprop="dateCreated datePublished" datetime="2020-02-12T15:31:48+11:00">2020-02-12</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-02-13 09:50:17" itemprop="dateModified" datetime="2020-02-13T09:50:17+11:00">2020-02-13</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -252,7 +258,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>730</span>
+              <span>761</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
@@ -271,55 +277,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>‘’’python
-def inorderTraversal(self, root):
-        # write your code here
-        results = []
-        stack = collections.deque([])
-        cur = root
-        while cur or stack:
-            while cur:
-                stack.append(cur)
-                cur = cur.left
-            cur = stack.pop()
-            results.append(cur.val)
-            cur = cur.right
-        return results
-‘’’</p><a id="more"></a>
-<p>‘’’python
-def postorderTraversal(self, root):
-        # write your code here
-        results = []
-        stack = []
-        cur = root
-        last = None
-        while cur or stack:
-            while cur:
-                stack.append(cur)
-                cur = cur.left
-            cur = stack[-1]
-            if cur.right is None or cur.right == last:
-                results.append(cur.val)
-                last = cur
-                stack.pop()
-                cur = None
-            else:
-                cur = cur.right</p>
-<pre><code>return results</code></pre><p>‘’’</p>
-<p>‘’’python
-def preorderTraversal(self, root):
-        # write your code here
-        results = []
-        stack = collections.deque([])
-        cur = root
-        while cur or stack:
-            while cur:
-                results.append(cur.val)
-                stack.append(cur)
-                cur = cur.left
-            cur = stack.pop()
-            cur = cur.right</p>
-<pre><code>return results</code></pre><p>‘’’</p>
+        <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">inorderTraversal</span><span class="hljs-params">(self, root)</span>:</span><br>        <span class="hljs-comment"># write your code here</span><br>        results = []<br>        stack = collections.deque([])<br>        cur = root<br>        <span class="hljs-keyword">while</span> cur <span class="hljs-keyword">or</span> stack:<br>            <span class="hljs-keyword">while</span> cur:<br>                stack.append(cur)<br>                cur = cur.left<br>            cur = stack.pop()<br>            results.append(cur.val)<br>            cur = cur.right<br>        <span class="hljs-keyword">return</span> results<br></code></pre></td></tr></table></figure><a id="more"></a>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">postorderTraversal</span><span class="hljs-params">(self, root)</span>:</span><br>        <span class="hljs-comment"># write your code here</span><br>        results = []<br>        stack = []<br>        cur = root<br>        last = <span class="hljs-literal">None</span><br>        <span class="hljs-keyword">while</span> cur <span class="hljs-keyword">or</span> stack:<br>            <span class="hljs-keyword">while</span> cur:<br>                stack.append(cur)<br>                cur = cur.left<br>            cur = stack[<span class="hljs-number">-1</span>]<br>            <span class="hljs-keyword">if</span> cur.right <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span> <span class="hljs-keyword">or</span> cur.right == last:<br>                results.append(cur.val)<br>                last = cur<br>                stack.pop()<br>                cur = <span class="hljs-literal">None</span><br>            <span class="hljs-keyword">else</span>:<br>                cur = cur.right<br>                <br>        <span class="hljs-keyword">return</span> results<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">preorderTraversal</span><span class="hljs-params">(self, root)</span>:</span><br>        <span class="hljs-comment"># write your code here</span><br>        results = []<br>        stack = collections.deque([])<br>        cur = root<br>        <span class="hljs-keyword">while</span> cur <span class="hljs-keyword">or</span> stack:<br>            <span class="hljs-keyword">while</span> cur:<br>                results.append(cur.val)<br>                stack.append(cur)<br>                cur = cur.left<br>            cur = stack.pop()<br>            cur = cur.right<br>                <br>        <span class="hljs-keyword">return</span> results<br></code></pre></td></tr></table></figure>
 
     </div>
 
