@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <link rel="alternate" href="/atom.xml" title="Yao's rabbit hole" type="application/atom+xml">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="Pyspark Databricks ExerciseThe purpose of this series is to provide some exercise of using pyspark on a cloud platform. Pros:Load library and create a handler for spark with SparkSession">
+<meta name="keywords" content="python,pyspark">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Pyspark Databricks Exercise: DataFrame Part 1">
+<meta property="og:url" content="https:&#x2F;&#x2F;yaoyaoustc.github.io&#x2F;2020&#x2F;03&#x2F;31&#x2F;pyspark-dataframe-01&#x2F;index.html">
+<meta property="og:site_name" content="Yao&#39;s rabbit hole">
+<meta property="og:description" content="Pyspark Databricks ExerciseThe purpose of this series is to provide some exercise of using pyspark on a cloud platform. Pros:Load library and create a handler for spark with SparkSession">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2020-03-31T00:26:11.000Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://yaoyaoustc.github.io/2020/03/31/pyspark-dataframe-01/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Pyspark Databricks Exercise: DataFrame Part 1 | Yao's rabbit hole</title>
+  
+    <script>
+      function sendPageView() {
+        var host = window.location.hostname;
+        if (host == "localhost" && true) return;
+        var uid = localStorage.getItem('uid') || (Math.random() + '.' + Math.random());
+        localStorage.setItem('uid', uid);
+        navigator.sendBeacon('https://www.google-analytics.com/collect', new URLSearchParams({
+          v  : 1,
+          tid: 'UA-45686348-2',
+          cid: uid,
+          t  : 'pageview',
+          dp : encodeURIComponent(location.pathname)
+        }));
+      }
+      document.addEventListener('pjax:complete', sendPageView);
+      sendPageView();
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Yao's rabbit hole</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">The poor rabbit chased by Python and Anaconda :p</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="https://yaoyaoustc.github.io/2020/03/31/pyspark-dataframe-01/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Yao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yao's rabbit hole">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Pyspark Databricks Exercise: DataFrame Part 1
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-03-31 11:07:06 / Modified: 11:26:11" itemprop="dateCreated datePublished" datetime="2020-03-31T11:07:06+11:00">2020-03-31</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/" itemprop="url" rel="index">
+                    <span itemprop="name">python</span>
+                  </a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>4.7k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>4 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Pyspark-Databricks-Exercise"><a href="#Pyspark-Databricks-Exercise" class="headerlink" title="Pyspark Databricks Exercise"></a>Pyspark Databricks Exercise</h1><p>The purpose of this series is to provide some exercise of using pyspark on a cloud platform.
+Pros:</p><h1 id="Load-library-and-create-a-handler-for-spark-with-SparkSession"><a href="#Load-library-and-create-a-handler-for-spark-with-SparkSession" class="headerlink" title="Load library and create a handler for spark with SparkSession"></a>Load library and create a handler for spark with SparkSession</h1><a id="more"></a>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs undefined"><span class="hljs-keyword">from</span> pyspark.<span class="hljs-keyword">sql</span> <span class="hljs-keyword">import</span> SparkSession<br><span class="hljs-keyword">from</span> pyspark.<span class="hljs-keyword">sql</span> <span class="hljs-keyword">import</span> <span class="hljs-keyword">types</span><br>spark = SparkSession.builder.getOrCreate()<br><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd<br>sc = spark.sparkContext<br></code></pre></td></tr></table></figure>
+
+
+<style scoped>
+  .ansiout {
+    display: block;
+    unicode-bidi: embed;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: break-all;
+    font-family: "Source Code Pro", "Menlo", monospace;;
+    font-size: 13px;
+    color: #555;
+    margin-left: 4px;
+    line-height: 19px;
+  }
+</style>
+<div class="ansiout"></div>
+
+
+<h1 id="Practice-how-to-create-Dataframe"><a href="#Practice-how-to-create-Dataframe" class="headerlink" title="Practice how to create Dataframe"></a>Practice how to create Dataframe</h1><h2 id="create-a-input-with-two-people’s-name-and-age"><a href="#create-a-input-with-two-people’s-name-and-age" class="headerlink" title="create a input with two people’s name and age"></a>create a input with two people’s name and age</h2><figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs undefined"><span class="hljs-attr">namelist</span> = [(<span class="hljs-string">'Ana'</span>,<span class="hljs-number">25</span>),(<span class="hljs-string">'Bob'</span>,<span class="hljs-number">30</span>)]<br></code></pre></td></tr></table></figure>
+
+
+<style scoped>
+  .ansiout {
+    display: block;
+    unicode-bidi: embed;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: break-all;
+    font-family: "Source Code Pro", "Menlo", monospace;;
+    font-size: 13px;
+    color: #555;
+    margin-left: 4px;
+    line-height: 19px;
+  }
+</style>
+<div class="ansiout"></div>
+
+
+<h2 id="Create-a-Dataframe-from-RDD-RDD-gt-ROW-gt-DataFrame"><a href="#Create-a-Dataframe-from-RDD-RDD-gt-ROW-gt-DataFrame" class="headerlink" title="Create a Dataframe from RDD ? RDD -&gt; ROW -&gt; DataFrame"></a>Create a Dataframe from RDD ? RDD -&gt; ROW -&gt; DataFrame</h2><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs undefined">people_rdd = sc.parallelize(<span class="hljs-built_in">list</span>)<br>people_row = people_rdd.map(lambda x: <span class="hljs-constructor">Row(<span class="hljs-params">name</span>=<span class="hljs-params">x</span>[0],<span class="hljs-params">age</span>=<span class="hljs-params">int</span>(<span class="hljs-params">x</span>[1])</span>))<br>people_df = spark.create<span class="hljs-constructor">DataFrame(<span class="hljs-params">people_row</span>)</span><br>people_df.show<span class="hljs-literal">()</span><br></code></pre></td></tr></table></figure>
+
+
+<style scoped>
+  .ansiout {
+    display: block;
+    unicode-bidi: embed;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: break-all;
+    font-family: "Source Code Pro", "Menlo", monospace;;
+    font-size: 13px;
+    color: #555;
+    margin-left: 4px;
+    line-height: 19px;
+  }
+</style>
+<div class="ansiout">+---+----+
+age|name|
++---+----+
+ 25| Ana|
+ 30| Bob|
++---+----+
+
+</div>
+
+
+<h2 id="Create-a-DataFrame-from-File-on-the-Disk-Disk-gt-DataFrame"><a href="#Create-a-DataFrame-from-File-on-the-Disk-Disk-gt-DataFrame" class="headerlink" title="Create a DataFrame from File on the Disk? Disk -&gt; DataFrame"></a>Create a DataFrame from File on the Disk? Disk -&gt; DataFrame</h2><h3 id="Generate-a-file-and-save-it-to-Databricks-file-system"><a href="#Generate-a-file-and-save-it-to-Databricks-file-system" class="headerlink" title="Generate a file and save it to Databricks file system"></a>Generate a file and save it to Databricks file system</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs undefined">dbutils<span class="hljs-selector-class">.fs</span><span class="hljs-selector-class">.rm</span>(<span class="hljs-string">"/yytest/namelist.txt"</span>)<br>dbutils<span class="hljs-selector-class">.fs</span><span class="hljs-selector-class">.put</span>(<span class="hljs-string">"/yytest/namelist.txt"</span>,<span class="hljs-string">"Ana,25\nBob,30\n"</span>)<br></code></pre></td></tr></table></figure>
+
+<h3 id="create-a-schema-for-the-file"><a href="#create-a-schema-for-the-file" class="headerlink" title="create a schema for the file"></a>create a schema for the file</h3><figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs undefined">schema = <span class="hljs-keyword">types</span>.StructType([<span class="hljs-keyword">types</span>.StructField("name",<span class="hljs-keyword">types</span>.StringType(),<span class="hljs-keyword">True</span>),<span class="hljs-keyword">types</span>.StructField("age",<span class="hljs-keyword">types</span>.IntegerType(),<span class="hljs-keyword">True</span>)])<br># <span class="hljs-keyword">read</span> <span class="hljs-keyword">from</span> the disk<br>people_df2 = spark.<span class="hljs-keyword">read</span>.csv("/yytest/namelist.txt", <span class="hljs-keyword">schema</span>)<br>people_df2.<span class="hljs-keyword">show</span>()<br></code></pre></td></tr></table></figure>
+
+
+<style scoped>
+  .ansiout {
+    display: block;
+    unicode-bidi: embed;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: break-all;
+    font-family: "Source Code Pro", "Menlo", monospace;;
+    font-size: 13px;
+    color: #555;
+    margin-left: 4px;
+    line-height: 19px;
+  }
+</style>
+<div class="ansiout">Wrote 14 bytes.
++----+---+
+name|age|
++----+---+
+ Ana| 25|
+ Bob| 30|
++----+---+
+
+</div>
+
+
+
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs undefined"><span class="hljs-meta">#1.3 read from sql table</span><br># <span class="hljs-keyword">prepare</span> <span class="hljs-keyword">for</span> the <span class="hljs-keyword">table</span><br>people_df2.createOrReplaceTempView(<span class="hljs-string">'people_table'</span>)<br># <span class="hljs-keyword">sql</span> table =&gt; df<br>people_df3 = spark.<span class="hljs-keyword">table</span>(<span class="hljs-string">'people_table'</span>)<br>people_df3.<span class="hljs-keyword">show</span>()<br></code></pre></td></tr></table></figure>
+
+
+<style scoped>
+  .ansiout {
+    display: block;
+    unicode-bidi: embed;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: break-all;
+    font-family: "Source Code Pro", "Menlo", monospace;;
+    font-size: 13px;
+    color: #555;
+    margin-left: 4px;
+    line-height: 19px;
+  }
+</style>
+<div class="ansiout">+----+---+
+name|age|
++----+---+
+ Ana| 25|
+ Bob| 30|
++----+---+
+
+</div>
+
+
+<h2 id="Create-a-DataFrame-from-Pandas-dataframe-Pandas-DF-gt-Spark-DF"><a href="#Create-a-DataFrame-from-Pandas-dataframe-Pandas-DF-gt-Spark-DF" class="headerlink" title="Create a DataFrame from Pandas dataframe? Pandas DF -&gt; Spark DF"></a>Create a DataFrame from Pandas dataframe? Pandas DF -&gt; Spark DF</h2><h3 id="First-create-a-pandas-dataframe"><a href="#First-create-a-pandas-dataframe" class="headerlink" title="First, create a pandas dataframe"></a>First, create a pandas dataframe</h3><figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs undefined"><span class="hljs-comment"># create a pandas dataframe</span><br><span class="hljs-attr">pddf_name</span> = pd.DataFrame(namelist,columns=[<span class="hljs-string">'name'</span>,<span class="hljs-string">'age'</span>])<br></code></pre></td></tr></table></figure>
+<h3 id="Convert-the-pandas-dataframe-to-spark-dataframe"><a href="#Convert-the-pandas-dataframe-to-spark-dataframe" class="headerlink" title="Convert the pandas dataframe to spark dataframe"></a>Convert the pandas dataframe to spark dataframe</h3><figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs undefined">people_df<span class="hljs-number">4</span> = spark.createDataFrame<span class="hljs-comment">(pddf_name)</span><br>people_df<span class="hljs-number">4.</span>show<span class="hljs-comment">()</span><br></code></pre></td></tr></table></figure>
+
+
+<style scoped>
+  .ansiout {
+    display: block;
+    unicode-bidi: embed;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: break-all;
+    font-family: "Source Code Pro", "Menlo", monospace;;
+    font-size: 13px;
+    color: #555;
+    margin-left: 4px;
+    line-height: 19px;
+  }
+</style>
+<div class="ansiout">+----+---+
+name|age|
++----+---+
+ Ana| 25|
+ Bob| 30|
++----+---+
+
+</div>
+
+<h1 id="Practice-Basic-View-and-Query-operations-on-Dataframe"><a href="#Practice-Basic-View-and-Query-operations-on-Dataframe" class="headerlink" title="Practice Basic View and Query operations on Dataframe"></a>Practice Basic View and Query operations on Dataframe</h1><h2 id="View-and-Query-of-DataFrame-properties"><a href="#View-and-Query-of-DataFrame-properties" class="headerlink" title="View and Query of DataFrame properties"></a>View and Query of DataFrame properties</h2><figure class="highlight elm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs undefined"># <span class="hljs-type">Check</span> the <span class="hljs-keyword">type</span> of dataframe<br><span class="hljs-keyword">type</span>(people_df)<br></code></pre></td></tr></table></figure>
+
+
+<style scoped>
+  .ansiout {
+    display: block;
+    unicode-bidi: embed;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: break-all;
+    font-family: "Source Code Pro", "Menlo", monospace;;
+    font-size: 13px;
+    color: #555;
+    margin-left: 4px;
+    line-height: 19px;
+  }
+</style>
+<div class="ansiout">Out[21]: pyspark.sql.dataframe.DataFrame</div>
+
+
+
+<figure class="highlight gauss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs undefined"><span class="hljs-meta"># Describe the properties of dataframe</span><br>people_df.describe().<span class="hljs-keyword">show</span>()<br></code></pre></td></tr></table></figure>
+
+
+<style scoped>
+  .ansiout {
+    display: block;
+    unicode-bidi: embed;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: break-all;
+    font-family: "Source Code Pro", "Menlo", monospace;;
+    font-size: 13px;
+    color: #555;
+    margin-left: 4px;
+    line-height: 19px;
+  }
+</style>
+<div class="ansiout">+-------+------------------+----+
+summary|               age|name|
++-------+------------------+----+
+  count|                 2|   2|
+   mean|              27.5|null|
+ stddev|3.5355339059327378|null|
+    min|                25| Ana|
+    max|                30| Bob|
++-------+------------------+----+
+
+</div>
+
+
+<figure class="highlight sas"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs undefined"># <span class="hljs-meta">display</span> the dataframe <span class="hljs-meta">as</span> a framed <span class="hljs-meta">table</span> <span class="hljs-meta">on</span> notebook<br><span class="hljs-meta">display</span>(people_df)<br></code></pre></td></tr></table></figure>
+
+
+<style scoped>
+  .table-result-container {
+    max-height: 300px;
+    overflow: auto;
+  }
+  table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+  }
+  th, td {
+    padding: 5px;
+  }
+  th {
+    text-align: left;
+  }
+</style><div class="table-result-container"><table class="table-result"><thead style="background-color: white"><tr><th>age</th><th>name</th></tr></thead><tbody><tr><td>25</td><td>Ana</td></tr><tr><td>30</td><td>Bob</td></tr></tbody></table></div>
+
+
+<h2 id="View-and-Query-of-columns-row-properties"><a href="#View-and-Query-of-columns-row-properties" class="headerlink" title="View and Query of columns/row properties"></a>View and Query of columns/row properties</h2><figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs undefined"># print <span class="hljs-keyword">out</span> <span class="hljs-keyword">schema</span> <span class="hljs-keyword">of</span> the dataframe<br>people_df.printSchema()<br></code></pre></td></tr></table></figure>
+
+
+<style scoped>
+  .ansiout {
+    display: block;
+    unicode-bidi: embed;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: break-all;
+    font-family: "Source Code Pro", "Menlo", monospace;;
+    font-size: 13px;
+    color: #555;
+    margin-left: 4px;
+    line-height: 19px;
+  }
+</style>
+<div class="ansiout">root
+-- age: long (nullable = true)
+-- name: string (nullable = true)
+
+</div>
+
+
+
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs undefined"># print <span class="hljs-keyword">columns</span> names, number <span class="hljs-keyword">of</span> records <span class="hljs-keyword">of</span> dataframe<br>people_df.<span class="hljs-keyword">columns</span><br>people_df.count()<br></code></pre></td></tr></table></figure>
+
+
+<style scoped>
+  .ansiout {
+    display: block;
+    unicode-bidi: embed;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: break-all;
+    font-family: "Source Code Pro", "Menlo", monospace;;
+    font-size: 13px;
+    color: #555;
+    margin-left: 4px;
+    line-height: 19px;
+  }
+</style>
+<div class="ansiout">Out[32]: 2</div>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/python/" rel="tag"># python</a>
+              <a href="/tags/pyspark/" rel="tag"># pyspark</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2020/03/24/covid19/" rel="next" title="Australia covid 19 Track">
+                  <i class="fa fa-chevron-left"></i> Australia covid 19 Track
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2020/04/03/pyspark-rdd/" rel="prev" title="Pyspark Databricks Exercise: RDD Part 1">
+                  Pyspark Databricks Exercise: RDD Part 1 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Pyspark-Databricks-Exercise"><span class="nav-number">1.</span> <span class="nav-text">Pyspark Databricks Exercise</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Load-library-and-create-a-handler-for-spark-with-SparkSession"><span class="nav-number">2.</span> <span class="nav-text">Load library and create a handler for spark with SparkSession</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Practice-how-to-create-Dataframe"><span class="nav-number">3.</span> <span class="nav-text">Practice how to create Dataframe</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#create-a-input-with-two-people’s-name-and-age"><span class="nav-number">3.1.</span> <span class="nav-text">create a input with two people’s name and age</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Create-a-Dataframe-from-RDD-RDD-gt-ROW-gt-DataFrame"><span class="nav-number">3.2.</span> <span class="nav-text">Create a Dataframe from RDD ? RDD -&gt; ROW -&gt; DataFrame</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Create-a-DataFrame-from-File-on-the-Disk-Disk-gt-DataFrame"><span class="nav-number">3.3.</span> <span class="nav-text">Create a DataFrame from File on the Disk? Disk -&gt; DataFrame</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Generate-a-file-and-save-it-to-Databricks-file-system"><span class="nav-number">3.3.1.</span> <span class="nav-text">Generate a file and save it to Databricks file system</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#create-a-schema-for-the-file"><span class="nav-number">3.3.2.</span> <span class="nav-text">create a schema for the file</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Create-a-DataFrame-from-Pandas-dataframe-Pandas-DF-gt-Spark-DF"><span class="nav-number">3.4.</span> <span class="nav-text">Create a DataFrame from Pandas dataframe? Pandas DF -&gt; Spark DF</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#First-create-a-pandas-dataframe"><span class="nav-number">3.4.1.</span> <span class="nav-text">First, create a pandas dataframe</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Convert-the-pandas-dataframe-to-spark-dataframe"><span class="nav-number">3.4.2.</span> <span class="nav-text">Convert the pandas dataframe to spark dataframe</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Practice-Basic-View-and-Query-operations-on-Dataframe"><span class="nav-number">4.</span> <span class="nav-text">Practice Basic View and Query operations on Dataframe</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#View-and-Query-of-DataFrame-properties"><span class="nav-number">4.1.</span> <span class="nav-text">View and Query of DataFrame properties</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#View-and-Query-of-columns-row-properties"><span class="nav-number">4.2.</span> <span class="nav-text">View and Query of columns/row properties</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Yao"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Yao</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/yaoyaoustc" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yaoyaoustc" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/yaoyaoustc" title="Linkedin → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;yaoyaoustc" rel="noopener" target="_blank"><i class="fa fa-fw fa-linkedin"></i>Linkedin</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yao</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="Symbols count total">82k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">1:15</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '23415d15c2c965e59702',
+      clientSecret: 'ac38c84c22c708974dc45804251e55141d3cda2d',
+      repo: 'yaoyaoustc.github.io',
+      owner: 'yaoyaoustc',
+      admin: ['yaoyaoustc'],
+      id: 'e24640b1f521e5252257def660652e8c',
+        language: '',
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
+
+</body>
+</html>
